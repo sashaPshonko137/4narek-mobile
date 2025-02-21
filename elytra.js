@@ -10,10 +10,10 @@ const { ProxyAgent } = require('proxy-agent');
 const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
-const minBalance = 19000000
+const minBalance = 22000000
 
-const maxPrice = 500000
-const priceSell = 650000
+const maxPrice = 650000
+const priceSell = 800000
 
 const chooseBuying = 'Выбор скупки ресурсов';
 const setSectionFarmer = 'Установка секции "фермер"';
