@@ -396,25 +396,22 @@ async function sellItems(bot) {
 
     if (!bot.ahFull) {
         try {
-        
-            let items = [];
-    
+            let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
+
             // Проверяем слоты продажи
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
-                
+
                 if (!item) {
-                    items.push(false);  // Если слот пустой, добавляем false
-                    
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
                         if (!invItem || invItem.name !== 'elytra') continue;
-    
+
                         // Перемещаем предмет в слот продажи
                         try {
                             await bot.moveSlotItem(invSlot, sellSlot);
-                            items[items.length - 1] = true;  // Обновляем флаг в массиве
+                            items[sellSlot - firstSellSlot] = true;  // Обновляем флаг в массиве по индексу слота продажи
                             await delay(getRandomDelayInRange(1000, 1500));
                             break;  // Переходим к следующему пустому слоту продажи
                         } catch (error) {
@@ -423,18 +420,17 @@ async function sellItems(bot) {
                         }
                     }
                 } else {
-                    // Если слот не пустой, проверяем элитра ли это
-                    items.push(item.name === 'elytra');
+                    // Если слот не пустой, проверяем, является ли это элитрой
+                    items[sellSlot - firstSellSlot] = item.name === 'elytra';
                 }
             }
-    
+
             console.log(items)
-    
-            for (let i = 0; i <= 8; i++) {
+
+            for (let i = 0; i < items.length; i++) { // Изменение здесь
                 if (bot.ahFull) {
                     break;
                 }
-                logger.info(`${i}`)
                 if (!items[i]) continue;
                 await delay(getRandomDelayInRange(500, 700));
                 bot.setQuickBarSlot(i);
