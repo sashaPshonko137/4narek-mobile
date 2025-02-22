@@ -10,8 +10,8 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 150000
-const priceSell = 250000
+const maxPrice = 200000
+const priceSell = 300000
 
 const minBalance = 5000000
 
@@ -261,7 +261,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                     }
     
                     logger.info(`${name} - ${bot.menu}`);
-                    await delay(getRandomDelayInRange(500, 900));
+                    await delay(1000);
     
                     switch (bot.inventoryFull) {
                         case true:
@@ -276,32 +276,21 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
     
                         case false:
                             logger.info(`${name} - поиск лучшего предмета`);
-                            slotToBuy = await getBestAHSlot(bot);
+                            slotToBuy = await getBestAHSlot(bot, itemPrices);
     
                             switch (slotToBuy) {
                                 case undefined:
                                     logger.info('не найден')
-                                    if (Math.random() < 0.65) {
-                                        await delay(getRandomDelayInRange(500, 900));
-                                    } else {
-                                        await delay(getRandomDelayInRange(1000, 1500));
-                                    }
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, 0);
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 4000));
     
                                     break;
                                 default:
                                     logger.info(`${name} - найден: ${slotToBuy}`);
                                     if (slotToBuy < 18) {
-                                        if (Math.random() > 0.7) {
-                                            await delay(getRandomDelayInRange(500, 1000));
-                                        }
+                                        await delay(getRandomDelayInRange(500, 1200));
                                     } else {
-                                        if (Math.random() < 0.5) {
-                                            await delay(getRandomDelayInRange(500, 1000));
-                                        } else {
-                                            await delay(getRandomDelayInRange(1500, 3500));
-                                        }
+                                        await delay(getRandomDelayInRange(2000, 4000));
                                     }
                                     bot.menu = buy;
                                     await safeClick(bot, slotToBuy, 0);
