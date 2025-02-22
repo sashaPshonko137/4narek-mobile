@@ -425,7 +425,7 @@ async function sellItems(bot) {
                     }
                 } else {
                     // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item.name === 'elytra';
+                    items[sellSlot - firstSellSlot] = item?.name === 'elytra';
                 }
             }
 

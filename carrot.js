@@ -441,7 +441,7 @@ async function sellItems(bot) {
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem.name !== 'gold_ingot') continue;
+                        if (!invItem || invItem?.name !== 'gold_ingot') continue;
 
                         // Перемещаем предмет в слот продажи
                         try {
@@ -456,7 +456,7 @@ async function sellItems(bot) {
                     }
                 } else {
                     // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item.name === 'gold_ingot';
+                    items[sellSlot - firstSellSlot] = item?.name === 'gold_ingot';
                 }
             }
 

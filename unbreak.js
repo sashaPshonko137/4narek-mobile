@@ -444,7 +444,7 @@ async function sellItems(bot) {
     
                         // Проверяем есть ли предмет в конфиге с учетом зачарований
                         const configItem = itemPrices.find(config => {
-                            if (config.name !== invItem.name) return false;
+                            if (config.name !== invItem?.name) return false;
     
                             // Если нет требований к зачарованиям, подходит
                             if (!config.effects) return true;
