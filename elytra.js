@@ -409,7 +409,7 @@ async function sellItems(bot) {
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem.name !== 'elytra') continue;
+                        if (!invItem || invItem?.name !== 'elytra') continue;
 
                         // Перемещаем предмет в слот продажи
                         try {
