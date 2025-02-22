@@ -4,7 +4,7 @@ const { join } = require('path'); // Импортируем join для рабо
 // Массив с ботами
 const bots = [
     { username: 'divers4nt404', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000 },
-    // { username: 'platochek225', password: 'ggggg', anarchy: 605, type: 'chorus', inventoryPort: 3001 },
+    { username: 'omnitrahyi', password: 'ggggg', anarchy: 605, type: 'chorus', inventoryPort: 3001 },
 ];
 
 // Функция для запуска Worker'ов
