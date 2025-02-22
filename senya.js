@@ -3,8 +3,8 @@ const { join } = require('path'); // Импортируем join для рабо
 
 // Массив с ботами
 const bots = [
-    { username: 'ostoloppp', password: 'ggggg', anarchy: 605, type: 'carrot', inventoryPort: 3001 },
-    { username: 'ogrizok433', password: 'ggggg', anarchy: 605, type: 'elytra', inventoryPort: 3002 },
+    { username: 'ibra_karabah', password: 'ggggg', anarchy: 605, type: 'carrot', inventoryPort: 3001 },
+    { username: 'likebayan', password: 'ggggg', anarchy: 605, type: 'sharp', inventoryPort: 3002 },
 ];
 
 // Функция для запуска Worker'ов
