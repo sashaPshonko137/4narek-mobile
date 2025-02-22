@@ -381,6 +381,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
 }
 
 async function sellItems(bot) {
+    bot.look(0, -90, true);
     if (bot.mu) {
         if (bot.mu) {
             await delay(500)
@@ -399,25 +400,26 @@ async function sellItems(bot) {
 
     if (!bot.ahFull) {
         try {
-        
-            let items = [];
-    
+            let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
+
             // Проверяем слоты продажи
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
-                
+
                 if (!item) {
-                    items.push(false);  // Если слот пустой, добавляем false
-                    
+                    await delay(500)
+                    if (bot.inventory.slots[sellSlot]) {
+                        items[sellSlot - firstSellSlot] = item.name === 'gold_ingot';
+                    }
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
                         if (!invItem || invItem.name !== 'gold_ingot') continue;
-    
+
                         // Перемещаем предмет в слот продажи
                         try {
                             await bot.moveSlotItem(invSlot, sellSlot);
-                            items[items.length - 1] = true;  // Обновляем флаг в массиве
+                            items[sellSlot - firstSellSlot] = true;  // Обновляем флаг в массиве по индексу слота продажи
                             await delay(getRandomDelayInRange(1000, 1500));
                             break;  // Переходим к следующему пустому слоту продажи
                         } catch (error) {
@@ -426,18 +428,17 @@ async function sellItems(bot) {
                         }
                     }
                 } else {
-                    // Если слот не пустой, проверяем элитра ли это
-                    items.push(item.name === 'gold_ingot');
+                    // Если слот не пустой, проверяем, является ли это элитрой
+                    items[sellSlot - firstSellSlot] = item.name === 'gold_ingot';
                 }
             }
-    
+
             console.log(items)
-    
-            for (let i = 0; i <= 8; i++) {
+
+            for (let i = 0; i < items.length; i++) { // Изменение здесь
                 if (bot.ahFull) {
                     break;
                 }
-                logger.info(`${i}`)
                 if (!items[i]) continue;
                 await delay(getRandomDelayInRange(500, 700));
                 bot.setQuickBarSlot(i);
@@ -454,7 +455,7 @@ async function sellItems(bot) {
     await delay(500)
     bot.chat('/balance')   
     await delay(500)
-    await walk(bot, 10000)
+    await walk(bot)
 
     logger.info(`${bot.username} - прогулка закончена`);
 
@@ -574,73 +575,23 @@ async function longWalk(bot) {
     bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
-        const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
-        if (resetime > 60) {
-            await delay(500);
-            ['forward', 'back', 'left', 'right'].forEach(move => 
-                bot.setControlState(move, false)
-            );
-            await delay(500);
-            await safeAH(bot);
-            return
-        }
-        if (Math.random() < 0.3) {
             bot.setControlState('jump', true);
             await delay(200);
             bot.setControlState('jump', false);
-        }
-        
-        // Случайное движение
-        const movements = ['forward', 'back', 'left', 'right'];
-        const randomMove = movements[Math.floor(Math.random() * movements.length)];
-        bot.setControlState(randomMove, true);
-        await delay(500);
-        bot.setControlState(randomMove, false);
-        
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
-        
-        await delay(500);
+            await delay(10000)
     }
 
     logger.info(`${bot.username} - опять работать.`);
-
-    // Останавливаем все движения когда ahFull стал false
-    ['forward', 'back', 'left', 'right'].forEach(move => 
-        bot.setControlState(move, false)
-    );
 }
 
 
-async function walk(bot, time) {
+async function walk(bot) {
+    await delay(500)
     bot.chat('/feed')
-    const endTime = Date.now() + time;
-    while (Date.now() < endTime) {
-
-        if (Math.random() < 0.3) {
-            bot.setControlState('jump', true);
-            await delay(200);
-            bot.setControlState('jump', false);
-        }
-        
-        // Случайное движение
-        const movements = ['forward', 'back', 'left', 'right'];
-        const randomMove = movements[Math.floor(Math.random() * movements.length)];
-        bot.setControlState(randomMove, true);
-        await delay(500);
-        bot.setControlState(randomMove, false);
-        
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
-        
-        await delay(500);
-    }
+    await delay(500)
     
-    // Останавливаем все движения
-    ['forward', 'back', 'left', 'right'].forEach(move => 
-        bot.setControlState(move, false)
-    );
+    bot.setControlState('jump', true);
+    await delay(200);
+    bot.setControlState('jump', false);
     
 }

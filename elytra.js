@@ -7,6 +7,7 @@ const socks = require("socks").SocksClient;
 const { ProxyAgent } = require('proxy-agent');
 
 
+
 const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
@@ -69,6 +70,10 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
         password: password,
         version: '1.16.5',
     });
+
+    bot.inventory = {
+        slots: new Array(45).fill(null)
+    }
 
     inventoryViewer(bot, {port: inventoryPort});
 
@@ -378,6 +383,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
 }
 
 async function sellItems(bot) {
+    bot.look(0, -90, true);
     if (bot.mu) {
         if (bot.mu) {
             await delay(500)
@@ -410,6 +416,7 @@ async function sellItems(bot) {
 
                         // Перемещаем предмет в слот продажи
                         try {
+                            await delay(300)
                             await bot.moveSlotItem(invSlot, sellSlot);
                             items[sellSlot - firstSellSlot] = true;  // Обновляем флаг в массиве по индексу слота продажи
                             await delay(getRandomDelayInRange(1000, 1500));
@@ -447,7 +454,7 @@ async function sellItems(bot) {
     await delay(500)
     bot.chat('/balance')   
     await delay(500)
-    await walk(bot, 10000)
+    await walk(bot)
 
     logger.info(`${bot.username} - прогулка закончена`);
 
@@ -462,37 +469,14 @@ async function sellItems(bot) {
 
 }
 
-async function walk(bot, time) {
+async function walk(bot) {
     await delay(500)
     bot.chat('/feed')
     await delay(500)
-    const endTime = Date.now() + time;
-    while (Date.now() < endTime) {
 
-        if (Math.random() < 0.3) {
-            bot.setControlState('jump', true);
-            await delay(200);
-            bot.setControlState('jump', false);
-        }
-        
-        // Случайное движение
-        const movements = ['forward', 'back', 'left', 'right'];
-        const randomMove = movements[Math.floor(Math.random() * movements.length)];
-        bot.setControlState(randomMove, true);
-        await delay(500);
-        bot.setControlState(randomMove, false);
-        
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
-        
-        await delay(500);
-    }
-    
-    // Останавливаем все движения
-    ['forward', 'back', 'left', 'right'].forEach(move => 
-        bot.setControlState(move, false)
-    );
+    bot.setControlState('jump', true);
+    await delay(200);
+    bot.setControlState('jump', false);
     
 }
 
@@ -603,46 +587,16 @@ if (workerData) {
 }
 
 async function longWalk(bot) {
-    bot.timeActive = Date.now();
-    await delay(500)
     bot.chat('/feed')
-    await delay(500)
+    bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
-        const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
-        if (resetime > 60) {
-            await delay(500);
-            ['forward', 'back', 'left', 'right'].forEach(move => 
-                bot.setControlState(move, false)
-            );
-            await delay(500);
-            await safeAH(bot);
-            return
-        }
-        if (Math.random() < 0.3) {
             bot.setControlState('jump', true);
             await delay(200);
             bot.setControlState('jump', false);
-        }
-        
-        // Случайное движение
-        const movements = ['forward', 'back', 'left', 'right'];
-        const randomMove = movements[Math.floor(Math.random() * movements.length)];
-        bot.setControlState(randomMove, true);
-        await delay(500);
-        bot.setControlState(randomMove, false);
-        
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
-        
-        await delay(500);
+            await delay(10000)
     }
 
     logger.info(`${bot.username} - опять работать.`);
-
-    // Останавливаем все движения когда ahFull стал false
-    ['forward', 'back', 'left', 'right'].forEach(move => 
-        bot.setControlState(move, false)
-    );
 }
+
