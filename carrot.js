@@ -11,7 +11,7 @@ const loadingDelay = 100;
 const maxPrice = 200000
 const priceSell = 250000
 
-const minBalance = 5000000
+const minBalance = 8000000
 
 const chooseBuying = 'Выбор скупки ресурсов';
 const setSectionFarmer = 'Установка секции "фермер"';
