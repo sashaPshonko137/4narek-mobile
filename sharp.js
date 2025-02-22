@@ -396,7 +396,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 }
 
 async function sellItems(bot) {
-    bot.look(0, -90, true);
     if (bot.mu) {
         await delay(500)
         await safeAH(bot)

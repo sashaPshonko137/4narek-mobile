@@ -381,7 +381,6 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
 }
 
 async function sellItems(bot) {
-    bot.look(0, -90, true);
     if (bot.mu) {
         if (bot.mu) {
             await delay(500)
