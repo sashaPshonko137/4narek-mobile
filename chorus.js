@@ -242,7 +242,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
 
                     case false:
                         logger.info(`${name} - поиск лучшего предмета`);
-                        slotToBuy = await getBestAHSlot(bot, itemPrices);
+                        slotToBuy = await getBestAHSlot(bot);
 
                         switch (slotToBuy) {
                             case undefined:
