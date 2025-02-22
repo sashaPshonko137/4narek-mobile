@@ -3,8 +3,6 @@ const mineflayer = require('mineflayer');
 const inventoryViewer = require('mineflayer-web-inventory');
 const { createLogger, transports, format } = require('winston');
 const { workerData } = require('worker_threads');
-const socks = require("socks").SocksClient;
-const { ProxyAgent } = require('proxy-agent');
 
 
 
