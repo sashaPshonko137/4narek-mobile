@@ -252,7 +252,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                                 default:
                                     logger.info(`${name} - найден: ${slotToBuy}`);
                                     if (slotToBuy < 18) {
-                                        await delay(getRandomDelayInRange(700, 1400));
+                                        await delay(getRandomDelayInRange(500, 1200));
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }
@@ -270,9 +270,6 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                         logger.info(`${name} - ${bot.menu}`);
                       
                         bot.menu = analysisAH
-                        if (Math.random < 0.1) {
-                            await delay(500)
-                        }
                         await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
 
             case myItems:
@@ -366,9 +363,9 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay murad404 ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay murad404 ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
             }
             return
         }
@@ -573,23 +570,73 @@ async function longWalk(bot) {
     bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
+        const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
+        if (resetime > 60) {
+            await delay(500);
+            ['forward', 'back', 'left', 'right'].forEach(move => 
+                bot.setControlState(move, false)
+            );
+            await delay(500);
+            await safeAH(bot);
+            return
+        }
+        if (Math.random() < 0.3) {
             bot.setControlState('jump', true);
             await delay(200);
             bot.setControlState('jump', false);
-            await delay(10000)
+        }
+        
+        // Случайное движение
+        const movements = ['forward', 'back', 'left', 'right'];
+        const randomMove = movements[Math.floor(Math.random() * movements.length)];
+        bot.setControlState(randomMove, true);
+        await delay(500);
+        bot.setControlState(randomMove, false);
+        
+        // Случайный поворот
+        const rotation = (Math.random() - 0.5) * Math.PI;
+        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
+        
+        await delay(500);
     }
 
     logger.info(`${bot.username} - опять работать.`);
+
+    // Останавливаем все движения когда ahFull стал false
+    ['forward', 'back', 'left', 'right'].forEach(move => 
+        bot.setControlState(move, false)
+    );
 }
 
 
 async function walk(bot) {
-    await delay(500)
     bot.chat('/feed')
-    await delay(500)
+    const endTime = Date.now() + 10000;
+    while (Date.now() < endTime) {
+
+        if (Math.random() < 0.3) {
+            bot.setControlState('jump', true);
+            await delay(200);
+            bot.setControlState('jump', false);
+        }
+        
+        // Случайное движение
+        const movements = ['forward', 'back', 'left', 'right'];
+        const randomMove = movements[Math.floor(Math.random() * movements.length)];
+        bot.setControlState(randomMove, true);
+        await delay(500);
+        bot.setControlState(randomMove, false);
+        
+        // Случайный поворот
+        const rotation = (Math.random() - 0.5) * Math.PI;
+        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
+        
+        await delay(500);
+    }
     
-    bot.setControlState('jump', true);
-    await delay(200);
-    bot.setControlState('jump', false);
-    
+    // Останавливаем все движения
+    ['forward', 'back', 'left', 'right'].forEach(move => 
+        bot.setControlState(move, false)
+    );
+
 }
