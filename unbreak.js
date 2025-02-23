@@ -43,7 +43,7 @@ const itemPrices = [    {
         }
     ],
     "priceBuy": 250000,
-    "priceSell": 350000
+    "priceSell": 300000
 }]
 
 const minBalance = 5000000
