@@ -281,9 +281,10 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                         logger.info(`${name} - ${bot.menu}`);
                       
                         bot.menu = analysisAH
+                        if (Math.random < 0.1) {
+                            await delay(500)
+                        }
                         await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
-        
-                        break;
 
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
