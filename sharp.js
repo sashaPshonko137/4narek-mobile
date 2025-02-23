@@ -433,7 +433,7 @@ async function sellItems(bot) {
                                 const enchant = enchantments[j];
                                 if (!enchant?.id?.value) continue;  // Пропускаем если нет id
                                 itemEnchants.push({
-                                    name: enchant.id.value || '',
+                                    name: enchant.id?.value || '',
                                     lvl: enchant.lvl?.value || 0  // Если нет lvl, используем 0
                                 });
                             }
@@ -479,7 +479,7 @@ async function sellItems(bot) {
                             const enchant = enchantments[j];
                             if (!enchant?.id?.value) continue;  // Пропускаем если нет id
                             itemEnchants.push({
-                                name: enchant.id.value || '', 
+                                name: enchant.id?.value || '', 
                                 lvl: enchant.lvl?.value || 0  // Если нет lvl, используем 0
                             });
                         }
@@ -602,8 +602,8 @@ async function getBestAHSlot(bot, itemPrices) {
             for (let j = 0; j < enchantments.length; j++) {
                 const enchant = enchantments[j];
                 const enchantObj = {
-                    name: enchant.id.value,
-                    lvl: enchant.lvl.value
+                    name: enchant.id?.value,
+                    lvl: enchant.lvl?.value
                 };
                 itemEnchants.push(enchantObj);
             }
