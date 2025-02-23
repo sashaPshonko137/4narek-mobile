@@ -252,7 +252,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                                 default:
                                     logger.info(`${name} - найден: ${slotToBuy}`);
                                     if (slotToBuy < 18) {
-                                        await delay(getRandomDelayInRange(500, 1200));
+                                        await delay(getRandomDelayInRange(700, 1400));
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }

@@ -262,8 +262,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     
                                     break;
                                 default:
-                                    if (Math.random() < 0.6) {
-                                        await delay(getRandomDelayInRange(500, 1200));
+                                    if (Math.random() < 0.65) {
+                                        await delay(getRandomDelayInRange(700, 1400));
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }
