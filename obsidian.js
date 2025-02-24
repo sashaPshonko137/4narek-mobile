@@ -363,9 +363,9 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay omnitrahyi_2 ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay omnitrahyi_2 ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
             }
             return
         }
