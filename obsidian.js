@@ -511,7 +511,7 @@ async function getBestAHSlot(bot) {
         const slotData = bot.currentWindow?.slots[i];
         if (!slotData) continue;
 
-        if (slotData.name !== 'obsidian' || slotData.count != 64) continue;
+        if (slotData.count != 64) continue;
         
 
         try {
