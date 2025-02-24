@@ -42,7 +42,7 @@ const itemPrices = [    {
             "lvl": 5
         }
     ],
-    "priceBuy": 10000,
+    "priceBuy": 100000,
     "priceSell": 150000
 }]
 
@@ -60,7 +60,7 @@ const logger = createLogger({
     level: 'info',
     format: format.combine(
         format.colorize(),
-        format.ti0mestamp(),
+        format.timestamp(),
         format.printf(({ timestamp, level, message }) => {
             return `${timestamp} ${level}: ${message}`;
         })
