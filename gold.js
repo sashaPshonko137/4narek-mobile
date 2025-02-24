@@ -363,9 +363,9 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay han_ugai ${balance - minBalance}`)
+                bot.chat(`/pay omnitrahyi_2 ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay han_ugai ${balance - minBalance}`)
+                bot.chat(`/pay omnitrahyi_2 ${balance - minBalance}`)
             }
             return
         }
@@ -404,12 +404,12 @@ async function sellItems(bot) {
                 if (!item) {
                     await delay(500)
                     if (bot.inventory.slots[sellSlot]) {
-                        items[sellSlot - firstSellSlot] = item.name === 'ender_pearl';
+                        items[sellSlot - firstSellSlot] = item?.name === 'ender_pearl';
                     }
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem.name !== 'ender_pearl') continue;
+                        if (!invItem || invItem?.name !== 'ender_pearl') continue;
 
                         // Перемещаем предмет в слот продажи
                         try {
@@ -580,11 +580,6 @@ async function longWalk(bot) {
             await safeAH(bot);
             return
         }
-        if (Math.random() < 0.3) {
-            bot.setControlState('jump', true);
-            await delay(200);
-            bot.setControlState('jump', false);
-        }
         
         // Случайное движение
         const movements = ['forward', 'back', 'left', 'right'];
@@ -608,17 +603,15 @@ async function longWalk(bot) {
     );
 }
 
-
 async function walk(bot) {
     bot.chat('/feed')
     const endTime = Date.now() + 10000;
-    while (Date.now() < endTime) {
 
-        if (Math.random() < 0.3) {
-            bot.setControlState('jump', true);
-            await delay(200);
-            bot.setControlState('jump', false);
-        }
+        bot.setControlState('jump', true);
+        await delay(200);
+        bot.setControlState('jump', false);
+
+    while (Date.now() < endTime) {
         
         // Случайное движение
         const movements = ['forward', 'back', 'left', 'right'];
@@ -640,3 +633,4 @@ async function walk(bot) {
     );
 
 }
+

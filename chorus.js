@@ -576,11 +576,6 @@ async function longWalk(bot) {
             await safeAH(bot);
             return
         }
-        if (Math.random() < 0.3) {
-            bot.setControlState('jump', true);
-            await delay(200);
-            bot.setControlState('jump', false);
-        }
         
         // Случайное движение
         const movements = ['forward', 'back', 'left', 'right'];
@@ -603,17 +598,15 @@ async function longWalk(bot) {
         bot.setControlState(move, false)
     );
 }
-
 async function walk(bot) {
     bot.chat('/feed')
     const endTime = Date.now() + 10000;
-    while (Date.now() < endTime) {
 
-        if (Math.random() < 0.3) {
-            bot.setControlState('jump', true);
-            await delay(200);
-            bot.setControlState('jump', false);
-        }
+        bot.setControlState('jump', true);
+        await delay(200);
+        bot.setControlState('jump', false);
+
+    while (Date.now() < endTime) {
         
         // Случайное движение
         const movements = ['forward', 'back', 'left', 'right'];
