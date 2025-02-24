@@ -8,8 +8,8 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 200000
-const priceSell = 240000
+const maxPrice = 300000
+const priceSell = 350000
 
 const minBalance = 5000000
 
@@ -405,7 +405,7 @@ async function sellItems(bot) {
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem?.name !== 'obsidian' || invItem.count != 64) continue;
+                        if (!invItem || invItem?.name !== 'obsidian') continue;
 
                         // Перемещаем предмет в слот продажи
                         try {
@@ -420,7 +420,7 @@ async function sellItems(bot) {
                     }
                 } else {
                     // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item?.name === 'obsidian' && item.count === 64;
+                    items[sellSlot - firstSellSlot] = item?.name === 'obsidian';
                 }
             }
 
@@ -511,13 +511,12 @@ async function getBestAHSlot(bot) {
         const slotData = bot.currentWindow?.slots[i];
         if (!slotData) continue;
 
-        if (slotData.name !== 'obsidian') continue;
+        if (slotData.name !== 'obsidian' || slotData.count != 64) continue;
         
 
         try {
             const price = await getBuyPrice(slotData);
-
-            if (!price || price / slotData.count > 2500) continue;
+            if (!price || price > maxPrice) continue;
 
             return slotData.slot;
         } catch (error) {
@@ -629,4 +628,3 @@ async function walk(bot) {
     );
 
 }
-
