@@ -8,8 +8,8 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 350000
-const priceSell = 400000
+const maxPrice = 200000
+const priceSell = 240000
 
 const minBalance = 5000000
 
@@ -40,7 +40,7 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search golden carrot';
+const ahCommand = '/ah search obsidian';
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -405,7 +405,7 @@ async function sellItems(bot) {
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem?.name !== 'golde_carrot') continue;
+                        if (!invItem || invItem?.name !== 'obsidian' || invItem.count != 64) continue;
 
                         // Перемещаем предмет в слот продажи
                         try {
@@ -420,7 +420,7 @@ async function sellItems(bot) {
                     }
                 } else {
                     // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item?.name === 'golde_carrot';
+                    items[sellSlot - firstSellSlot] = item?.name === 'obsidian' && item.count === 64;
                 }
             }
 
@@ -511,12 +511,13 @@ async function getBestAHSlot(bot) {
         const slotData = bot.currentWindow?.slots[i];
         if (!slotData) continue;
 
-        if (slotData.name !== 'golde_carrot' || slotData.count != 64) continue;
+        if (slotData.name !== 'obsidian') continue;
         
 
         try {
             const price = await getBuyPrice(slotData);
-            if (!price || price > maxPrice) continue;
+
+            if (!price || price / slotData.count > 2500) continue;
 
             return slotData.slot;
         } catch (error) {
