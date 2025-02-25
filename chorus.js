@@ -9,7 +9,7 @@ const AHDelay = 2000;
 const loadingDelay = 100;
 
 const maxPrice = 170000
-const priceSell = 230000
+const priceSell = 250000
 
 const minBalance = 5000000
 
