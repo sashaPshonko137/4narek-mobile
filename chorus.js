@@ -8,8 +8,8 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 300000
-const priceSell = 350000
+const maxPrice = 170000
+const priceSell = 230000
 
 const minBalance = 5000000
 
@@ -585,8 +585,6 @@ async function longWalk(bot) {
         bot.setControlState(randomMove, false);
         
         // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
         
         await delay(500);
     }
@@ -615,9 +613,6 @@ async function walk(bot) {
         await delay(500);
         bot.setControlState(randomMove, false);
         
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
         
         await delay(500);
     }

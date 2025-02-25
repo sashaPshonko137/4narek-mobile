@@ -584,9 +584,6 @@ async function longWalk(bot) {
         await delay(500);
         bot.setControlState(randomMove, false);
         
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
         
         await delay(500);
     }
@@ -615,9 +612,6 @@ async function walk(bot) {
         await delay(500);
         bot.setControlState(randomMove, false);
         
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
         
         await delay(500);
     }

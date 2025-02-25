@@ -366,9 +366,9 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay omnitrahyi_2 ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay omnitrahyi_2 ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
             }
             return
         }
@@ -481,9 +481,6 @@ async function walk(bot) {
         await delay(500);
         bot.setControlState(randomMove, false);
         
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
         
         await delay(500);
     }
@@ -625,9 +622,6 @@ async function longWalk(bot) {
         await delay(500);
         bot.setControlState(randomMove, false);
         
-        // Случайный поворот
-        const rotation = (Math.random() - 0.5) * Math.PI;
-        bot.look(bot.entity.yaw + rotation, bot.entity.pitch, true);
         
         await delay(500);
     }

@@ -3,7 +3,7 @@ const { join } = require('path'); // Импортируем join для рабо
 
 // Массив с ботами
 const bots = [
-    { username: 'omnitrahyi_2', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000 },
+    { username: 'omnitarabahsus', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000 },
     { username: 'zevs0id228', password: 'ggggg', anarchy: 605, type: 'chorus', inventoryPort: 3001 },
 ];
 
