@@ -4,907 +4,8 @@
   null,
   null,
   null,
-  null,
-  null,
-  null,
-  null,
   {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 9
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 10
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 11
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 12
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 13
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 14
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 15
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 16
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 17
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 18
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 19
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 20
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 21
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 22
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 23
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 24
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 25
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 26
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 27
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 28
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 29
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 30
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 31
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 32
-  },
-  {
-    "type": 887,
-    "count": 64,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "chorus_fruit",
-    "displayName": "Chorus Fruit",
-    "stackSize": 64,
-    "slot": 33
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 34
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 35
-  },
-  {
-    "type": 898,
+    "type": 634,
     "count": 1,
     "metadata": 0,
     "nbt": {
@@ -913,47 +14,18 @@
       "value": {
         "Damage": {
           "type": "int",
-          "value": 0
-        }
-      }
-    },
-    "stackId": null,
-    "name": "elytra",
-    "displayName": "Elytra",
-    "stackSize": 1,
-    "maxDurability": 432,
-    "slot": 36
-  },
-  {
-    "type": 898,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        }
-      }
-    },
-    "stackId": null,
-    "name": "elytra",
-    "displayName": "Elytra",
-    "stackSize": 1,
-    "maxDurability": 432,
-    "slot": 37
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
+          "value": 14
+        },
+        "display": {
+          "type": "compound",
+          "value": {
+            "Name": {
+              "type": "string",
+              "value": "{\"color\":\"green\",\"text\":\"Изумрудный шлем\"}"
+            }
+          }
+        },
+        "Enchantments": {
           "type": "list",
           "value": {
             "type": "compound",
@@ -961,7 +33,7 @@
               {
                 "id": {
                   "type": "string",
-                  "value": "minecraft:fortune"
+                  "value": "minecraft:protection"
                 },
                 "lvl": {
                   "type": "short",
@@ -974,13 +46,44 @@
       }
     },
     "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
+    "name": "diamond_helmet",
+    "displayName": "Diamond Helmet",
     "stackSize": 1,
-    "slot": 38
+    "maxDurability": 363,
+    "slot": 5
   },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
   {
-    "type": 898,
+    "type": 608,
     "count": 1,
     "metadata": 0,
     "nbt": {
@@ -989,47 +92,9 @@
       "value": {
         "Damage": {
           "type": "int",
-          "value": 0
-        }
-      }
-    },
-    "stackId": null,
-    "name": "elytra",
-    "displayName": "Elytra",
-    "stackSize": 1,
-    "maxDurability": 432,
-    "slot": 39
-  },
-  {
-    "type": 898,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        }
-      }
-    },
-    "stackId": null,
-    "name": "elytra",
-    "displayName": "Elytra",
-    "stackSize": 1,
-    "maxDurability": 432,
-    "slot": 40
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
+          "value": 22
+        },
+        "Enchantments": {
           "type": "list",
           "value": {
             "type": "compound",
@@ -1037,11 +102,81 @@
               {
                 "id": {
                   "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 6
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:knockback"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 4
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
                   "value": "minecraft:sharpness"
                 },
                 "lvl": {
                   "type": "short",
-                  "value": 7
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
                 }
               }
             ]
@@ -1050,43 +185,127 @@
       }
     },
     "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
     "stackSize": 1,
-    "slot": 41
+    "maxDurability": 2031,
+    "slot": 36
   },
   {
-    "type": 887,
-    "count": 64,
+    "type": 608,
+    "count": 1,
     "metadata": 0,
-    "nbt": null,
+    "nbt": {
+      "type": "compound",
+      "name": "",
+      "value": {
+        "Damage": {
+          "type": "int",
+          "value": 6
+        },
+        "Enchantments": {
+          "type": "list",
+          "value": {
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 7
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:knockback"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 4
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:sharpness"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 6
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 4
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
     "stackId": null,
-    "name": "chorus_fruit",
-    "displayName": "Chorus Fruit",
-    "stackSize": 64,
-    "slot": 42
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
+    "stackSize": 1,
+    "maxDurability": 2031,
+    "slot": 37
   },
-  {
-    "type": 887,
-    "count": 64,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "chorus_fruit",
-    "displayName": "Chorus Fruit",
-    "stackSize": 64,
-    "slot": 43
-  },
-  {
-    "type": 887,
-    "count": 64,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "chorus_fruit",
-    "displayName": "Chorus Fruit",
-    "stackSize": 64,
-    "slot": 44
-  },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
   null
 ]
