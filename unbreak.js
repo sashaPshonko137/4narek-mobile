@@ -42,7 +42,7 @@ const itemPrices = [    {
             "lvl": 5
         }
     ],
-    "priceBuy": 150000,
+    "priceBuy": 200000,
     "priceSell": 300000
 }]
 
