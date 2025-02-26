@@ -9,7 +9,7 @@ const AHDelay = 2000;
 const loadingDelay = 100;
 
 const maxPrice = 150000
-const priceSell = 200000
+const priceSell = 250000
 
 const minBalance = 5000000
 
@@ -363,9 +363,9 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay omnitarabahsus ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay omnitarabahsus ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
             }
             return
         }

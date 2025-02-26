@@ -11,8 +11,8 @@ const AHDelay = 2000;
 const loadingDelay = 100;
 const minBalance = 22000000
 
-const maxPrice = 700000
-const priceSell = 850000
+const maxPrice = 750000
+const priceSell = 900000
 
 const chooseBuying = 'Выбор скупки ресурсов';
 const setSectionFarmer = 'Установка секции "фермер"';
@@ -366,9 +366,9 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay omnitarabahsus ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay omnitarabahsus ${balance - minBalance}`)
+                bot.chat(`/pay han_ugai ${balance - minBalance}`)
             }
             return
         }
