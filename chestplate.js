@@ -162,9 +162,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
                 break;
 
-            case setSectionFood:
-                fs.writeFile('nether.json', JSON.stringify(bot.inventory.slots, null, 2), null)
-                
+            case setSectionFood:                
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = sectionFood;
 
