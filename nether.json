@@ -4,12 +4,8 @@
   null,
   null,
   null,
-  null,
-  null,
-  null,
-  null,
   {
-    "type": 898,
+    "type": 634,
     "count": 1,
     "metadata": 0,
     "nbt": {
@@ -18,74 +14,16 @@
       "value": {
         "Damage": {
           "type": "int",
-          "value": 0
-        }
-      }
-    },
-    "stackId": null,
-    "name": "elytra",
-    "displayName": "Elytra",
-    "stackSize": 1,
-    "maxDurability": 432,
-    "slot": 9
-  },
-  {
-    "type": 898,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        }
-      }
-    },
-    "stackId": null,
-    "name": "elytra",
-    "displayName": "Elytra",
-    "stackSize": 1,
-    "maxDurability": 432,
-    "slot": 10
-  },
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  {
-    "type": 604,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
+          "value": 14
+        },
+        "display": {
+          "type": "compound",
+          "value": {
+            "Name": {
+              "type": "string",
+              "value": "{\"color\":\"green\",\"text\":\"Изумрудный шлем\"}"
+            }
+          }
         },
         "Enchantments": {
           "type": "list",
@@ -95,51 +33,11 @@
               {
                 "id": {
                   "type": "string",
-                  "value": "minecraft:efficiency"
+                  "value": "minecraft:protection"
                 },
                 "lvl": {
                   "type": "short",
-                  "value": 7
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fortune"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:silk_touch"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
+                  "value": 3
                 }
               }
             ]
@@ -148,317 +46,50 @@
       }
     },
     "stackId": null,
-    "name": "diamond_shovel",
-    "displayName": "Diamond Shovel",
+    "name": "diamond_helmet",
+    "displayName": "Diamond Helmet",
     "stackSize": 1,
-    "maxDurability": 1561,
-    "slot": 36
+    "maxDurability": 363,
+    "slot": 5
   },
-  {
-    "type": 819,
-    "count": 3,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "zombie_spawn_egg",
-    "displayName": "Zombie Spawn Egg",
-    "stackSize": 64,
-    "slot": 37
-  },
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:efficiency"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 4
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 38
-  },
-  {
-    "type": 604,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:efficiency"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fortune"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "diamond_shovel",
-    "displayName": "Diamond Shovel",
-    "stackSize": 1,
-    "maxDurability": 1561,
-    "slot": 39
-  },
-  {
-    "type": 23,
-    "count": 2,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "oak_sapling",
-    "displayName": "Oak Sapling",
-    "stackSize": 64,
-    "slot": 40
-  },
-  {
-    "type": 623,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        },
-        "display": {
-          "type": "compound",
-          "value": {
-            "color": {
-              "type": "int",
-              "value": 16711680
-            }
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "leather_chestplate",
-    "displayName": "Leather Tunic",
-    "stackSize": 1,
-    "maxDurability": 80,
-    "slot": 41
-  },
-  {
-    "type": 625,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        },
-        "display": {
-          "type": "compound",
-          "value": {
-            "color": {
-              "type": "int",
-              "value": 16711680
-            }
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "leather_boots",
-    "displayName": "Leather Boots",
-    "stackSize": 1,
-    "maxDurability": 65,
-    "slot": 42
-  },
-  {
-    "type": 738,
-    "count": 3,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "melon_seeds",
-    "displayName": "Melon Seeds",
-    "stackSize": 64,
-    "slot": 43
-  },
-  {
-    "type": 895,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "CustomPotionColor": {
-          "type": "int",
-          "value": 0
-        },
-        "Potion": {
-          "type": "string",
-          "value": "minecraft:empty"
-        },
-        "CustomPotionEffects": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "ShowParticles": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "ShowIcon": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "Duration": {
-                  "type": "int",
-                  "value": 90
-                },
-                "Id": {
-                  "type": "byte",
-                  "value": 9
-                },
-                "Ambient": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "Amplifier": {
-                  "type": "byte",
-                  "value": 0
-                }
-              },
-              {
-                "ShowParticles": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "ShowIcon": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "Duration": {
-                  "type": "int",
-                  "value": 50
-                },
-                "Id": {
-                  "type": "byte",
-                  "value": 15
-                },
-                "Ambient": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "Amplifier": {
-                  "type": "byte",
-                  "value": 0
-                }
-              },
-              {
-                "ShowParticles": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "ShowIcon": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "Duration": {
-                  "type": "int",
-                  "value": 190
-                },
-                "Id": {
-                  "type": "byte",
-                  "value": 18
-                },
-                "Ambient": {
-                  "type": "byte",
-                  "value": 1
-                },
-                "Amplifier": {
-                  "type": "byte",
-                  "value": 0
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "tipped_arrow",
-    "displayName": "Tipped Arrow",
-    "stackSize": 64,
-    "slot": 44
-  },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
   null
 ]
