@@ -328,7 +328,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             return
         }
         
-        if (messageText.includes('[☃] У Вас полный инвентарь и Хранилище!')) {
+        if (messageText.includes('[☃] У Вас полный инвентарь и Хранилище!') || messageText.includes('[☃] Инвентарь полон')) {
             bot.inventoryFull = true;
             return
         }

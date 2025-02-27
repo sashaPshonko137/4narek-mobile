@@ -32,43 +32,31 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search netherite sword';
+const ahCommand = '/ah search netherite chestplate';
 
 const itemPrices = [    {
-    "name": "netherite_sword",
+    "name": "netherite_chestplate",
     "effects": [
         {
             "name": "minecraft:unbreaking",
             "lvl": 5
         },
         {
-            "name": "minecraft:sharpness",
-            "lvl": 7
-        },
-        {
-            "name": "minecraft:knockback",
-            "lvl": 2
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 2
-        },
-        {
-            "name": "poison",
+            "name": "minecraft:mending",
             "lvl": 1
         },
         {
-            "name": "vampirism",
-            "lvl": 1
-        }
+            "name": "minecraft:protection",
+            "lvl": 5
+        },
     ],
-    "priceBuy": 4000000,
-    "priceSell": 5000000
+    "priceBuy": 600000,
+    "priceSell": 1000000
 }]
 
-const priceSell = 3500000
+const priceSell = 1000000
 
-const minBalance = 25000000
+const minBalance = 20000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -239,8 +227,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 break;
 
                 case analysisAH:
-                    generateRandomKey(bot);
                     bot.timeActive = Date.now();
+                    generateRandomKey(bot);
                     const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
                     if (resetime > 60) {
                         logger.info(`${name} - ресет`);
@@ -446,7 +434,7 @@ async function sellItems(bot) {
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem?.name !== 'netherite_sword') continue;
+                        if (!invItem || invItem?.name !== 'netherite_chestplate') continue;
 
                         // Перемещаем предмет в слот продажи
                         try {
@@ -461,7 +449,7 @@ async function sellItems(bot) {
                     }
                 } else {
                     // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item?.name === 'netherite_sword';
+                    items[sellSlot - firstSellSlot] = item?.name === 'netherite_chestplate';
                 }
             }
 
@@ -571,22 +559,21 @@ async function getBestAHSlot(bot, itemPrices) {
 
             // Проверка на зачарования после проверки цены
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
-            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
-            
             const itemEnchants = enchantments.map(enchant => ({
                 name: enchant.id?.value,
                 lvl: enchant.lvl?.value
             }));
-            
-            const customItemEnchants = customEnchantments.map(enchant => ({
-                name: enchant.type?.value,
-                lvl: enchant.level?.value
-            }));
-            
-            const allItemEnchants = [...itemEnchants, ...customItemEnchants];
+
+            if (
+                !itemEnchants.some(actual => 
+                    (actual.name === 'minecraft:thorns' && actual.lvl >= 3) || 
+                    (actual.name === 'minecraft:projectile_protection' && actual.lvl >= 4) || 
+                    (actual.name === 'minecraft:fire_protection' && actual.lvl >= 4)
+                )
+            ) continue;
 
             const missingEnchants = itemPrice.effects?.filter(required => 
-                !allItemEnchants.some(actual => 
+                !itemEnchants.some(actual => 
                     actual.name === required.name && actual.lvl >= required.lvl
                 )
             ) || [];
