@@ -8,6 +8,7 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
+
 const chooseBuying = 'Выбор скупки ресурсов';
 const setSectionFarmer = 'Установка секции "фермер"';
 const sectionFarmer = 'Секция "фермер"';
