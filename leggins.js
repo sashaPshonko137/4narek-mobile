@@ -32,10 +32,10 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search netherite chestplate';
+const ahCommand = '/ah search netherite leggings';
 
 const itemPrices = [    {
-    "name": "netherite_chestplate",
+    "name": "netherite_leggings",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -50,11 +50,11 @@ const itemPrices = [    {
             "lvl": 5
         },
     ],
-    "priceBuy": 1300000,
-    "priceSell": 1600000
+    "priceBuy": 1000000,
+    "priceSell": 1300000
 }]
 
-const priceSell = 1600000
+const priceSell = 1300000
 
 const minBalance = 20000000
 
@@ -432,7 +432,7 @@ async function sellItems(bot) {
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem?.name !== 'netherite_chestplate') continue;
+                        if (!invItem || invItem?.name !== 'netherite_leggings') continue;
 
                         // Перемещаем предмет в слот продажи
                         try {
@@ -447,7 +447,7 @@ async function sellItems(bot) {
                     }
                 } else {
                     // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item?.name === 'netherite_chestplate';
+                    items[sellSlot - firstSellSlot] = item?.name === 'netherite_leggings';
                 }
             }
 
