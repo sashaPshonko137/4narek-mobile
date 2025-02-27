@@ -53,7 +53,7 @@ const itemPrices = [    {
 
 const priceSell = 2500000
 
-const minBalance = 20000000
+const minBalance = 2000000
 
 const leftMouseButton = 0;
 const noShift = 0;
