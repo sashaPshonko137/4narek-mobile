@@ -46,10 +46,6 @@ const itemPrices = [    {
             "lvl": 5
         },
         {
-            "name": "minecraft:knockback",
-            "lvl": 1
-        },
-        {
             "name": "minecraft:fire_aspect",
             "lvl": 1
         },
