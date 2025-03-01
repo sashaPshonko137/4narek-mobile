@@ -50,8 +50,8 @@ const itemPrices = [    {
             "lvl": 5
         },
     ],
-    "priceBuy": 1000000,
-    "priceSell": 1300000
+    "priceBuy": 800000,
+    "priceSell": 1100000
 }]
 
 const priceSell = 1300000
@@ -544,6 +544,7 @@ async function getBestAHSlot(bot, itemPrices) {
         const name = slotData.name;
         if (itemPrice.name !== name) continue;
 
+        if (!itemPrice.durabilityLeft) continue
         if (itemPrice.durabilityLeft && itemPrice.durabilityLeft > durabilityLeft) continue;
 
         try {
