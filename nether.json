@@ -8,1018 +8,16 @@
   null,
   null,
   null,
-  {
-    "type": 749,
-    "count": 64,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Potion": {
-          "type": "string",
-          "value": "minecraft:water"
-        }
-      }
-    },
-    "stackId": null,
-    "name": "potion",
-    "displayName": "Potion",
-    "stackSize": 1,
-    "slot": 9
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 6
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 7
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:knockback"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 2
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 4
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 10
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 2
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 7
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 11
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "funmultiversion:glint_override"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 7
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        },
-        "custom-enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "type": {
-                  "type": "string",
-                  "value": "vampirism"
-                },
-                "level": {
-                  "type": "int",
-                  "value": 2
-                }
-              }
-            ]
-          }
-        },
-        "Damage": {
-          "type": "int",
-          "value": 2
-        },
-        "display": {
-          "type": "compound",
-          "value": {
-            "Lore": {
-              "type": "list",
-              "value": {
-                "type": "string",
-                "value": [
-                  "{\"extra\":[{\"bold\":false,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"gray\",\"text\":\"Вампиризм II\"}],\"text\":\"\"}"
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 12
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 35
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 6
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 2
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 3
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 7
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 4
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 13
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 1
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 7
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 2
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 14
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 15
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:knockback"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 2
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 7
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 4
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 15
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 2
-        },
-        "display": {
-          "type": "compound",
-          "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"extra\":[{\"bold\":false,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"green\",\"text\":\"Изумрудный меч\"}],\"text\":\"\"}"
-            }
-          }
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:knockback"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 4
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 7
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 16
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 2
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:knockback"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 6
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 4
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 17
-  },
-  {
-    "type": 608,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 18
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:bane_of_arthropods"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:fire_aspect"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 2
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:knockback"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:looting"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 3
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:mending"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 1
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:sharpness"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:smite"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              },
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "netherite_sword",
-    "displayName": "Netherite Sword",
-    "stackSize": 1,
-    "maxDurability": 2031,
-    "slot": 18
-  },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
   {
     "type": 608,
     "count": 1,
@@ -1436,138 +434,130 @@
     "maxDurability": 2031,
     "slot": 22
   },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
   {
-    "type": 648,
-    "count": 1,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "cooked_porkchop",
-    "displayName": "Cooked Porkchop",
-    "stackSize": 64,
-    "slot": 23
-  },
-  {
-    "type": 648,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "display": {
-          "type": "compound",
-          "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"extra\":[{\"bold\":true,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"dark_red\",\"text\":\" дай меч3\"}],\"text\":\"\"}"
-            }
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "cooked_porkchop",
-    "displayName": "Cooked Porkchop",
-    "stackSize": 64,
-    "slot": 24
-  },
-  {
-    "type": 648,
+    "type": 608,
     "count": 1,
     "metadata": 0,
     "nbt": {
       "type": "compound",
       "name": "",
       "value": {
-        "display": {
-          "type": "compound",
+        "Damage": {
+          "type": "int",
+          "value": 6
+        },
+        "Enchantments": {
+          "type": "list",
           "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"extra\":[{\"bold\":true,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"dark_red\",\"text\":\" дай меч2\"}],\"text\":\"\"}"
-            }
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 7
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:knockback"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 4
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:sharpness"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              }
+            ]
           }
         }
       }
     },
     "stackId": null,
-    "name": "cooked_porkchop",
-    "displayName": "Cooked Porkchop",
-    "stackSize": 64,
-    "slot": 25
-  },
-  {
-    "type": 648,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "display": {
-          "type": "compound",
-          "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"extra\":[{\"bold\":true,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"dark_red\",\"text\":\" дай меч1\"}],\"text\":\"\"}"
-            }
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "cooked_porkchop",
-    "displayName": "Cooked Porkchop",
-    "stackSize": 64,
-    "slot": 26
-  },
-  {
-    "type": 648,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "display": {
-          "type": "compound",
-          "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"extra\":[{\"bold\":true,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"dark_red\",\"text\":\" дай меч\"}],\"text\":\"\"}"
-            }
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "cooked_porkchop",
-    "displayName": "Cooked Porkchop",
-    "stackSize": 64,
-    "slot": 27
-  },
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  {
-    "type": 745,
-    "count": 1,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "blaze_rod",
-    "displayName": "Blaze Rod",
-    "stackSize": 64,
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
+    "stackSize": 1,
+    "maxDurability": 2031,
     "slot": 36
   },
   {
-    "type": 603,
+    "type": 608,
     "count": 1,
     "metadata": 0,
     "nbt": {
@@ -1576,16 +566,7 @@
       "value": {
         "Damage": {
           "type": "int",
-          "value": 25
-        },
-        "display": {
-          "type": "compound",
-          "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"color\":\"green\",\"text\":\"Изумрудный меч\"}"
-            }
-          }
+          "value": 0
         },
         "Enchantments": {
           "type": "list",
@@ -1595,11 +576,71 @@
               {
                 "id": {
                   "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
                   "value": "minecraft:sharpness"
                 },
                 "lvl": {
                   "type": "short",
-                  "value": 3
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 7
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
                 }
               }
             ]
@@ -1608,33 +649,20 @@
       }
     },
     "stackId": null,
-    "name": "diamond_sword",
-    "displayName": "Diamond Sword",
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
     "stackSize": 1,
-    "maxDurability": 1561,
+    "maxDurability": 2031,
     "slot": 37
   },
   {
-    "type": 603,
+    "type": 608,
     "count": 1,
     "metadata": 0,
     "nbt": {
       "type": "compound",
       "name": "",
       "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        },
-        "display": {
-          "type": "compound",
-          "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"color\":\"green\",\"text\":\"Изумрудный меч\"}"
-            }
-          }
-        },
         "Enchantments": {
           "type": "list",
           "value": {
@@ -1643,71 +671,53 @@
               {
                 "id": {
                   "type": "string",
-                  "value": "minecraft:sharpness"
+                  "value": "funmultiversion:glint_override"
                 },
                 "lvl": {
                   "type": "short",
-                  "value": 3
+                  "value": 1
                 }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "diamond_sword",
-    "displayName": "Diamond Sword",
-    "stackSize": 1,
-    "maxDurability": 1561,
-    "slot": 38
-  },
-  {
-    "type": 749,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Potion": {
-          "type": "string",
-          "value": "minecraft:long_invisibility"
-        }
-      }
-    },
-    "stackId": null,
-    "name": "potion",
-    "displayName": "Potion",
-    "stackSize": 1,
-    "slot": 39
-  },
-  {
-    "type": 603,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
-        },
-        "display": {
-          "type": "compound",
-          "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"color\":\"green\",\"text\":\"Изумрудный меч\"}"
-            }
-          }
-        },
-        "Enchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
               {
                 "id": {
                   "type": "string",
@@ -1715,136 +725,718 @@
                 },
                 "lvl": {
                   "type": "short",
-                  "value": 3
+                  "value": 7
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
                 }
               }
             ]
           }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "diamond_sword",
-    "displayName": "Diamond Sword",
-    "stackSize": 1,
-    "maxDurability": 1561,
-    "slot": 40
-  },
-  {
-    "type": 744,
-    "count": 1,
-    "metadata": 0,
-    "nbt": null,
-    "stackId": null,
-    "name": "ender_pearl",
-    "displayName": "Ender Pearl",
-    "stackSize": 16,
-    "slot": 41
-  },
-  {
-    "type": 603,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "Damage": {
-          "type": "int",
-          "value": 0
         },
-        "display": {
-          "type": "compound",
-          "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"color\":\"green\",\"text\":\"Изумрудный меч\"}"
-            }
-          }
-        },
-        "Enchantments": {
+        "custom-enchantments": {
           "type": "list",
           "value": {
             "type": "compound",
             "value": [
               {
-                "id": {
+                "type": {
                   "type": "string",
-                  "value": "minecraft:sharpness"
+                  "value": "vampirism"
                 },
-                "lvl": {
-                  "type": "short",
-                  "value": 3
+                "level": {
+                  "type": "int",
+                  "value": 2
                 }
               }
             ]
           }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "diamond_sword",
-    "displayName": "Diamond Sword",
-    "stackSize": 1,
-    "maxDurability": 1561,
-    "slot": 42
-  },
-  {
-    "type": 749,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "skillsPotion": {
-          "type": "compound",
-          "value": {
-            "durationBonus": {
-              "type": "int",
-              "value": 4320
-            }
-          }
+        },
+        "Damage": {
+          "type": "int",
+          "value": 2
         },
         "display": {
           "type": "compound",
           "value": {
-            "Name": {
-              "type": "string",
-              "value": "{\"extra\":[{\"bold\":false,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":true,\"color\":\"gold\",\"text\":\"qqq\"},{\"italic\":false,\"obfuscated\":false,\"color\":\"gold\",\"text\":\"ogone\"},{\"italic\":false,\"color\":\"black\",\"text\":\"4ek\"},{\"italic\":false,\"obfuscated\":true,\"color\":\"black\",\"text\":\"qqq\"}],\"text\":\"\"}"
-            },
             "Lore": {
               "type": "list",
               "value": {
                 "type": "string",
                 "value": [
-                  "{\"extra\":[{\"bold\":false,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"green\",\"text\":\"(+3:36)\"}],\"text\":\"\"}"
+                  "{\"extra\":[{\"bold\":false,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"gray\",\"text\":\"Вампиризм II\"}],\"text\":\"\"}"
                 ]
               }
             }
           }
-        },
-        "Potion": {
-          "type": "string",
-          "value": "minecraft:long_fire_resistance"
         }
       }
     },
     "stackId": null,
-    "name": "potion",
-    "displayName": "Potion",
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
     "stackSize": 1,
+    "maxDurability": 2031,
+    "slot": 38
+  },
+  {
+    "type": 608,
+    "count": 1,
+    "metadata": 0,
+    "nbt": {
+      "type": "compound",
+      "name": "",
+      "value": {
+        "Damage": {
+          "type": "int",
+          "value": 35
+        },
+        "Enchantments": {
+          "type": "list",
+          "value": {
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 6
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 3
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:sharpness"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 7
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 4
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "stackId": null,
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
+    "stackSize": 1,
+    "maxDurability": 2031,
+    "slot": 39
+  },
+  {
+    "type": 608,
+    "count": 1,
+    "metadata": 0,
+    "nbt": {
+      "type": "compound",
+      "name": "",
+      "value": {
+        "Damage": {
+          "type": "int",
+          "value": 1
+        },
+        "Enchantments": {
+          "type": "list",
+          "value": {
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 7
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:sharpness"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "stackId": null,
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
+    "stackSize": 1,
+    "maxDurability": 2031,
+    "slot": 40
+  },
+  {
+    "type": 608,
+    "count": 1,
+    "metadata": 0,
+    "nbt": {
+      "type": "compound",
+      "name": "",
+      "value": {
+        "Damage": {
+          "type": "int",
+          "value": 15
+        },
+        "Enchantments": {
+          "type": "list",
+          "value": {
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:knockback"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:sharpness"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 7
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 4
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "stackId": null,
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
+    "stackSize": 1,
+    "maxDurability": 2031,
+    "slot": 41
+  },
+  {
+    "type": 608,
+    "count": 1,
+    "metadata": 0,
+    "nbt": {
+      "type": "compound",
+      "name": "",
+      "value": {
+        "Damage": {
+          "type": "int",
+          "value": 2
+        },
+        "display": {
+          "type": "compound",
+          "value": {
+            "Name": {
+              "type": "string",
+              "value": "{\"extra\":[{\"bold\":false,\"italic\":false,\"underlined\":false,\"strikethrough\":false,\"obfuscated\":false,\"color\":\"green\",\"text\":\"Изумрудный меч\"}],\"text\":\"\"}"
+            }
+          }
+        },
+        "Enchantments": {
+          "type": "list",
+          "value": {
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:knockback"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 4
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:sharpness"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 7
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "stackId": null,
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
+    "stackSize": 1,
+    "maxDurability": 2031,
+    "slot": 42
+  },
+  {
+    "type": 608,
+    "count": 1,
+    "metadata": 0,
+    "nbt": {
+      "type": "compound",
+      "name": "",
+      "value": {
+        "Damage": {
+          "type": "int",
+          "value": 0
+        },
+        "Enchantments": {
+          "type": "list",
+          "value": {
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:knockback"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:sharpness"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 6
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 4
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "stackId": null,
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
+    "stackSize": 1,
+    "maxDurability": 2031,
     "slot": 43
   },
   {
-    "type": 133,
-    "count": 36,
+    "type": 608,
+    "count": 1,
     "metadata": 0,
-    "nbt": null,
+    "nbt": {
+      "type": "compound",
+      "name": "",
+      "value": {
+        "Damage": {
+          "type": "int",
+          "value": 18
+        },
+        "Enchantments": {
+          "type": "list",
+          "value": {
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:bane_of_arthropods"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:fire_aspect"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 2
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:knockback"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:looting"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 3
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:mending"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 1
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:sharpness"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:smite"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              },
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
     "stackId": null,
-    "name": "sugar_cane",
-    "displayName": "Sugar Cane",
-    "stackSize": 64,
+    "name": "netherite_sword",
+    "displayName": "Netherite Sword",
+    "stackSize": 1,
+    "maxDurability": 2031,
     "slot": 44
   },
   null
