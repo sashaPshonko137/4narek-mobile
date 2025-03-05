@@ -49,6 +49,10 @@ const itemPrices = [    {
             "name": "minecraft:protection",
             "lvl": 5
         },
+        {
+            "name": "minecraft:thorns",
+            "lvl": "3"
+        }
     ],
     "priceBuy": 1000000,
     "priceSell": 1300000
@@ -568,14 +572,6 @@ async function getBestAHSlot(bot, itemPrices) {
                 name: enchant.id?.value,
                 lvl: enchant.lvl?.value
             }));
-
-            if (
-                !itemEnchants.some(actual => 
-                    (actual.name === 'minecraft:thorns' && actual.lvl >= 3) || 
-                    (actual.name === 'minecraft:projectile_protection' && actual.lvl >= 4) || 
-                    (actual.name === 'minecraft:fire_protection' && actual.lvl >= 4)
-                )
-            ) continue;
 
             const missingEnchants = itemPrice.effects?.filter(required => 
                 !itemEnchants.some(actual => 
