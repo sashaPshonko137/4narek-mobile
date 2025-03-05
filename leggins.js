@@ -50,11 +50,11 @@ const itemPrices = [    {
             "lvl": 5
         },
     ],
-    "priceBuy": 900000,
-    "priceSell": 1200000
+    "priceBuy": 1000000,
+    "priceSell": 1300000
 }]
 
-const priceSell = 1200000
+const priceSell = 1300000
 
 const minBalance = 20000000
 
@@ -552,7 +552,7 @@ async function getBestAHSlot(bot, itemPrices) {
         } else {
             continue;
         }
-        
+
         try {
             const price = await getBuyPrice(slotData);
             if (!price) continue;
