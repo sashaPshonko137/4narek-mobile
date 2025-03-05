@@ -544,8 +544,15 @@ async function getBestAHSlot(bot, itemPrices) {
         const name = slotData.name;
         if (itemPrice.name !== name) continue;
 
-        if (itemPrice.durabilityLeft && itemPrice.durabilityLeft > durabilityLeft) continue;
-
+        let durabilityLeft = 0;
+        if (slotData.maxDurability) {
+            const damage = slotData.nbt?.value?.Damage?.value || 0;
+            durabilityLeft = slotData.maxDurability - damage;
+            if (durabilityLeft < slotData.maxDurability * 0.9) continue;
+        } else {
+            continue;
+        }
+        
         try {
             const price = await getBuyPrice(slotData);
             if (!price) continue;
