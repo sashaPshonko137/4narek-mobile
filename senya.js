@@ -5,7 +5,7 @@ const { join } = require('path'); // Импортируем join для рабо
 const bots = [
     { username: 'likebayan', password: 'ggggg', anarchy: 605, type: 'sharp', inventoryPort: 3000 },
     { username: 'batomaallah', password: 'ggggg', anarchy: 604, type: 'sword-nomend', inventoryPort: 3001 },
-    { username: 'baba_galya666', password: 'ggggg', anarchy: 604, type: 'sword2-nomend', inventoryPort: 3002 },
+    { username: 'baba_galya666', password: 'ggggg', anarchy: 603, type: 'sword2-nomend', inventoryPort: 3002 },
 ];
 
 // Функция для запуска Worker'ов
