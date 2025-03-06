@@ -51,7 +51,7 @@ const itemPrices = [    {
         },
         {
             "name": "minecraft:thorns",
-            "lvl": "3"
+            "lvl": 3
         }
     ],
     "priceBuy": 1000000,

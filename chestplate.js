@@ -39,7 +39,7 @@ const itemPrices = [    {
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 5
+            "lvl": 4
         },
         {
             "name": "minecraft:mending",
@@ -51,7 +51,7 @@ const itemPrices = [    {
         },
         {
             "name": "minecraft:thorns",
-            "lvl": "3"
+            "lvl": 3
         }
     ],
     "priceBuy": 1000000,
