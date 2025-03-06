@@ -564,8 +564,6 @@ async function getBestAHSlot(bot, itemPrices) {
                 lvl: enchant.lvl?.value
             }));
 
-            if (itemEnchants.some(en => en.name === 'minecraft:mending')) continue
-
             const missingEnchants = itemPrice.effects?.filter(required => 
                 !itemEnchants.some(actual => 
                     actual.name === required.name && actual.lvl >= required.lvl
