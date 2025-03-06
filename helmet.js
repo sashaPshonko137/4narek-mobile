@@ -552,7 +552,7 @@ async function getBestAHSlot(bot, itemPrices) {
         if (slotData.maxDurability) {
             const damage = slotData.nbt?.value?.Damage?.value || 0;
             durabilityLeft = slotData.maxDurability - damage;
-            if (durabilityLeft < slotData.maxDurability * 0.9) continue;
+            if (durabilityLeft < slotData.maxDurability * 0.8) continue;
         } else {
             continue;
         }
