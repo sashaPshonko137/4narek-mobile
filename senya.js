@@ -3,9 +3,9 @@ const { join } = require('path'); // Импортируем join для рабо
 
 // Массив с ботами
 const bots = [
-    { username: 'bomj_sergei', password: 'ggggg', anarchy: 603, type: 'sharp', inventoryPort: 3000 },
-    { username: 'allahbatoma', password: 'ggggg', anarchy: 603, type: 'sword-nomend', inventoryPort: 3001 },
-    { username: 'baba_galya666', password: 'ggggg', anarchy: 603, type: 'sword7', inventoryPort: 3002 },
+    { username: 'burgerTsar', password: 'ggggg', anarchy: 603, type: 'sharp', inventoryPort: 3000 },
+    { username: 'tugarinSnake', password: 'ggggg', anarchy: 603, type: 'sword-nomend', inventoryPort: 3001 },
+    { username: 'otstaloPeter', password: 'ggggg', anarchy: 603, type: 'sword7', inventoryPort: 3002 },
 ];
 
 // Функция для запуска Worker'ов
