@@ -1,16 +1,17 @@
-const fs = require('fs').promises;
-const mineflayer = require('mineflayer');
-const inventoryViewer = require('mineflayer-web-inventory');
-const { createLogger, transports, format } = require('winston');
-const { workerData, parentPort } = require('worker_threads');
+import fs from 'fs/promises';
+import mineflayer from 'mineflayer';
+import inventoryViewer from 'mineflayer-web-inventory';
+import { createLogger, transports, format } from 'winston';
+import { workerData, parentPort } from 'worker_threads';
+import { loader as autoEat } from 'mineflayer-auto-eat'
 
 const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 const minBalance = 22000000
 
-const maxPrice = 750000
-const priceSell = 900000
+const maxPrice = 500000
+const priceSell = 700000
 
 const chooseBuying = 'Выбор скупки ресурсов';
 const setSectionFarmer = 'Установка секции "фермер"';
@@ -90,6 +91,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
     })
 
     bot.once('spawn', async () => {
+        bot.loadPlugin(autoEat)
         bot.mu = false;
         bot.startTime = Date.now() - 240000;
         bot.ahFull = false;
@@ -251,7 +253,11 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                                 default:
                                     logger.info(`${name} - найден: ${slotToBuy}`);
                                     if (slotToBuy < 18) {
-                                        await delay(getRandomDelayInRange(500, 1200));
+                                        if (Math.random() < 0.7) {
+                                            await delay(getRandomDelayInRange(500, 1200));
+                                        } else {
+                                            await delay(getRandomDelayInRange(2000, 4000));
+                                        }
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }
@@ -606,7 +612,7 @@ if (workerData) {
 }
 
 async function longWalk(bot) {
-    bot.chat('/feed')
+    bot.autoEat.enableAuto()
     bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
@@ -618,9 +624,11 @@ async function longWalk(bot) {
             );
             await delay(500);
             await safeAH(bot);
+            bot.autoEat.disableAuto()
+
             return
         }
-        
+
         // Случайное движение
         const movements = ['forward', 'back', 'left', 'right'];
         const randomMove = movements[Math.floor(Math.random() * movements.length)];
@@ -638,4 +646,32 @@ async function longWalk(bot) {
     ['forward', 'back', 'left', 'right'].forEach(move => 
         bot.setControlState(move, false)
     );
+
+    bot.autoEat.disableAuto()
+}
+
+async function walk(bot) {
+    bot.autoEat.enableAuto()
+    const endTime = Date.now() + 10000;
+
+    while (Date.now() < endTime) {
+        
+        // Случайное движение
+        const movements = ['forward', 'back', 'left', 'right'];
+        const randomMove = movements[Math.floor(Math.random() * movements.length)];
+        bot.setControlState(randomMove, true);
+        await delay(500);
+        bot.setControlState(randomMove, false);
+        
+        
+        await delay(500);
+    }
+    
+    // Останавливаем все движения
+    ['forward', 'back', 'left', 'right'].forEach(move => 
+        bot.setControlState(move, false)
+    );
+
+    bot.autoEat.disableAuto()
+
 }

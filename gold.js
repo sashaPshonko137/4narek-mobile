@@ -1,15 +1,16 @@
-const fs = require('fs').promises;
-const mineflayer = require('mineflayer');
-const inventoryViewer = require('mineflayer-web-inventory');
-const { createLogger, transports, format } = require('winston');
-const { workerData } = require('worker_threads');
+import fs from 'fs/promises';
+import mineflayer from 'mineflayer';
+import inventoryViewer from 'mineflayer-web-inventory';
+import { createLogger, transports, format } from 'winston';
+import { workerData, parentPort } from 'worker_threads';
+import { loader as autoEat } from 'mineflayer-auto-eat'
 
 const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 250000
-const priceSell = 350000
+const maxPrice = 100000
+const priceSell = 200000
 
 const minBalance = 5000000
 
@@ -83,7 +84,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
     console.warn = () => {};
 
     bot.once('spawn', async () => {
-
+        bot.loadPlugin(autoEat)
         bot.mu = false;
         bot.startTime = Date.now() - 240000;
         bot.ahFull = false;
@@ -204,73 +205,77 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
 
                 break;
 
-                case analysisAH:
-                    bot.timeActive = Date.now();
-                    generateRandomKey(bot);
-                    const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
-                    if (resetime > 60) {
-                        logger.info(`${name} - ресет`);
-                        await delay(500);
-                        bot.menu = myItems;
-                        await safeClick(bot, 46, getRandomDelayInRange(700, 1300))
+            case analysisAH:
+                bot.timeActive = Date.now();
+                generateRandomKey(bot);
+                const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
+                if (resetime > 60) {
+                    logger.info(`${name} - ресет`);
+                    await delay(500);
+                    bot.menu = myItems;
+                    await safeClick(bot, 46, getRandomDelayInRange(700, 1300))
+
+                    break;
+                }
+                const uptime = Math.floor((Date.now() - bot.startTime) / 1000);  // Время в секундах
+                if (uptime > 240) {
+                    logger.info(`${name} - продажа`);
+                    await sellItems(bot)
+
+                    break;
+                }
+
+                logger.info(`${name} - ${bot.menu}`);
+                await delay(1000);
     
-                        break;
-                    }
-                    const uptime = Math.floor((Date.now() - bot.startTime) / 1000);  // Время в секундах
-                    if (uptime > 240) {
-                        logger.info(`${name} - продажа`);
+                switch (bot.inventoryFull) {
+                    case true:
+                        if (bot.ahFull) {
+                            await longWalk(bot);
+                            return
+                        }
+                        logger.error('Инвентарь заполнен')
                         await sellItems(bot)
-    
+                    
                         break;
-                    }
-    
-                    logger.info(`${name} - ${bot.menu}`);
-                    await delay(1000);
-    
-                    switch (bot.inventoryFull) {
-                        case true:
-                            if (bot.ahFull) {
-                                await longWalk(bot);
-                                return
-                            }
-                            logger.error('Инвентарь заполнен')
-                            await sellItems(bot)
-                        
-                            break;
-    
-                        case false:
-                            logger.info(`${name} - поиск лучшего предмета`);
-                            slotToBuy = await getBestAHSlot(bot);
-    
-                            switch (slotToBuy) {
-                                case undefined:
-                                    logger.info('не найден')
-                                    bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 4000));
-    
-                                    break;
-                                default:
-                                    logger.info(`${name} - найден: ${slotToBuy}`);
-                                    if (slotToBuy < 18) {
+
+                    case false:
+                        logger.info(`${name} - поиск лучшего предмета`);
+                        slotToBuy = await getBestAHSlot(bot);
+
+                        switch (slotToBuy) {
+                            case undefined:
+                                logger.info('не найден')
+                                bot.menu = analysisAH;
+                                await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 4000));
+
+                                break;
+                            default:
+                                logger.info(`${name} - найден: ${slotToBuy}`);
+                                if (slotToBuy < 18) {
+                                    if (Math.random() < 0.7) {
                                         await delay(getRandomDelayInRange(500, 1200));
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }
-                                    bot.menu = buy;
-                                    await safeClick(bot, slotToBuy, 0);
-    
-                                    break;
-                            }
-                    }
-    
-                    break;
-    
-                    case buy:
-                        bot.timeActive = Date.now();
-                        logger.info(`${name} - ${bot.menu}`);
-                      
-                        bot.menu = analysisAH
-                        await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
+                                } else {
+                                    await delay(getRandomDelayInRange(2000, 4000));
+                                }
+                                bot.menu = buy;
+                                await safeClick(bot, slotToBuy, 0);
+
+                                break;
+                        }
+                }
+
+                break;
+
+                case buy:
+                    bot.timeActive = Date.now();
+                    logger.info(`${name} - ${bot.menu}`);
+                  
+                    bot.menu = analysisAH
+                    await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
 
             case myItems:
                 bot.timeActive = Date.now();
@@ -363,9 +368,9 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay han_ugai ${balance - minBalance}`)
+                bot.chat(`/pay buryi_alert ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay han_ugai ${balance - minBalance}`)
+                bot.chat(`/pay buryi_alert ${balance - minBalance}`)
             }
             return
         }
@@ -386,26 +391,24 @@ async function sellItems(bot) {
     }
     bot.mu = true;
 
+    while (Date.now() - bot.timeLogin < 13000) await delay(1000)
+    bot.timeActive = Date.now();
+
     if (bot.currentWindow) {
         bot.closeWindow(bot.currentWindow);
     }
 
-    while (Date.now() - bot.timeLogin < 13000) await delay(1000)
-    bot.timeActive = Date.now();
-
     if (!bot.ahFull) {
         try {
             let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
+            let countPomoi = 0
 
             // Проверяем слоты продажи
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
+                if (item && item?.name != 'ender_pearl') countPomoi++
 
                 if (!item) {
-                    await delay(500)
-                    if (bot.inventory.slots[sellSlot]) {
-                        items[sellSlot - firstSellSlot] = item?.name === 'ender_pearl';
-                    }
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
@@ -426,6 +429,12 @@ async function sellItems(bot) {
                     // Если слот не пустой, проверяем, является ли это элитрой
                     items[sellSlot - firstSellSlot] = item?.name === 'ender_pearl';
                 }
+            }
+
+            if (countPomoi > 4 && !bot.reported) {
+                const msg = `@sasha_pshonko\nу ${bot.username} насрано!` 
+                parentPort.postMessage(msg);
+                bot.reported = true
             }
 
             console.log(items)
@@ -566,7 +575,7 @@ if (workerData) {
 }
 
 async function longWalk(bot) {
-    bot.chat('/feed')
+    bot.autoEat.enableAuto()
     bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
@@ -578,9 +587,11 @@ async function longWalk(bot) {
             );
             await delay(500);
             await safeAH(bot);
+            bot.autoEat.disableAuto()
+
             return
         }
-        
+
         // Случайное движение
         const movements = ['forward', 'back', 'left', 'right'];
         const randomMove = movements[Math.floor(Math.random() * movements.length)];
@@ -588,7 +599,6 @@ async function longWalk(bot) {
         await delay(500);
         bot.setControlState(randomMove, false);
         
-        // Случайный поворот
         
         await delay(500);
     }
@@ -599,15 +609,13 @@ async function longWalk(bot) {
     ['forward', 'back', 'left', 'right'].forEach(move => 
         bot.setControlState(move, false)
     );
+
+    bot.autoEat.disableAuto()
 }
 
 async function walk(bot) {
-    bot.chat('/feed')
+    bot.autoEat.enableAuto()
     const endTime = Date.now() + 10000;
-
-        bot.setControlState('jump', true);
-        await delay(200);
-        bot.setControlState('jump', false);
 
     while (Date.now() < endTime) {
         
@@ -627,5 +635,6 @@ async function walk(bot) {
         bot.setControlState(move, false)
     );
 
-}
+    bot.autoEat.disableAuto()
 
+}
