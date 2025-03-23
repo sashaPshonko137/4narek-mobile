@@ -13,9 +13,9 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'hanter_bayden', password: 'ggggg', anarchy: 602, type: 'chorus', inventoryPort: 3000 },
-    { username: 'borsh_banan', password: 'ggggg', anarchy: 602, type: 'gold', inventoryPort: 3001 },
-    { username: '88hueta', password: 'ggggg', anarchy: 602, type: 'elytra', inventoryPort: 3002 },
+    { username: 'hanter_bayden', password: 'ggggg', anarchy: 602, type: 'sword7', inventoryPort: 3000 },
+    { username: 'borsh_banan', password: 'ggggg', anarchy: 602, type: 'sword-nomend', inventoryPort: 3001 },
+    { username: '88hueta', password: 'ggggg', anarchy: 602, type: 'sword', inventoryPort: 3002 },
 ];
 
 // Функция для запуска Worker'ов

@@ -1,8 +1,10 @@
-const fs = require('fs').promises;
-const mineflayer = require('mineflayer');
-const inventoryViewer = require('mineflayer-web-inventory');
-const { createLogger, transports, format } = require('winston');
-const { workerData, parentPort } = require('worker_threads');
+import fs from 'fs/promises';
+import mineflayer from 'mineflayer';
+import inventoryViewer from 'mineflayer-web-inventory';
+import { createLogger, transports, format } from 'winston';
+import { workerData, parentPort } from 'worker_threads';
+import { loader as autoEat } from 'mineflayer-auto-eat'
+
 
 const minDelay = 500;
 const AHDelay = 2000;
@@ -50,13 +52,13 @@ const itemPrices = [    {
             "lvl": 1
         },
     ],
-    "priceBuy": 2400000,
-    "priceSell": 2700000
+    "priceBuy": 1500000,
+    "priceSell": 2000000
 }]
 
-const priceSell = 2700000
+const priceSell = 2000000
 
-const minBalance = 25000000
+const minBalance = 20000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -100,6 +102,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     console.warn = () => {};
 
     bot.once('spawn', async () => {
+        bot.loadPlugin(autoEat)
         bot.mu = false;
         bot.startTime = Date.now() - 240000;
         bot.ahFull = false;
@@ -272,8 +275,12 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     
                                     break;
                                 default:
-                                    if (Math.random() < 0.6) {
-                                        await delay(getRandomDelayInRange(500, 1200));
+                                    if (slotToBuy < 18) {
+                                        if (Math.random() < 0.7) {
+                                            await delay(getRandomDelayInRange(500, 1200));
+                                        } else {
+                                            await delay(getRandomDelayInRange(2000, 4000));
+                                        }
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }
@@ -425,10 +432,12 @@ async function sellItems(bot) {
     if (!bot.ahFull) {
         try {
             let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
+            let countPomoi = 0
 
             // Проверяем слоты продажи
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
+                if (item && item?.name != 'netherite_sword') countPomoi++
 
                 if (!item) {
                     // Ищем элитры для продажи в инвентаре
@@ -453,7 +462,11 @@ async function sellItems(bot) {
                 }
             }
 
-            console.log(items)
+            if (countPomoi > 4 && !bot.reported) {
+                const msg = `@sasha_pshonko\nу ${bot.username} насрано!` 
+                parentPort.postMessage(msg);
+                bot.reported = true
+            }
 
             for (let i = 0; i < items.length; i++) { // Изменение здесь
                 if (bot.ahFull) {
@@ -620,7 +633,7 @@ if (workerData) {
 
 
 async function longWalk(bot) {
-    bot.chat('/feed')
+    bot.autoEat.enableAuto()
     bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
@@ -632,6 +645,8 @@ async function longWalk(bot) {
             );
             await delay(500);
             await safeAH(bot);
+            bot.autoEat.disableAuto()
+
             return
         }
 
@@ -652,15 +667,13 @@ async function longWalk(bot) {
     ['forward', 'back', 'left', 'right'].forEach(move => 
         bot.setControlState(move, false)
     );
+
+    bot.autoEat.disableAuto()
 }
 
 async function walk(bot) {
-    bot.chat('/feed')
+    bot.autoEat.enableAuto()
     const endTime = Date.now() + 10000;
-
-        bot.setControlState('jump', true);
-        await delay(200);
-        bot.setControlState('jump', false);
 
     while (Date.now() < endTime) {
         
@@ -679,5 +692,7 @@ async function walk(bot) {
     ['forward', 'back', 'left', 'right'].forEach(move => 
         bot.setControlState(move, false)
     );
+
+    bot.autoEat.disableAuto()
 
 }
