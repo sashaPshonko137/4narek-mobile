@@ -1,15 +1,16 @@
-const fs = require('fs').promises;
-const mineflayer = require('mineflayer');
-const inventoryViewer = require('mineflayer-web-inventory');
-const { createLogger, transports, format } = require('winston');
-const { workerData } = require('worker_threads');
+import fs from 'fs/promises';
+import mineflayer from 'mineflayer';
+import inventoryViewer from 'mineflayer-web-inventory';
+import { createLogger, transports, format } from 'winston';
+import { workerData, parentPort } from 'worker_threads';
+import { loader as autoEat } from 'mineflayer-auto-eat'
 
 const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 300000
-const priceSell = 450000
+const maxPrice = 150000
+const priceSell = 250000
 
 const minBalance = 5000000
 
@@ -83,7 +84,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
     console.warn = () => {};
 
     bot.once('spawn', async () => {
-
+        bot.loadPlugin(autoEat)
         bot.mu = false;
         bot.startTime = Date.now() - 240000;
         bot.ahFull = false;
@@ -252,7 +253,11 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                             default:
                                 logger.info(`${name} - найден: ${slotToBuy}`);
                                 if (slotToBuy < 18) {
-                                    await delay(getRandomDelayInRange(500, 1200));
+                                    if (Math.random() < 0.7) {
+                                        await delay(getRandomDelayInRange(500, 1200));
+                                    } else {
+                                        await delay(getRandomDelayInRange(2000, 4000));
+                                    }
                                 } else {
                                     await delay(getRandomDelayInRange(2000, 4000));
                                 }
@@ -396,10 +401,12 @@ async function sellItems(bot) {
     if (!bot.ahFull) {
         try {
             let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
+            let countPomoi = 0
 
             // Проверяем слоты продажи
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
+                if (item && item?.name != 'chorus_fruit') countPomoi++
 
                 if (!item) {
                     // Ищем элитры для продажи в инвентаре
@@ -422,6 +429,12 @@ async function sellItems(bot) {
                     // Если слот не пустой, проверяем, является ли это элитрой
                     items[sellSlot - firstSellSlot] = item?.name === 'chorus_fruit';
                 }
+            }
+
+            if (countPomoi > 4 && !bot.reported) {
+                const msg = `@sasha_pshonko\nу ${bot.username} насрано!` 
+                parentPort.postMessage(msg);
+                bot.reported = true
             }
 
             console.log(items)

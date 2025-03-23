@@ -151,7 +151,17 @@
   null,
   null,
   null,
-  null,
+  {
+    "type": 740,
+    "count": 64,
+    "metadata": 0,
+    "nbt": null,
+    "stackId": null,
+    "name": "cooked_beef",
+    "displayName": "Steak",
+    "stackSize": 64,
+    "slot": 36
+  },
   null,
   null,
   null,

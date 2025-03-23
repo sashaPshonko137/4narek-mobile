@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const mineflayer = require('mineflayer');
 const inventoryViewer = require('mineflayer-web-inventory');
 const { createLogger, transports, format } = require('winston');
-const { workerData } = require('worker_threads');
+const { workerData, parentPort } = require('worker_threads');
 
 const minDelay = 500;
 const AHDelay = 2000;

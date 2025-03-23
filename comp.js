@@ -1,10 +1,20 @@
-const { Worker } = require('worker_threads');
-const { join } = require('path'); // Импортируем join для работы с путями
+import { Worker } from 'worker_threads';
+import { join, dirname } from 'path'; // Импортируем join и dirname для работы с путями
+import TelegramBot from 'node-telegram-bot-api';
+import { fileURLToPath } from 'url';
+
+// Получаем __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const token = '7593493670:AAEobzNu91yulqlgUbqLKBdPXzToRtv5VKQ';
+
+const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'small_jopan', password: 'ggggg', anarchy: 605, type: 'elytra', inventoryPort: 3000 }, // 
-    { username: 'tupoi_ded', password: 'ggggg', anarchy: 605, type: 'sword', inventoryPort: 3001 },
+    { username: 'mudozvon_zvon', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000 },
+    { username: 'sonoxymiron', password: 'ggggg', anarchy: 605, type: 'sharp', inventoryPort: 3001 },
 ];
 
 // Функция для запуска Worker'ов
@@ -19,7 +29,8 @@ function runWorker(bot) {
         });
 
         worker.on('message', (message) => {
-            console.log(`Worker message: ${message}`);
+            console.log(message);
+            tgBot.sendMessage(-4763690917, message);
         });
 
         worker.on('error', (error) => {
@@ -28,6 +39,7 @@ function runWorker(bot) {
         });
 
         worker.on('exit', (code) => {
+            tgBot.sendMessage(-4763690917, `@sasha_pshonko\n${bot.username} вырубился`);
             if (code !== 0) {
                 reject(new Error(`Worker stopped with exit code ${code}`));
             } else {

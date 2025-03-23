@@ -2,9 +2,7 @@ const fs = require('fs').promises;
 const mineflayer = require('mineflayer');
 const inventoryViewer = require('mineflayer-web-inventory');
 const { createLogger, transports, format } = require('winston');
-const { workerData } = require('worker_threads');
-
-
+const { workerData, parentPort } = require('worker_threads');
 
 const minDelay = 500;
 const AHDelay = 2000;
@@ -103,6 +101,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
         bot.chat(loginCommand);
         bot.timeLogin = Date.now()
         bot.inventoryFull = false;
+        bot.reported = false
 
         await delay(minDelay);
         bot.chat(anarchyCommand);
@@ -399,10 +398,12 @@ async function sellItems(bot) {
     if (!bot.ahFull) {
         try {
             let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
+            let countPomoi = 0
 
             // Проверяем слоты продажи
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
+                if (item && item?.name != 'elytra') countPomoi++
 
                 if (!item) {
                     // Ищем элитры для продажи в инвентаре
@@ -426,6 +427,11 @@ async function sellItems(bot) {
                     // Если слот не пустой, проверяем, является ли это элитрой
                     items[sellSlot - firstSellSlot] = item?.name === 'elytra';
                 }
+            }
+            if (countPomoi > 4 && !bot.reported) {
+                const msg = `@sasha_pshonko\nу ${bot.username} насрано!` 
+                parentPort.postMessage(msg);
+                bot.reported = true
             }
 
             console.log(items)

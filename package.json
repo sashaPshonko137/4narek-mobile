@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "mineflayer": "^4.26.0",
+    "mineflayer-auto-eat": "^5.0.0",
     "mineflayer-web-inventory": "^1.8.5",
+    "node-telegram-bot-api": "^0.66.0",
     "proxy-agent": "^6.5.0",
     "socks": "^2.8.4",
     "winston": "^3.17.0"
