@@ -207,7 +207,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = analysisAH;
                 await delay(5000);
-                bot.closeWindow(bot.currentWindow);
+                if (bot.currentWindow) bot.closeWindow(bot.currentWindow);
                 await delay(500);
 
                 while (Date.now() - bot.timeLogin < 15000) {

@@ -33,18 +33,18 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search книга защита';
+const ahCommand = '/ah search книга острота';
 
 const itemPrices = [{
     "name": "enchanted_book",
     "effects": [
         {
-            "name": "minecraft:protection",
+            "name": "minecraft:sharpness",
             "lvl": 5
         }
     ],
-    "priceBuy": 30000,
-    "priceSell": 100000
+    "priceBuy": 100000,
+    "priceSell": 150000
 }
 ]
 
@@ -207,7 +207,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = analysisAH;
                 await delay(5000);
-                bot.closeWindow(bot.currentWindow);
+                if (bot.currentWindow) bot.closeWindow(bot.currentWindow);
                 await delay(500);
 
                 while (Date.now() - bot.timeLogin < 15000) {
@@ -265,7 +265,11 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 default:
                                     logger.info(`${name} - найден: ${slotToBuy}`);
                                     if (slotToBuy < 18) {
-                                        await delay(getRandomDelayInRange(500, 1200));
+                                        if (Math.random() < 0.7) {
+                                            await delay(getRandomDelayInRange(500, 1200));
+                                        } else {
+                                            await delay(getRandomDelayInRange(2000, 4000));
+                                        }
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }
@@ -383,9 +387,9 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay mavriDANCE ${balance - minBalance}`)
+                bot.chat(`/pay ogryz_potap ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay mavriDANCE ${balance - minBalance}`)
+                bot.chat(`/pay ogryz_potap ${balance - minBalance}`)
             }
             return
         }
@@ -413,10 +417,13 @@ async function sellItems(bot) {
         try {
     
             let items = [];
+            let countPomoi = 0
     
             // Проверяем слоты продажи
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
+                if (item && item?.name != 'enchanted_book') countPomoi++
+
                 
                 if (!item) {
                     items.push(0);  // Если слот пустой, добавляем 0
@@ -482,7 +489,7 @@ async function sellItems(bot) {
                             if (!enchant?.id?.value) continue;  // Пропускаем если нет id
                             itemEnchants.push({
                                 name: enchant?.id?.value || '', 
-                                lvl: enchant?.lvl?.value || 0  // Если нет lvl, используем 0
+                                lvl: enchant?.lvl?.value || 1  // Если нет lvl, используем 0
                             });
                         }
                     }
@@ -501,7 +508,11 @@ async function sellItems(bot) {
                     items.push(configItem ? configItem.priceSell : 0);
                 }
             }
-    
+            if (countPomoi > 4 && !bot.reported) {
+                const msg = `@tdpprog\nу ${bot.username} насрано!` 
+                parentPort.postMessage(msg);
+                bot.reported = true
+            }
             console.log(items)
     
             for (let i = 0; i <= 8; i++) {
