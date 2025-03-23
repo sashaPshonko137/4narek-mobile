@@ -575,7 +575,7 @@ if (workerData) {
 }
 
 async function longWalk(bot) {
-    bot.chat('/feed')
+    bot.autoEat.enableAuto()
     bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
@@ -587,9 +587,11 @@ async function longWalk(bot) {
             );
             await delay(500);
             await safeAH(bot);
+            bot.autoEat.disableAuto()
+
             return
         }
-        
+
         // Случайное движение
         const movements = ['forward', 'back', 'left', 'right'];
         const randomMove = movements[Math.floor(Math.random() * movements.length)];
@@ -597,7 +599,6 @@ async function longWalk(bot) {
         await delay(500);
         bot.setControlState(randomMove, false);
         
-        // Случайный поворот
         
         await delay(500);
     }
@@ -608,14 +609,13 @@ async function longWalk(bot) {
     ['forward', 'back', 'left', 'right'].forEach(move => 
         bot.setControlState(move, false)
     );
-}
-async function walk(bot) {
-    bot.chat('/feed')
-    const endTime = Date.now() + 10000;
 
-        bot.setControlState('jump', true);
-        await delay(200);
-        bot.setControlState('jump', false);
+    bot.autoEat.disableAuto()
+}
+
+async function walk(bot) {
+    bot.autoEat.enableAuto()
+    const endTime = Date.now() + 10000;
 
     while (Date.now() < endTime) {
         
@@ -634,5 +634,7 @@ async function walk(bot) {
     ['forward', 'back', 'left', 'right'].forEach(move => 
         bot.setControlState(move, false)
     );
+
+    bot.autoEat.disableAuto()
 
 }
