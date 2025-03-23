@@ -476,35 +476,6 @@ async function sellItems(bot) {
     await safeAH(bot);
 
 }
-async function walk(bot) {
-    bot.chat('/feed')
-    const endTime = Date.now() + 10000;
-
-        bot.setControlState('jump', true);
-        await delay(200);
-        bot.setControlState('jump', false);
-
-    while (Date.now() < endTime) {
-        
-        // Случайное движение
-        const movements = ['forward', 'back', 'left', 'right'];
-        const randomMove = movements[Math.floor(Math.random() * movements.length)];
-        bot.setControlState(randomMove, true);
-        await delay(500);
-        bot.setControlState(randomMove, false);
-        
-        
-        await delay(500);
-    }
-    
-    // Останавливаем все движения
-    ['forward', 'back', 'left', 'right'].forEach(move => 
-        bot.setControlState(move, false)
-    );
-
-}
-
-
 
 async function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
