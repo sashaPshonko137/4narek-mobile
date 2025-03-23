@@ -164,7 +164,40 @@
   },
   null,
   null,
-  null,
+  {
+    "type": 848,
+    "count": 1,
+    "metadata": 0,
+    "nbt": {
+      "type": "compound",
+      "name": "",
+      "value": {
+        "StoredEnchantments": {
+          "type": "list",
+          "value": {
+            "type": "compound",
+            "value": [
+              {
+                "id": {
+                  "type": "string",
+                  "value": "minecraft:unbreaking"
+                },
+                "lvl": {
+                  "type": "short",
+                  "value": 5
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "stackId": null,
+    "name": "enchanted_book",
+    "displayName": "Enchanted Book",
+    "stackSize": 1,
+    "slot": 39
+  },
   null,
   null,
   null,
