@@ -39,7 +39,7 @@ const itemPrices = [{
     "name": "enchanted_book",
     "effects": [
         {
-            "name": "minecraft:sharpness",
+            "name": "minecraft:protection",
             "lvl": 5
         }
     ],
