@@ -32,28 +32,46 @@ function runWorker(bot) {
         let msgBalance = undefined
         let mu = false
 
+        async function processTaskQueue() {
+            if (taskQueue.length === 0 || mu) return;
+            mu = true;
+        
+            const task = taskQueue.shift();
+            try {
+                const currentBot = bots.find(bot => bot.username === task.username);
+                if (currentBot) {
+                    currentBot.balance = task.balance;
+                    let msg = 'Баланс';
+                    for (const bot of bots) {
+                        msg += `\n${bot.username}: ${bot.balance}$`;
+                    }
+        
+                    if (!msgBalance) {
+                        const sentMessage = await tgBot.sendMessage(-4763690917, msg);
+                        msgBalance = sentMessage.message_id;
+                    } else {
+                        await tgBot.editMessageText(msg, {
+                            chat_id: -4763690917,
+                            message_id: msgBalance
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка при обработке задачи:', error);
+            } finally {
+                mu = false;
+                processTaskQueue(); // Обработать следующую задачу в очереди
+            }
+        }
+        
         worker.on('message', (message) => {
             if (message.name === 'balance') {
-                while (mu) {}
-                mu = true
-                const currentBot = bots.find(bot => bot.username === message.username);
-                currentBot.balance = message.balance;
-                let msg = 'Баланс'
-                for (bot of bots) {
-                    msg += `\n${bot.username}: ${bot.balance}$`
-                }
-                if (!msgBalance) tgBot.sendMessage(-4763690917, msg)
-                    .then(message => {
-                        msgBalance = message.message_id;
-                    })
-                else tgBot.editMessageText(msg, {
-                    chat_id: -4763690917,
-                    message_id: msgBalance
-                })
-                mu = false
-                return
+                // Добавляем задачу в очередь
+                taskQueue.push(message);
+                processTaskQueue();
+            } else {
+                tgBot.sendMessage(-4763690917, message);
             }
-            tgBot.sendMessage(-4763690917, message);
         });
 
         worker.on('error', (error) => {
