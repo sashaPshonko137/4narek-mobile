@@ -13,8 +13,9 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'golovogolovyi', password: 'ggggg', anarchy: 603, type: 'protection', inventoryPort: 3000 },
-    { username: 'babatoma5_0', password: 'ggggg', anarchy: 603, type: 'chestplate', inventoryPort: 3001 },
+    { username: 'golovogolovyi', password: 'ggggg', anarchy: 603, type: 'protection', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'babatoma5_0', password: 'ggggg', anarchy: 603, type: 'chestplate', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'don_pteranodon', password: 'ggggg', anarchy: 603, type: 'leggins', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 
 // Функция для запуска Worker'ов
@@ -29,10 +30,24 @@ function runWorker(bot) {
         });
 
         worker.on('message', (message) => {
-            console.log(message);
+            if (message.name === 'balance') {
+                const currentBot = bots.find(bot => bot.username === message.username);
+                currentBot.balance = message.balance;
+                let msg = 'Баланс'
+                msg += `\n${message.username}: ${message.balance}$`
+                if (!currentBot.msgID) tgBot.sendMessage(-4763690917, msg)
+                    .then(message => {
+                        currentBot.msgID = message.message_id;
+                    })
+                else tgBot.editMessageText(msg, {
+                    chat_id: -4763690917,
+                    message_id: currentBot.msgID
+                })
+
+                return
+            }
             tgBot.sendMessage(-4763690917, message);
         });
-
         worker.on('error', (error) => {
             console.error(`Worker error: ${error}`);
             reject(error);
