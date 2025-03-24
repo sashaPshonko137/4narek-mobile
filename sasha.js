@@ -30,9 +30,12 @@ function runWorker(bot) {
         });
 
         let msgBalance = undefined
+        let mu = false
 
         worker.on('message', (message) => {
             if (message.name === 'balance') {
+                while (mu) {}
+                mu = true
                 const currentBot = bots.find(bot => bot.username === message.username);
                 currentBot.balance = message.balance;
                 let msg = 'Баланс'
@@ -47,6 +50,7 @@ function runWorker(bot) {
                     chat_id: -4763690917,
                     message_id: msgBalance
                 })
+                mu = false
                 return
             }
             tgBot.sendMessage(-4763690917, message);

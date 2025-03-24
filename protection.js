@@ -33,7 +33,7 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search книга острота';
+const ahCommand = '/ah search книга защита';
 
 const itemPrices = [{
     "name": "enchanted_book",
@@ -43,7 +43,7 @@ const itemPrices = [{
             "lvl": 5
         }
     ],
-    "priceBuy": 100000,
+    "priceBuy": 80000,
     "priceSell": 150000
 }
 ]
