@@ -69,7 +69,9 @@ function runWorker(bot) {
             if (message.name === 'balance') {
                 // Добавляем задачу в очередь
                 taskQueue.push(message);
-                processTaskQueue();
+                if (!mu) {
+                    processTaskQueue();
+                }
             } else {
                 tgBot.sendMessage(-4763690917, message);
             }
