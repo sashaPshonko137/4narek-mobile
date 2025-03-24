@@ -3,11 +3,18 @@ import { join, dirname } from 'path'; // Импортируем join и dirname 
 import TelegramBot from 'node-telegram-bot-api';
 import { fileURLToPath } from 'url';
 
+// Получаем __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const token = '7443919586:AAG3S5k1dAkR-kIW66p-EubIgv22mogdi58';
+
+const tgBot = new TelegramBot(token, { polling: true });
+
 // Массив с ботами
 const bots = [
-    // { username: 'pauk_shnuk666', password: 'ggggg', anarchy: 604, type: 'gold', inventoryPort: 3000 },
-    { username: 'trahun224', password: 'ggggg', anarchy: 604, type: 'protection', inventoryPort: 3001 },
-    { username: 'ivan_bomj', password: 'ggggg', anarchy: 604, type: 'krush', inventoryPort: 3002 },
+    { username: 'hanter_bayden', password: 'ggggg', anarchy: 604, type: 'boots', inventoryPort: 3000, balance: undefined, msgID: 0 },
+    { username: 'borsh_banan', password: 'ggggg', anarchy: 604, type: 'helmet', inventoryPort: 3001, balance: undefined, msgID: 0 },
 ];
 
 // Функция для запуска Worker'ов
@@ -22,7 +29,23 @@ function runWorker(bot) {
         });
 
         worker.on('message', (message) => {
-            console.log(`Worker message: ${message}`);
+            if (message.name === 'balance') {
+                const currentBot = bots.find(bot => bot.username === message.username);
+                currentBot.balance = message.balance;
+                let msg = 'Баланс'
+                msg += `\n${message.username}: ${Math.floor(message.balance/1000000)}$`
+                if (!currentBot.msgID) tgBot.sendMessage(-4763690917, msg)
+                    .then(message => {
+                        currentBot.msgID = message.message_id;
+                    })
+                else tgBot.editMessageText(msg, {
+                    chat_id: -4763690917,
+                    message_id: currentBot.msgID
+                })
+
+                return
+            }
+            tgBot.sendMessage(-4763690917, message);
         });
 
         worker.on('error', (error) => {
@@ -31,6 +54,7 @@ function runWorker(bot) {
         });
 
         worker.on('exit', (code) => {
+            tgBot.sendMessage(-4763690917, `@sasha_pshonko\n${bot.username} вырубился`);
             if (code !== 0) {
                 reject(new Error(`Worker stopped with exit code ${code}`));
             } else {
