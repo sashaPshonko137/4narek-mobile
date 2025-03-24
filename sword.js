@@ -395,8 +395,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-            console.log(`${name} - баланс: ${balanceStr}`)
-            console.log(`${name} - баланс: ${balance}`)
+            const msg = {name: 'balance', username: bot.username, balance: balance};
+            parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
                 return
