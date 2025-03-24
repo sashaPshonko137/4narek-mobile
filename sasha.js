@@ -13,9 +13,9 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'hanter_bayden', password: 'ggggg', anarchy: 602, type: 'sword7', inventoryPort: 3000, balance: undefined },
-    { username: 'borsh_banan', password: 'ggggg', anarchy: 602, type: 'sword-nomend', inventoryPort: 3001, balance: undefined },
-    { username: '88hueta', password: 'ggggg', anarchy: 602, type: 'sword', inventoryPort: 3002, balance: undefined  },
+    { username: 'hanter_bayden', password: 'ggggg', anarchy: 602, type: 'sword7', inventoryPort: 3000, balance: undefined, msgID: 0 },
+    { username: 'borsh_banan', password: 'ggggg', anarchy: 602, type: 'sword-nomend', inventoryPort: 3001, balance: undefined, msgID: 0 },
+    { username: '88hueta', password: 'ggggg', anarchy: 602, type: 'sword', inventoryPort: 3002, balance: undefined, msgID: 0  },
 ];
 
 // Функция для запуска Worker'ов
@@ -29,52 +29,26 @@ function runWorker(bot) {
             workerData: bot // Передаем данные бота в worker
         });
 
-        let msgBalance = undefined
-        let mu = false
-        const taskQueue = [];
-
-        async function processTaskQueue() {
-            if (taskQueue.length === 0 || mu) return;
-            mu = true;
-        
-            const task = taskQueue.shift();
-            try {
-                const currentBot = bots.find(bot => bot.username === task.username);
-                if (currentBot) {
-                    currentBot.balance = task.balance;
-                    let msg = 'Баланс';
-                    for (const bot of bots) {
-                        msg += `\n${bot.username}: ${bot.balance}$`;
-                    }
-        
-                    if (!msgBalance) {
-                        const sentMessage = await tgBot.sendMessage(-4763690917, msg);
-                        msgBalance = sentMessage.message_id;
-                    } else {
-                        await tgBot.editMessageText(msg, {
-                            chat_id: -4763690917,
-                            message_id: msgBalance
-                        });
-                    }
-                }
-            } catch (error) {
-                console.error('Ошибка при обработке задачи:', error);
-            } finally {
-                mu = false;
-                processTaskQueue(); // Обработать следующую задачу в очереди
-            }
-        }
-        
         worker.on('message', (message) => {
             if (message.name === 'balance') {
-                // Добавляем задачу в очередь
-                taskQueue.push(message);
-                if (!mu) {
-                    processTaskQueue();
+                const currentBot = bots.find(bot => bot.username === message.username);
+                currentBot.balance = message.balance;
+                let msg = 'Баланс'
+                for (bot of bots) {
+                    msg += `\n${bot.username}: ${bot.balance}$`
                 }
-            } else {
-                tgBot.sendMessage(-4763690917, message);
+                if (!currentBot.msgID) tgBot.sendMessage(-4763690917, msg)
+                    .then(message => {
+                        msgBalance = message.message_id;
+                    })
+                else tgBot.editMessageText(msg, {
+                    chat_id: -4763690917,
+                    message_id: currentBot.msgID
+                })
+
+                return
             }
+            tgBot.sendMessage(-4763690917, message);
         });
 
         worker.on('error', (error) => {
