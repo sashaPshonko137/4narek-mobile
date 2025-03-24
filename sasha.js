@@ -34,9 +34,7 @@ function runWorker(bot) {
                 const currentBot = bots.find(bot => bot.username === message.username);
                 currentBot.balance = message.balance;
                 let msg = 'Баланс'
-                for (bot of bots) {
-                    msg += `\n${bot.username}: ${bot.balance}$`
-                }
+                msg += `\n${message.username}: ${message.balance}$`
                 if (!currentBot.msgID) tgBot.sendMessage(-4763690917, msg)
                     .then(message => {
                         msgBalance = message.message_id;
