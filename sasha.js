@@ -37,7 +37,7 @@ function runWorker(bot) {
                 msg += `\n${message.username}: ${message.balance}$`
                 if (!currentBot.msgID) tgBot.sendMessage(-4763690917, msg)
                     .then(message => {
-                        msgBalance = message.message_id;
+                        currentBot.msgID = message.message_id;
                     })
                 else tgBot.editMessageText(msg, {
                     chat_id: -4763690917,
