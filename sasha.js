@@ -31,12 +31,12 @@ function runWorker(bot) {
 
         let msgBalance = undefined
         let mu = false
+        const taskQueue = [];
 
         async function processTaskQueue() {
             if (taskQueue.length === 0 || mu) return;
             mu = true;
         
-            const taskQueue = [];
             const task = taskQueue.shift();
             try {
                 const currentBot = bots.find(bot => bot.username === task.username);
