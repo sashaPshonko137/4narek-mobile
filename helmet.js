@@ -51,12 +51,16 @@ const itemPrices = [    {
             "name": "minecraft:mending",
             "lvl": 1
         },
+        {
+            "name": "minecraft:thorns",
+            "lvl": 3
+        }
     ],
-    "priceBuy": 700000,
-    "priceSell": 900000
+    "priceBuy": 1000000,
+    "priceSell": 1200000
 }]
 
-const priceSell = 900000
+const priceSell = 1200000
 
 const minBalance = 20000000
 
