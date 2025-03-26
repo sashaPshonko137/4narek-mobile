@@ -51,10 +51,6 @@ const itemPrices = [    {
             "name": "minecraft:mending",
             "lvl": 1
         },
-        {
-            "name": "minecraft:thorns",
-            "lvl": 3
-        }
     ],
     "priceBuy": 1000000,
     "priceSell": 1200000
