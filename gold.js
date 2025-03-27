@@ -362,6 +362,8 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
+            const msg = {name: 'balance', username: bot.username, balance: balance};
+            parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
                 return
