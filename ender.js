@@ -9,8 +9,8 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 100000
-const priceSell = 150000
+const maxPrice = 130000
+const priceSell = 200000
 
 const minBalance = 5000000
 
@@ -41,7 +41,7 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search gold ingot';
+const ahCommand = '/ah search ender pearl';
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -408,13 +408,13 @@ async function sellItems(bot) {
             // Проверяем слоты продажи
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
-                if (item && item?.name != 'gold_ingot') countPomoi++
+                if (item && item?.name != 'ender_pearl') countPomoi++
 
                 if (!item) {
                     // Ищем элитры для продажи в инвентаре
                     for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
                         const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem?.name !== 'gold_ingot') continue;
+                        if (!invItem || invItem?.name !== 'ender_pearl') continue;
 
                         // Перемещаем предмет в слот продажи
                         try {
@@ -429,7 +429,7 @@ async function sellItems(bot) {
                     }
                 } else {
                     // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item?.name === 'gold_ingot';
+                    items[sellSlot - firstSellSlot] = item?.name === 'ender_pearl';
                 }
             }
 
@@ -526,7 +526,7 @@ async function getBestAHSlot(bot) {
         const slotData = bot.currentWindow?.slots[i];
         if (!slotData) continue;
 
-        if (slotData.name !== 'gold_ingot' || slotData.count != 64) continue;
+        if (slotData.name !== 'ender_pearl' || slotData.count != 16) continue;
         
 
         try {
