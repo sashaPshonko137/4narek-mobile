@@ -13,8 +13,8 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'mudozvon_zvon', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000 },
-    { username: 'sonoxymiron', password: 'ggggg', anarchy: 605, type: 'sharp', inventoryPort: 3001 },
+    { username: 'varuha_pp', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000 },
+    { username: 'trusi_bmw', password: 'ggggg', anarchy: 605, type: 'sharp', inventoryPort: 3001 },
 ];
 
 // Функция для запуска Worker'ов

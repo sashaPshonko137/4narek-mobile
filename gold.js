@@ -276,6 +276,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                   
                     bot.menu = analysisAH
                     await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
+                    break;
 
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);

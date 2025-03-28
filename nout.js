@@ -13,8 +13,9 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'solinezabud', password: 'ggggg', anarchy: 604, type: 'ender', inventoryPort: 3000, balance: undefined, msgID: 0 },
-    { username: 'trahnul_mavra', password: 'ggggg', anarchy: 604, type: 'gold', inventoryPort: 3001, balance: undefined, msgID: 0 },
+    { username: 'don_lazerson', password: 'ggggg', anarchy: 604, type: 'ender', inventoryPort: 3000, balance: undefined, msgID: 0 },
+    { username: 'papa_michail', password: 'ggggg', anarchy: 604, type: 'gold', inventoryPort: 3001, balance: undefined, msgID: 0 },
+    { username: 'deda_serezha', password: 'ggggg', anarchy: 604, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0 },
 ];
 
 // Функция для запуска Worker'ов

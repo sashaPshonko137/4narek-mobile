@@ -9,8 +9,8 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 150000
-const priceSell = 250000
+const maxPrice = 100000
+const priceSell = 150000
 
 const minBalance = 5000000
 
@@ -276,6 +276,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                   
                     bot.menu = analysisAH
                     await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
+                    break;
 
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
