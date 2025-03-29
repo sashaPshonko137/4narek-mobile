@@ -41,7 +41,7 @@ const itemPrices = [    {
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 4
+            "lvl": 5
         },
         {
             "name": "minecraft:sharpness",

@@ -41,7 +41,7 @@ const itemPrices = [    {
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 4
+            "lvl": 5
         },
         {
             "name": "minecraft:sharpness",
@@ -53,10 +53,10 @@ const itemPrices = [    {
         },
     ],
     "priceBuy": 1800000,
-    "priceSell": 2500000
+    "priceSell": 2300000
 }]
 
-const priceSell = 2500000
+const priceSell = 2300000
 
 const minBalance = 20000000
 
