@@ -58,14 +58,10 @@ const itemPrices = [    {
         {
             "name": "vampirism",
             "lvl": 2
-        },
-        {
-            "name": "mending",
-            "lvl": 1
         }
     ],
-    "priceBuy": 4300000,
-    "priceSell": 5500000
+    "priceBuy": 4000000,
+    "priceSell": 5000000
 }]
 
 const priceSell = 5500000

@@ -41,7 +41,7 @@ const itemPrices = [    {
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 5
+            "lvl": 4
         },
         {
             "name": "minecraft:sharpness",
@@ -51,26 +51,14 @@ const itemPrices = [    {
             "name": "minecraft:fire_aspect",
             "lvl": 1
         },
-        {
-            "name": "poison",
-            "lvl": 2
-        },
-        {
-            "name": "vampirism",
-            "lvl": 2
-        },
-        {
-            "name": "mending",
-            "lvl": 1
-        }
     ],
-    "priceBuy": 4300000,
-    "priceSell": 5500000
+    "priceBuy": 1500000,
+    "priceSell": 2000000
 }]
 
-const priceSell = 5500000
+const priceSell = 2000000
 
-const minBalance = 35000000
+const minBalance = 20000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -411,9 +399,9 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay buryi_alert ${balance - minBalance}`)
+                bot.chat(`/pay player2224 ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay buryi_alert ${balance - minBalance}`)
+                bot.chat(`/pay player2224 ${balance - minBalance}`)
             }
             return
         }
@@ -591,22 +579,15 @@ async function getBestAHSlot(bot, itemPrices) {
 
             // Проверка на зачарования после проверки цены
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
-            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
-            
             const itemEnchants = enchantments.map(enchant => ({
                 name: enchant.id?.value,
                 lvl: enchant.lvl?.value
             }));
-            
-            const customItemEnchants = customEnchantments.map(enchant => ({
-                name: enchant.type?.value,
-                lvl: enchant.level?.value
-            }));
-            
-            const allItemEnchants = [...itemEnchants, ...customItemEnchants];
+
+            if (itemEnchants.some(en => en.name === 'minecraft:mending')) continue
 
             const missingEnchants = itemPrice.effects?.filter(required => 
-                !allItemEnchants.some(actual => 
+                !itemEnchants.some(actual => 
                     actual.name === required.name && actual.lvl >= required.lvl
                 )
             ) || [];
@@ -621,7 +602,6 @@ async function getBestAHSlot(bot, itemPrices) {
 
     return undefined;
 }
-
 
 
 

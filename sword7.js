@@ -51,12 +51,16 @@ const itemPrices = [    {
             "name": "minecraft:fire_aspect",
             "lvl": 1
         },
+        {
+            "name": "minecraft:mending",
+            "lvl": 1
+        },
     ],
-    "priceBuy": 1500000,
-    "priceSell": 2000000
+    "priceBuy": 1800000,
+    "priceSell": 2300000
 }]
 
-const priceSell = 2000000
+const priceSell = 2300000
 
 const minBalance = 20000000
 
