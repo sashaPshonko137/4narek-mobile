@@ -399,9 +399,9 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay player2226 ${balance - minBalance}`)
+                bot.chat(`/pay buryi_alert ${balance - minBalance}`)
                 await delay(500)
-                bot.chat(`/pay player2226 ${balance - minBalance}`)
+                bot.chat(`/pay buryi_alert ${balance - minBalance}`)
             }
             return
         }
