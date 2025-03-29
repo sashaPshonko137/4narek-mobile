@@ -152,52 +152,19 @@
   null,
   null,
   {
-    "type": 740,
-    "count": 64,
+    "type": 648,
+    "count": 8,
     "metadata": 0,
     "nbt": null,
     "stackId": null,
-    "name": "cooked_beef",
-    "displayName": "Steak",
+    "name": "cooked_porkchop",
+    "displayName": "Cooked Porkchop",
     "stackSize": 64,
     "slot": 36
   },
   null,
   null,
-  {
-    "type": 848,
-    "count": 1,
-    "metadata": 0,
-    "nbt": {
-      "type": "compound",
-      "name": "",
-      "value": {
-        "StoredEnchantments": {
-          "type": "list",
-          "value": {
-            "type": "compound",
-            "value": [
-              {
-                "id": {
-                  "type": "string",
-                  "value": "minecraft:unbreaking"
-                },
-                "lvl": {
-                  "type": "short",
-                  "value": 5
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "stackId": null,
-    "name": "enchanted_book",
-    "displayName": "Enchanted Book",
-    "stackSize": 1,
-    "slot": 39
-  },
+  null,
   null,
   null,
   null,
