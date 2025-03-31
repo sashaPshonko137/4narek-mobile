@@ -9,8 +9,8 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 80000
-const priceSell = 150000
+const maxPrice = 200000
+const priceSell = 400000
 
 const minBalance = 5000000
 
@@ -276,11 +276,12 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                   
                     bot.menu = analysisAH
                     await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
+                    break;
 
             case myItems:
-                bot.timeActive = Date.now();
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = setAH;
+                bot.timeReset = Date.now()
 
                 await safeClick(bot, 52, getRandomDelayInRange(700, 1300))
 
@@ -362,6 +363,8 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
+            const msg = {name: 'balance', username: bot.username, balance: balance};
+            parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
                 return

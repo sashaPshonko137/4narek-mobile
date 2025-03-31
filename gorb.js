@@ -7,14 +7,15 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const token = '7593493670:AAEobzNu91yulqlgUbqLKBdPXzToRtv5VKQ';
+const token = '7433279544:AAHvzIEUz1AGfgWmPdHZZH1VQ0wwAdDtY5M';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'shaltai_glotai', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000 },
-    { username: 'trusishki_bmw', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3001 },
+    { username: 'likebayan_2', password: 'ggggg', anarchy: 505, type: 'chorus', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'oxxxymatvei', password: 'ggggg', anarchy: 505, type: 'carrot', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'deda_gnida', password: 'ggggg', anarchy: 505, type: 'boots', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 
 // Функция для запуска Worker'ов
@@ -29,10 +30,24 @@ function runWorker(bot) {
         });
 
         worker.on('message', (message) => {
-            console.log(message);
+            if (message.name === 'balance') {
+                const currentBot = bots.find(bot => bot.username === message.username);
+                currentBot.balance = message.balance;
+                let msg = 'Баланс'
+                msg += `\n${message.username}: ${Math.floor(message.balance/1000000)}кк`
+                if (!currentBot.msgID) tgBot.sendMessage(-4763690917, msg)
+                    .then(message => {
+                        currentBot.msgID = message.message_id;
+                    })
+                else tgBot.editMessageText(msg, {
+                    chat_id: -4763690917,
+                    message_id: currentBot.msgID
+                })
+
+                return
+            }
             tgBot.sendMessage(-4763690917, message);
         });
-
         worker.on('error', (error) => {
             console.error(`Worker error: ${error}`);
             reject(error);
