@@ -284,8 +284,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }
-                                    bot.menu = buy;
-                                    await safeClick(bot, slotToBuy, 0);
+                                    await safeClickBuy(bot, slotToBuy, 0);
     
                                     break;
                             }
@@ -695,4 +694,13 @@ async function walk(bot) {
 
     bot.autoEat.disableAuto()
 
+}
+
+async function safeClickBuy(bot, slot, time) {
+    await delay(time);
+
+    if (bot.currentWindow) {
+        bot.timeActive = Date.now();
+        await bot.clickWindow(slot, leftMouseButton, 1);
+    }
 }

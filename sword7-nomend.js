@@ -283,8 +283,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                     } else {
                                         await delay(getRandomDelayInRange(2000, 4000));
                                     }
-                                    bot.menu = buy;
-                                    await safeClick(bot, slotToBuy, 0);
+                                    await safeClickBuy(bot, slotToBuy, 0);
+
     
                                     break;
                             }
@@ -703,4 +703,21 @@ async function walk(bot) {
 
     bot.autoEat.disableAuto()
 
+}
+
+async function calculateMargin() {
+    const { elytras, trash } = this.analyzeInventory();
+    this.cnt_item_inventory = elytras.length;
+
+    // Отклонение заполненности от целевого значения
+    const fillDeviation = (this.cnt_item_inventory / this.maxInventory) - this.targetFill;
+
+    const adjustmentFactor = Math.abs(fillDeviation) ** (1 / this.dampeningFactor); 
+
+    // Корректировка маржи
+    this.dynamicMargin = Math.max(this.minMargin, Math.min(this.maxMargin, 
+        (this.dynamicMargin) + (fillDeviation * this.sensitivity * 100 * adjustmentFactor)
+    ));
+
+    console.log(`${this.bot.username} - Маржа: ${this.dynamicMargin.toFixed(2)}%, Заполненность: ${(this.cnt_item_inventory / this.maxInventory * 100).toFixed(2)}%`);
 }
