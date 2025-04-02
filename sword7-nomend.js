@@ -618,13 +618,15 @@ async function getBestAHSlot(bot, itemPrices) {
 
             if (missingEnchants.length > 0) continue;
 
-            if (bot.prices.length < 20) {
-                bot.prices.push(price);
-              } else {
-                // Если массив полон, удаляем первый элемент и добавляем новый в конец
-                bot.prices.shift(); // Убираем первый элемент
-                bot.prices.push(price); // Добавляем новый элемент в конец
-              }
+            if (countItems < 11 && countItems > 3) {
+                if (bot.prices.length < 20) {
+                    bot.prices.push(price);
+                  } else {
+                    // Если массив полон, удаляем первый элемент и добавляем новый в конец
+                    bot.prices.shift(); // Убираем первый элемент
+                    bot.prices.push(price); // Добавляем новый элемент в конец
+                  }
+            }
 
             return slotData.slot;
         } catch (error) {
