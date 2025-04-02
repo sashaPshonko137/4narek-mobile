@@ -56,11 +56,11 @@ const itemPrices = [    {
             "lvl": 3
         }
     ],
-    "priceBuy": 1000000,
-    "priceSell": 1300000
+    "priceBuy": 1500000,
+    "priceSell": 1800000
 }]
 
-const priceSell = 1300000
+const priceSell = 1800000
 
 const minBalance = 20000000
 
@@ -115,6 +115,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.timeActive = Date.now();
         bot.inventoryFull = false;
         bot.timeLogin = Date.now()
+        bot.prices = []
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
         bot.chat(loginCommand);
@@ -572,23 +573,39 @@ async function getBestAHSlot(bot, itemPrices) {
         const name = slotData.name;
         if (itemPrice.name !== name) continue;
 
-        let durabilityLeft = 0;
-        if (slotData.maxDurability) {
-            const damage = slotData.nbt?.value?.Damage?.value || 0;
-            durabilityLeft = slotData.maxDurability - damage;
-            if (durabilityLeft < slotData.maxDurability * 0.6) continue;
-        } else {
-            continue;
-        }
+        if (itemPrice.durabilityLeft && itemPrice.durabilityLeft > durabilityLeft) continue;
 
         try {
             const price = await getBuyPrice(slotData);
             if (!price) continue;
 
-            const count = slotData.count;
-            const priceToSell = itemPrice.priceBuy * count;
+            let countItems = 0
+            for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
+                const item = bot.inventory.slots[sellSlot];
+                if (item && item?.name === 'netherite_chestplate') countItems++
+            }
+            let bestPrice = 0
+            if (countItems < 3) {
+                bestPrice = priceSell-200000
+            } else if (countItems < 11 || bot.prices.length === 0) {
+                bestPrice = itemPrice.priceBuy
+            } else {
+                let sortedPrices = [...bot.prices].sort((a, b) => a - b);
 
-            if (price >= priceToSell) continue;
+                const length = sortedPrices.length;
+              
+                // Если количество элементов нечетное, медианой будет средний элемент
+                if (length % 2 !== 0) {
+                  bestPrice = sortedPrices[Math.floor(length / 2)];
+                } else {
+                  // Если количество элементов четное, медианой будет среднее значение двух центральных элементов
+                  const mid1 = sortedPrices[length / 2 - 1];
+                  const mid2 = sortedPrices[length / 2];
+                  bestPrice = (mid1 + mid2) / 2;
+                }
+              }
+
+            if (price > bestPrice) continue;
 
             // Проверка на зачарования после проверки цены
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
@@ -604,6 +621,13 @@ async function getBestAHSlot(bot, itemPrices) {
             ) || [];
 
             if (missingEnchants.length > 0) continue;
+            if (bot.prices.length < 20) {
+                bot.prices.push(price);
+              } else {
+                // Если массив полон, удаляем первый элемент и добавляем новый в конец
+                bot.prices.shift(); // Убираем первый элемент
+                bot.prices.push(price); // Добавляем новый элемент в конец
+              }
 
             return slotData.slot;
         } catch (error) {
