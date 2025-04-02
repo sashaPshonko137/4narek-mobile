@@ -580,7 +580,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 if (item && item?.name === 'netherite_sword') countItems++
             }
             let bestPrice = 0
-            if (countItems < 3) {
+            if (countItems < 4) {
                 bestPrice = priceSell-200000
             } else if (countItems < 11 || bot.prices.length === 0) {
                 bestPrice = itemPrice.priceBuy
