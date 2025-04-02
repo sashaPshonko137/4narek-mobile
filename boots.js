@@ -106,12 +106,13 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.mu = false;
         bot.startTime = Date.now() - 240000;
         bot.ahFull = false;
-        bot.timeReset = Date.now();
+        bot.timeReset = Date.now() - 60000; 
         bot.login = true;
         bot.timeActive = Date.now();
         bot.inventoryFull = false;
         bot.timeLogin = Date.now()
         bot.prices = []
+        bot.count = 0;
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
         bot.chat(loginCommand);
@@ -304,6 +305,10 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
+                bot.count = 0
+                for (let i = 0; i < 3; i++) {
+                    if (bot.currentWindow?.slots[i]) bot.count++
+                }
                 bot.menu = setAH;
                 bot.timeReset = Date.now()
 
@@ -337,11 +342,13 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
+            bot.count--
             await sellItems(bot)
             return
         }
         if (messageText.includes('выставлен на продажу!')) {
             bot.inventoryFull = false
+            bot.count++
             return
         }
         if (messageText.includes('Не так быстро..')) {
@@ -560,7 +567,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 if (item && item?.name === 'netherite_boots') countItems++
             }
             let bestPrice = 0
-            if (countItems < 4) {
+            if (bot.count + countItems < 4) {
                 bestPrice = priceSell-200000
             } else if (countItems < 11 || bot.prices.length === 0) {
                 bestPrice = itemPrice.priceBuy
@@ -596,7 +603,7 @@ async function getBestAHSlot(bot, itemPrices) {
             ) || [];
 
             if (missingEnchants.length > 0) continue;
-            if (countItems < 11 && countItems > 3) {
+            if (countItems < 11 && bot.count + countItems > 3) {
                 if (bot.prices.length < 20) {
                     bot.prices.push(price);
                   } else {
