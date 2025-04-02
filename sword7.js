@@ -598,17 +598,17 @@ async function getBestAHSlot(bot, itemPrices) {
             } else {
                 let sortedPrices = [...bot.prices].sort((a, b) => a - b);
 
-                const length = sortedPrices.length;
-              
-                // Если количество элементов нечетное, медианой будет средний элемент
-                if (length % 2 !== 0) {
-                  bestPrice = sortedPrices[Math.floor(length / 2)];
-                } else {
-                  // Если количество элементов четное, медианой будет среднее значение двух центральных элементов
-                  const mid1 = sortedPrices[length / 2 - 1];
-                  const mid2 = sortedPrices[length / 2];
-                  bestPrice = (mid1 + mid2) / 2;
-                }
+const length = sortedPrices.length;
+
+// Если массив не пустой
+if (length > 0) {
+    // Индекс, который находится на 25% от длины массива
+    const index = Math.floor(length * 0.25);
+
+    // Получаем цену, соответствующую этому индексу
+    bestPrice = sortedPrices[index];
+}
+
               }
 
             if (price > bestPrice) continue;
