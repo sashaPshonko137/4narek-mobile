@@ -108,6 +108,19 @@ async function restartBots() {
     }
 }
 
+async function startBots() {
+    const botPromises = bots.map((bot) => runWorker(bot));
+
+    try {
+        const results = await Promise.all(botPromises);
+        console.log('All bots finished:', results);
+    } catch (error) {
+        console.error('Error in bot execution:', error);
+    }
+}
+
+
+
 // Обработка команд Telegram
 tgBot.onText(/\/stopbots/, async (msg) => {
     const chatId = msg.chat.id;
