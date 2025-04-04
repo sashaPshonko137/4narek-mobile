@@ -122,18 +122,36 @@ async function startBots() {
 
 
 // Обработка команд Telegram
-tgBot.onText(/\/stopbots/, async (msg) => {
+tgBot.onText(/\/update/, async (msg) => {
     const chatId = msg.chat.id;
     try {
         await stopWorkers(); // Останавливаем воркеров
-        tgBot.sendMessage(chatId, 'Боты остановлены, выполняется git pull...');
         
         const pullResult = await gitPull(); // Выполняем git pull
         tgBot.sendMessage(chatId, `Git pull выполнен:\n${pullResult}`);
 
         tgBot.sendMessage(chatId, 'Перезапуск ботов...');
         await restartBots(); // Перезапускаем ботов
-        tgBot.sendMessage(chatId, 'Боты снова запущены!');
+    } catch (error) {
+        tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
+    }
+});
+
+tgBot.onText(/\/start/, async (msg) => {
+    const chatId = msg.chat.id;
+    try {
+        tgBot.sendMessage(chatId, 'Перезапуск ботов...');
+        await restartBots(); // Перезапускаем ботов
+    } catch (error) {
+        tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
+    }
+});
+
+tgBot.onText(/\/stop/, async (msg) => {
+    const chatId = msg.chat.id;
+    try {
+        await stopWorkers(); // Останавливаем воркеров
+
     } catch (error) {
         tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
     }

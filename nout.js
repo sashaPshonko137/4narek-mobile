@@ -19,6 +19,10 @@ const bots = [
 ];
 
 // Функция для запуска Worker'ов
+// Массив для хранения ссылок на воркеров
+let workers = [];
+
+// Функция для запуска Worker'ов
 function runWorker(bot) {
     return new Promise((resolve, reject) => {
         // Строим путь к скрипту для конкретного типа бота
@@ -28,6 +32,8 @@ function runWorker(bot) {
         const worker = new Worker(workerScriptPath, {
             workerData: bot // Передаем данные бота в worker
         });
+
+        workers.push(worker); // Добавляем воркер в массив
 
         worker.on('message', (message) => {
             if (message.name === 'balance') {
@@ -43,7 +49,6 @@ function runWorker(bot) {
                     chat_id: -4763690917,
                     message_id: currentBot.msgID
                 })
-
                 return
             }
             tgBot.sendMessage(-4763690917, message);
@@ -65,7 +70,44 @@ function runWorker(bot) {
     });
 }
 
-// Запускаем все Workers параллельно
+// Функция для остановки всех воркеров
+function stopWorkers() {
+    return new Promise((resolve, reject) => {
+        try {
+            workers.forEach(worker => worker.terminate()); // Завершаем все воркеры
+            workers = []; // Очищаем массив воркеров
+            resolve('All workers stopped');
+        } catch (error) {
+            reject('Error stopping workers: ' + error);
+        }
+    });
+}
+
+// Функция для выполнения git pull
+function gitPull() {
+    return new Promise((resolve, reject) => {
+        exec('git pull', (err, stdout, stderr) => {
+            if (err) {
+                reject(`Error executing git pull: ${stderr}`);
+            } else {
+                resolve(stdout);
+            }
+        });
+    });
+}
+
+// Функция для перезапуска ботов
+async function restartBots() {
+    const botPromises = bots.map((bot) => runWorker(bot));
+
+    try {
+        const results = await Promise.all(botPromises);
+        console.log('All bots finished:', results);
+    } catch (error) {
+        console.error('Error in bot execution:', error);
+    }
+}
+
 async function startBots() {
     const botPromises = bots.map((bot) => runWorker(bot));
 
@@ -77,4 +119,22 @@ async function startBots() {
     }
 }
 
-startBots();
+
+
+// Обработка команд Telegram
+tgBot.onText(/\/update/, async (msg) => {
+    const chatId = msg.chat.id;
+    try {
+        await stopWorkers(); // Останавливаем воркеров
+        
+        const pullResult = await gitPull(); // Выполняем git pull
+        tgBot.sendMessage(chatId, `Git pull выполнен:\n${pullResult}`);
+
+        tgBot.sendMessage(chatId, 'Перезапуск ботов...');
+        await restartBots(); // Перезапускаем ботов
+    } catch (error) {
+        tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
+    }
+});
+
+startBots(); // Изначальный запуск ботов
