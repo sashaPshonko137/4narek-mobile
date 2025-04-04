@@ -376,6 +376,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
+            let count = 0
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
                 if (bot.inventory[i] && bot.inventory[i].name === 'enchanted_book') count++
             }
