@@ -76,7 +76,7 @@ function runWorker(bot) {
             tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
             bot.isRunning = false;
             if (code !== 0 && !bot.isManualStop) {
-                runWorker(bot);
+                // runWorker(bot);
             }
             if (code !== 0) {
                 reject(new Error(`Worker stopped with exit code ${code}`));
@@ -103,7 +103,7 @@ function gitPull() {
     return new Promise((resolve, reject) => {
         exec('git pull', (err, stdout, stderr) => {
             if (err) {
-                reject(`Error executing git pull: ${stderr}`);
+                reject(`Error executing git pull:`);
             } else {
                 resolve(stdout);
             }

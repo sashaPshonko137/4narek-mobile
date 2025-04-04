@@ -75,7 +75,7 @@ function runWorker(bot) {
             tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
             bot.isRunning = false;
             if (code !== 0 && !bot.isManualStop) {
-                runWorker(bot);
+                // runWorker(bot);
             }
             if (code !== 0) {
                 reject(new Error(`Worker stopped with exit code ${code}`));
@@ -137,7 +137,7 @@ tgBot.onText(/\/update/, async (msg) => {
         await stopWorkers();
         
         const pullResult = await gitPull();
-        tgBot.sendMessage(alertChatID, `Git pull выполнен:\n${pullResult}`);
+        tgBot.sendMessage(alertChatID, `Git pull выполнен`);
 
         await restartBots();
     } catch (error) {
