@@ -365,7 +365,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             const balance = parseInt(balanceStr);
             let count = 0
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
-                if (bot.inventory[i] && bot.inventory[i].name === 'golden_carrot') count++
+                if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'golden_carrot') count++
             }
             const msg = {name: 'balance', username: bot.username, balance: balance, count: count};
             parentPort.postMessage(msg);

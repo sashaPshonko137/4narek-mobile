@@ -378,7 +378,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             const balance = parseInt(balanceStr);
             let count = 0
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
-                if (bot.inventory[i] && bot.inventory[i].name === 'enchanted_book') count++
+                if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'enchanted_book') count++
             }
             const msg = {name: 'balance', username: bot.username, balance: balance, count: count};
             parentPort.postMessage(msg);
