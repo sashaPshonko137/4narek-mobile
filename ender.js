@@ -74,7 +74,6 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
         version: '1.16.5',
     });
 
-    inventoryViewer(bot, {port: inventoryPort});
 
 
     const loginCommand = `/l ${name}`;

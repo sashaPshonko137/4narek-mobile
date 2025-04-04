@@ -96,7 +96,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         version: '1.16.5',
     });
 
-    inventoryViewer(bot, {port: inventoryPort});
 
 
     const loginCommand = `/l ${name}`;
@@ -106,6 +105,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     console.warn = () => {};
 
     bot.once('spawn', async () => {
+        const msg = `${bot.username} запущен!` 
+        parentPort.postMessage(msg); 
         bot.loadPlugin(autoEat)
         bot.mu = false;
         bot.startTime = Date.now() - 240000;
