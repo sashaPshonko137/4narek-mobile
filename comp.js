@@ -14,44 +14,51 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'shaltai_glotai', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000 },
-    { username: 'trusishki_bmw', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3001 },
+    { username: 'shaltai_glotai', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000, msgID: 0, msgTime: null, isRunning: false, isManualStop: false  },
+    { username: 'trusishki_bmw', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3001, msgID: 0, msgTime: null, isRunning: false, isManualStop: false  },
 ];
 
-// Массив для хранения ссылок на воркеров
 let workers = [];
 
-// Функция для запуска Worker'ов
 function runWorker(bot) {
     return new Promise((resolve, reject) => {
-        // Строим путь к скрипту для конкретного типа бота
         const workerScriptPath = join(__dirname, `${bot.type}.js`);
 
-        // Запускаем worker с переданным типом и данными бота
         const worker = new Worker(workerScriptPath, {
-            workerData: bot // Передаем данные бота в worker
+            workerData: bot
         });
 
-        bot.isRunning = true; // Устанавливаем флаг, что бот работает
-        bot.isManualStop = false; // Убираем флаг, если бот был остановлен вручную
+        bot.isRunning = true;
+        bot.isManualStop = false;
 
-        workers.push(worker); // Добавляем воркер в массив
+        workers.push(worker);
 
         worker.on('message', (message) => {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
                 currentBot.balance = message.balance;
-                let msg = 'Баланс'
-                msg += `\n${message.username}: ${Math.floor(message.balance / 1000000)}кк`
-                if (!currentBot.msgID) tgBot.sendMessage(-4763690917, msg)
-                    .then(message => {
+                let msg = 'Баланс';
+                msg += `\n${message.username}: ${Math.floor(message.balance / 1000000)}кк`;
+                
+                // Проверяем, прошло ли больше 2-х дней с момента последнего сообщения
+                const now = new Date();
+                const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
+                
+                if (!currentBot.msgTime || currentBot.msgTime < twoDaysAgo) {
+                    tgBot.sendMessage(-4763690917, msg).then(message => {
+                        if (currentBot.msgID) {
+                            tgBot.deleteMessage(-4763690917, currentBot.msgID).catch(err => console.error('Error deleting message:', err));
+                        }
                         currentBot.msgID = message.message_id;
-                    })
-                else tgBot.editMessageText(msg, {
-                    chat_id: -4763690917,
-                    message_id: currentBot.msgID
-                })
-                return
+                        currentBot.msgTime = new Date(); // Обновляем время отправки
+                    });
+                } else {
+                    tgBot.editMessageText(msg, {
+                        chat_id: -4763690917,
+                        message_id: currentBot.msgID
+                    });
+                }
+                return;
             }
             tgBot.sendMessage(-4763690917, message);
         });
@@ -62,10 +69,10 @@ function runWorker(bot) {
         });
 
         worker.on('exit', (code) => {
-            bot.isRunning = false;  // Устанавливаем флаг, что бот завершился
-            if (code !== 0 && !bot.isManualStop) {  // Если бот вырубился по ошибке и не был остановлен вручную
+            bot.isRunning = false;
+            if (code !== 0 && !bot.isManualStop) {
                 tgBot.sendMessage(-4763690917, `${bot.username} вырубился, перезапуск...`);
-                runWorker(bot); // Перезапускаем бота
+                runWorker(bot);
             }
             tgBot.sendMessage(-4763690917, `@sasha_pshonko\n${bot.username} вырубился`);
             if (code !== 0) {
@@ -77,14 +84,11 @@ function runWorker(bot) {
     });
 }
 
-
-// Функция для остановки всех воркеров
-// Функция для остановки всех воркеров
 function stopWorkers() {
     return new Promise((resolve, reject) => {
         try {
-            workers.forEach(worker => worker.terminate()); // Завершаем все воркеры
-            workers = []; // Очищаем массив воркеров
+            workers.forEach(worker => worker.terminate());
+            workers = [];
             resolve('All workers stopped');
         } catch (error) {
             reject('Error stopping workers: ' + error);
@@ -92,8 +96,6 @@ function stopWorkers() {
     });
 }
 
-
-// Функция для выполнения git pull
 function gitPull() {
     return new Promise((resolve, reject) => {
         exec('git pull', (err, stdout, stderr) => {
@@ -106,7 +108,6 @@ function gitPull() {
     });
 }
 
-// Функция для перезапуска ботов
 async function restartBots() {
     const botPromises = bots.map((bot) => runWorker(bot));
 
@@ -129,19 +130,15 @@ async function startBots() {
     }
 }
 
-
-
-// Обработка команд Telegram
 tgBot.onText(/\/update/, async (msg) => {
     const chatId = msg.chat.id;
     try {
-        await stopWorkers(); // Останавливаем воркеров
+        await stopWorkers();
         
-        const pullResult = await gitPull(); // Выполняем git pull
+        const pullResult = await gitPull();
         tgBot.sendMessage(chatId, `Git pull выполнен:\n${pullResult}`);
 
-        tgBot.sendMessage(chatId, 'Перезапуск ботов...');
-        await restartBots(); // Перезапускаем ботов
+        await restartBots();
     } catch (error) {
         tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
     }
@@ -150,8 +147,8 @@ tgBot.onText(/\/update/, async (msg) => {
 tgBot.onText(/\/start/, async (msg) => {
     const chatId = msg.chat.id;
     try {
-        tgBot.sendMessage(chatId, 'Перезапуск ботов...');
-        await restartBots(); // Перезапускаем ботов
+        tgBot.sendMessage(chatId, 'Перезапуск ботов');
+        await restartBots();
     } catch (error) {
         tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
     }
@@ -160,17 +157,12 @@ tgBot.onText(/\/start/, async (msg) => {
 tgBot.onText(/\/stop/, async (msg) => {
     const chatId = msg.chat.id;
     try {
-        // Останавливаем воркеров
-        await stopWorkers(); 
-
-        // Помечаем всех ботов как остановленных вручную
+        await stopWorkers();
         bots.forEach(bot => bot.isManualStop = true);
 
-        tgBot.sendMessage(chatId, 'Все боты были остановлены вручную.');
     } catch (error) {
         tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
     }
 });
 
-
-startBots(); // Изначальный запуск ботов
+startBots();
