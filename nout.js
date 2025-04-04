@@ -8,6 +8,9 @@ import { exec } from 'child_process'; // Для выполнения коман�
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const infoChatID = -4709535234
+const alertChatID = -4763690917
+
 const token = '7443919586:AAG3S5k1dAkR-kIW66p-EubIgv22mogdi58';
 
 const tgBot = new TelegramBot(token, { polling: true });

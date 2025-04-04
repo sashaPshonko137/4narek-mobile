@@ -10,6 +10,9 @@ const __dirname = dirname(__filename);
 
 const token = '7446293384:AAHdrkMzwWlvyYcaohQL7zc_Q-MLQw_F1eo';
 
+const infoChatID = -4709535234
+const alertChatID = -4763690917
+
 const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами

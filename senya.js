@@ -11,6 +11,9 @@ const token = '7962335030:AAEUDaIgCO0po9GFDlFBmwveBmTwX1Gh_sw';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
+const infoChatID = -4709535234
+const alertChatID = -4763690917
+
 // Массив с ботами
 const bots = [
     { username: 'golovogolovyi', password: 'ggggg', anarchy: 603, type: 'helmet', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
