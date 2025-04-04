@@ -42,8 +42,7 @@ function runWorker(bot) {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
                 currentBot.balance = message.balance;
-                let msg = 'Баланс';
-                msg += `\n${message.username}: ${Math.floor(message.balance / 1000000)}кк`;
+                let msg = `\n${message.username}: ${Math.floor(message.balance / 1000000)}кк, ${message.count}шт`;
                 
                 // Проверяем, прошло ли больше 2-х дней с момента последнего сообщения
                 const now = new Date();

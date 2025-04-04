@@ -404,7 +404,10 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-            const msg = {name: 'balance', username: bot.username, balance: balance};
+            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
+                if (bot.inventory[i] && bot.inventory[i].name === 'netherite_chestplate') count++
+            }
+            const msg = {name: 'balance', username: bot.username, balance: balance, count: count};
             parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
