@@ -84,6 +84,8 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
     console.warn = () => {};
 
     bot.once('spawn', async () => {
+        const msg = `${bot.username} запущен!` 
+        parentPort.postMessage(msg);
         bot.loadPlugin(autoEat)
         bot.mu = false;
         bot.startTime = Date.now() - 240000;

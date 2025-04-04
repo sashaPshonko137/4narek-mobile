@@ -10,6 +10,9 @@ const __dirname = dirname(__filename);
 
 const token = '7593493670:AAEobzNu91yulqlgUbqLKBdPXzToRtv5VKQ';
 
+const infoChatID = -4709535234
+const alertChatID = -4763690917
+
 const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
@@ -45,22 +48,22 @@ function runWorker(bot) {
                 const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
                 
                 if (!currentBot.msgTime || currentBot.msgTime < twoDaysAgo) {
-                    tgBot.sendMessage(-4763690917, msg).then(message => {
+                    tgBot.sendMessage(infoChatID, msg).then(message => {
                         if (currentBot.msgID) {
-                            tgBot.deleteMessage(-4763690917, currentBot.msgID).catch(err => console.error('Error deleting message:', err));
+                            tgBot.deleteMessage(infoChatID, currentBot.msgID).catch(err => console.error('Error deleting message:', err));
                         }
                         currentBot.msgID = message.message_id;
                         currentBot.msgTime = new Date(); // Обновляем время отправки
                     });
                 } else {
                     tgBot.editMessageText(msg, {
-                        chat_id: -4763690917,
+                        chat_id: infoChatID,
                         message_id: currentBot.msgID
                     });
                 }
                 return;
             }
-            tgBot.sendMessage(-4763690917, message);
+            tgBot.sendMessage(alertChatID, message);
         });
 
         worker.on('error', (error) => {
@@ -69,12 +72,11 @@ function runWorker(bot) {
         });
 
         worker.on('exit', (code) => {
+            tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
             bot.isRunning = false;
             if (code !== 0 && !bot.isManualStop) {
-                tgBot.sendMessage(-4763690917, `${bot.username} вырубился, перезапуск...`);
                 runWorker(bot);
             }
-            tgBot.sendMessage(-4763690917, `@sasha_pshonko\n${bot.username} вырубился`);
             if (code !== 0) {
                 reject(new Error(`Worker stopped with exit code ${code}`));
             } else {
@@ -131,37 +133,35 @@ async function startBots() {
 }
 
 tgBot.onText(/\/update/, async (msg) => {
-    const chatId = msg.chat.id;
     try {
         await stopWorkers();
         
         const pullResult = await gitPull();
-        tgBot.sendMessage(chatId, `Git pull выполнен:\n${pullResult}`);
+        tgBot.sendMessage(alertChatID, `Git pull выполнен:\n${pullResult}`);
 
         await restartBots();
     } catch (error) {
-        tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
+        tgBot.sendMessage(alertChatID, `Произошла ошибка: ${error.message}`);
     }
 });
 
 tgBot.onText(/\/start/, async (msg) => {
-    const chatId = msg.chat.id;
     try {
-        tgBot.sendMessage(chatId, 'Перезапуск ботов');
+        tgBot.sendMessage(alertChatID, 'Перезапуск ботов');
         await restartBots();
     } catch (error) {
-        tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
+        tgBot.sendMessage(alertChatID, `Произошла ошибка: ${error.message}`);
     }
 });
 
 tgBot.onText(/\/stop/, async (msg) => {
-    const chatId = msg.chat.id;
     try {
+        tgBot.sendMessage(alertChatID, 'Остановка ботов');
         await stopWorkers();
         bots.forEach(bot => bot.isManualStop = true);
 
     } catch (error) {
-        tgBot.sendMessage(chatId, `Произошла ошибка: ${error.message}`);
+        tgBot.sendMessage(alertChatID, `Произошла ошибка: ${error.message}`);
     }
 });
 
