@@ -21,6 +21,7 @@ const bots = [
     { username: 'don_pteranodon', password: 'ggggg', anarchy: 603, type: 'leggins', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
 ];
 
+// Массив для хранения ссылок на воркеров
 let workers = [];
 
 function runWorker(bot) {
@@ -101,7 +102,7 @@ function gitPull() {
     return new Promise((resolve, reject) => {
         exec('git pull', (err, stdout, stderr) => {
             if (err) {
-                reject(`Error executing git pull: ${stderr}`);
+                reject(`Error executing git pull:`);
             } else {
                 resolve(stdout);
             }
@@ -132,6 +133,13 @@ async function startBots() {
 }
 
 tgBot.onText(/\/update/, async (msg) => {
+    const now = new Date().getTime() / 1000; // Время в секундах
+
+    // Проверяем, сколько времени прошло с момента отправки сообщения
+    const messageTime = msg.date;
+    if (now - messageTime > 10) {
+        return; // Если прошло больше 10 секунд, прекращаем выполнение
+    }
     try {
         await stopWorkers();
         
@@ -145,6 +153,13 @@ tgBot.onText(/\/update/, async (msg) => {
 });
 
 tgBot.onText(/\/start/, async (msg) => {
+    const now = new Date().getTime() / 1000; // Время в секундах
+
+    // Проверяем, сколько времени прошло с момента отправки сообщения
+    const messageTime = msg.date;
+    if (now - messageTime > 10) {
+        return; // Если прошло больше 10 секунд, прекращаем выполнение
+    }
     try {
         tgBot.sendMessage(alertChatID, 'Перезапуск ботов');
         await restartBots();
@@ -154,6 +169,14 @@ tgBot.onText(/\/start/, async (msg) => {
 });
 
 tgBot.onText(/\/stop/, async (msg) => {
+    const now = new Date().getTime() / 1000; // Время в секундах
+
+    // Проверяем, сколько времени прошло с момента отправки сообщения
+    const messageTime = msg.date;
+    if (now - messageTime > 10) {
+        return; // Если прошло больше 10 секунд, прекращаем выполнение
+    }
+    
     try {
         tgBot.sendMessage(alertChatID, 'Остановка ботов');
         await stopWorkers();
