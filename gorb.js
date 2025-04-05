@@ -17,8 +17,8 @@ const alertChatID = -4763690917
 
 // Массив с ботами
 const bots = [
-    { username: 'likebayan_2', password: 'ggggg', anarchy: 505, type: 'chorus', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'oxxxymatvei', password: 'ggggg', anarchy: 505, type: 'carrot', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'likebayan_2', password: 'ggggg', anarchy: 505, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'oxxxymatvei', password: 'ggggg', anarchy: 505, type: 'sword6', inventoryPort: 3001, balance: 0, msgID: 0 },
     { username: 'deda_gnida', password: 'ggggg', anarchy: 505, type: 'boots', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 
