@@ -114,6 +114,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.timeLogin = Date.now()
         bot.prices = []
         bot.count = 0
+        bot.netakbistro = true
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
@@ -274,20 +275,21 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 case undefined:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 4000));
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
     
                                     break;
                                 default:
-                                    if (slotToBuy < 18) {
-                                        if (Math.random() < 0.7) {
-                                            await delay(getRandomDelayInRange(500, 1200));
-                                        } else {
-                                            await delay(getRandomDelayInRange(2000, 4000));
-                                        }
+                                    if (bot.netakbistro) {
+                                        bot.netakbistro = false;
+                                        await delay(getRandomDelayInRange(1100, 1100));
+                                        await safeClickBuy(bot, slotToBuy, 0);
+                                    } else if (slotToBuy < 18) {
+                                        await delay(getRandomDelayInRange(100, 150));
+                                        await safeClickBuy(bot, slotToBuy, 0);
                                     } else {
-                                        await delay(getRandomDelayInRange(2000, 4000));
+                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
                                     }
-                                    await safeClickBuy(bot, slotToBuy, 0);
+                                    
 
     
                                     break;
@@ -538,6 +540,7 @@ async function safeClick(bot, slot, time) {
 
 async function safeAH(bot) {
     if (bot.mu) return
+    bot.netakbistro = true
     let key = bot.key;
     bot.timeActive = Date.now();
     bot.menu = analysisAH
