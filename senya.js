@@ -225,21 +225,24 @@ async function updateBotStats(username, incomingBalance, incomingCount) {
     const shouldReset = currentHour >= 20 || (user && user.time !== currentDateStr);
 
     if (!user) {
+        // Если пользователь не найден, создаем его с текущими данными
         user = {
             username,
-            balance: incomingBalance,
-            count: incomingCount,
-            time: currentDateStr // Устанавливаем актуальное время
+            balance: incomingBalance, // Устанавливаем начальный баланс
+            count: incomingCount,     // Устанавливаем количество
+            time: currentDateStr      // Устанавливаем актуальное время
         };
         data.push(user);
     } else {
         if (shouldReset) {
-            user.balance = incomingBalance;
-            user.count = incomingCount;
-            user.time = currentDateStr; // Обновляем время при сбросе
+            // Если нужно сбросить данные, обновляем только баланс и дату
+            user.balance = incomingBalance;  // Сбрасываем баланс на новое значение
+            user.count = incomingCount;      // Перезаписываем количество
+            user.time = currentDateStr;      // Обновляем дату
         } else {
-            user.balance += incomingBalance;
-            user.count = incomingCount;
+            // Если сброс не нужен, добавляем баланс, а количество перезаписываем
+            user.balance += incomingBalance;  // Добавляем новый баланс к старому
+            user.count = incomingCount;       // Перезаписываем количество
         }
     }
 
