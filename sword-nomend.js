@@ -406,13 +406,14 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
                 if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_sword') count++
             }
-            const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
-            parentPort.postMessage(msg);
+
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
                 return
             }
             if (balance - minBalance >= 1000000) {
+                const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
+                parentPort.postMessage(msg);
                 await delay(500)
                 bot.chat(`/clan invest ${balance - minBalance}`)
             }

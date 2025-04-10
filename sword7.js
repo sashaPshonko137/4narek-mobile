@@ -417,6 +417,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 return
             }
             if (balance - minBalance >= 1000000) {
+                const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
+                parentPort.postMessage(msg);
                 await delay(500)
                 bot.chat(`/clan invest ${balance - minBalance}`)
             }
