@@ -625,15 +625,22 @@ if (length > 0) {
 
             // Проверка на зачарования после проверки цены
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
+            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
+            
             const itemEnchants = enchantments.map(enchant => ({
                 name: enchant.id?.value,
                 lvl: enchant.lvl?.value
             }));
-
-            if (itemEnchants.some(en => en.name === 'minecraft:mending')) continue
+            
+            const customItemEnchants = customEnchantments.map(enchant => ({
+                name: enchant.type?.value,
+                lvl: enchant.level?.value
+            }));
+            
+            const allItemEnchants = [...itemEnchants, ...customItemEnchants];
 
             const missingEnchants = itemPrice.effects?.filter(required => 
-                !itemEnchants.some(actual => 
+                !allItemEnchants.some(actual => 
                     actual.name === required.name && actual.lvl >= required.lvl
                 )
             ) || [];
