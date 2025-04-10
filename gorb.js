@@ -44,14 +44,18 @@ function runWorker(bot) {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
                 if (!currentBot) return;
-
+        
+                // Обновляем статистику бота
                 await updateBotStats(message.username, message.balance, message.count);
-
-                let msg = `\n${message.username}: ${Math.floor(message.balance / 1000000)}кк, ${message.count}шт`;
-
+        
+                // Находим обновленного пользователя в массиве data
+                const updatedUser = await getUserData(message.username);
+        
+                let msg = `\n${message.username}: ${Math.floor(updatedUser.balance / 1000000)}кк, ${updatedUser.count}шт`;
+        
                 const now = new Date();
                 const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
-
+        
                 if (!currentBot.msgTime || currentBot.msgTime < twoDaysAgo) {
                     tgBot.sendMessage(infoChatID, msg).then(sentMessage => {
                         if (currentBot.msgID) {
@@ -250,4 +254,20 @@ async function updateBotStats(username, incomingBalance, incomingCount) {
     } catch (error) {
         console.error('Ошибка при записи data.json:', error.message);
     }
+}
+
+async function getUserData(username) {
+    let data = [];
+
+    try {
+        if (existsSync(dataPath)) {
+            const content = await readFile(dataPath, 'utf8');
+            data = JSON.parse(content || '[]');
+        }
+    } catch (error) {
+        console.error('Ошибка при чтении или парсинге data.json:', error.message);
+        data = [];
+    }
+
+    return data.find(u => u.username === username);
 }
