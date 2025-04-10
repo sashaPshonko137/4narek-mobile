@@ -93,6 +93,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     });
 
 
+
     const loginCommand = `/l ${name}`;
     const anarchyCommand = `/an${anarchy}`;
     const shopCommand = '/shop';
@@ -106,13 +107,15 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.mu = false;
         bot.startTime = Date.now() - 240000;
         bot.ahFull = false;
-        bot.timeReset = Date.now() - 60000; 
+        bot.timeReset = Date.now() - 60000;
         bot.login = true;
         bot.timeActive = Date.now();
         bot.inventoryFull = false;
         bot.timeLogin = Date.now()
         bot.prices = []
-        bot.count = 0;
+        bot.count = 0
+        bot.netakbistro = true
+        
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
         bot.chat(loginCommand);
@@ -168,7 +171,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 break;
 
             case setSectionFood:
-                fs.writeFile('nether.json', JSON.stringify(bot.inventory.slots, null, 2), null)
                 
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = sectionFood;
@@ -273,20 +275,22 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 case undefined:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 4000));
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
     
                                     break;
                                 default:
-                                    if (slotToBuy < 18) {
-                                        if (Math.random() < 0.7) {
-                                            await delay(getRandomDelayInRange(500, 1200));
-                                        } else {
-                                            await delay(getRandomDelayInRange(2000, 4000));
-                                        }
+                                    if (bot.netakbistro) {
+                                        bot.netakbistro = false;
+                                        await delay(getRandomDelayInRange(1100, 1100));
+                                        await safeClickBuy(bot, slotToBuy, 0);
+                                    } else if (slotToBuy < 18) {
+                                        await delay(getRandomDelayInRange(100, 150));
+                                        await safeClickBuy(bot, slotToBuy, 0);
                                     } else {
-                                        await delay(getRandomDelayInRange(2000, 4000));
+                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
                                     }
-                                    await safeClickBuy(bot, slotToBuy, 0);
+                                    
+
     
                                     break;
                             }
@@ -402,7 +406,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
                 if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_boots') count++
             }
-            const msg = {name: 'balance', username: bot.username, balance: balance, count: count};
+            const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
             parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
@@ -410,9 +414,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay player2228 ${balance - minBalance}`)
-                await delay(500)
-                bot.chat(`/pay player2228 ${balance - minBalance}`)
+                bot.chat(`/clan invest ${balance - minBalance}`)
             }
             return
         }
@@ -536,6 +538,7 @@ async function safeClick(bot, slot, time) {
 
 async function safeAH(bot) {
     if (bot.mu) return
+    bot.netakbistro = true
     let key = bot.key;
     bot.timeActive = Date.now();
     bot.menu = analysisAH
@@ -543,6 +546,17 @@ async function safeAH(bot) {
         bot.chat(ahCommand);
         await delay(1000);
     }
+}
+
+function inventoryFull(bot) {
+    for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
+        const slot = bot.inventory.slots[i];
+        if (!slot) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 async function getBestAHSlot(bot, itemPrices) {
@@ -559,7 +573,14 @@ async function getBestAHSlot(bot, itemPrices) {
         const name = slotData.name;
         if (itemPrice.name !== name) continue;
 
-        if (itemPrice.durabilityLeft && itemPrice.durabilityLeft > durabilityLeft) continue;
+        let durabilityLeft = 0;
+        if (slotData.maxDurability) {
+            const damage = slotData.nbt?.value?.Damage?.value || 0;
+            durabilityLeft = slotData.maxDurability - damage;
+            if (durabilityLeft < slotData.maxDurability * 0.6) continue;
+        } else {
+            continue;
+        }
 
         try {
             const price = await getBuyPrice(slotData);
@@ -578,16 +599,17 @@ async function getBestAHSlot(bot, itemPrices) {
             } else {
                 let sortedPrices = [...bot.prices].sort((a, b) => a - b);
 
-                const length = sortedPrices.length;
-                
-                // Если массив не пустой
-                if (length > 0) {
-                    // Индекс, который находится на 25% от длины массива
-                    const index = Math.floor(length * 0.25);
-                
-                    // Получаем цену, соответствующую этому индексу
-                    bestPrice = sortedPrices[index];
-                }
+const length = sortedPrices.length;
+
+// Если массив не пустой
+if (length > 0) {
+    // Индекс, который находится на 25% от длины массива
+    const index = Math.floor(length * 0.25);
+
+    // Получаем цену, соответствующую этому индексу
+    bestPrice = sortedPrices[index];
+}
+
               }
 
             if (price > bestPrice) continue;
@@ -599,6 +621,8 @@ async function getBestAHSlot(bot, itemPrices) {
                 lvl: enchant.lvl?.value
             }));
 
+            if (itemEnchants.some(en => en.name === 'minecraft:mending')) continue
+
             const missingEnchants = itemPrice.effects?.filter(required => 
                 !itemEnchants.some(actual => 
                     actual.name === required.name && actual.lvl >= required.lvl
@@ -606,6 +630,7 @@ async function getBestAHSlot(bot, itemPrices) {
             ) || [];
 
             if (missingEnchants.length > 0) continue;
+
             if (countItems < 11 && bot.count + countItems > 3) {
                 if (bot.prices.length < 20) {
                     bot.prices.push(price);

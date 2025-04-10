@@ -118,7 +118,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.timeLogin = Date.now()
         bot.prices = []
         bot.count = 0
-
+        bot.netakbistro = true
+        
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
         bot.chat(loginCommand);
@@ -174,7 +175,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 break;
 
             case setSectionFood:
-                fs.writeFile('nether.json', JSON.stringify(bot.inventory.slots, null, 2), null)
                 
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = sectionFood;
@@ -279,20 +279,21 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 case undefined:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 4000));
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
     
                                     break;
                                 default:
-                                    if (slotToBuy < 18) {
-                                        if (Math.random() < 0.7) {
-                                            await delay(getRandomDelayInRange(500, 1200));
-                                        } else {
-                                            await delay(getRandomDelayInRange(2000, 4000));
-                                        }
+                                    if (bot.netakbistro) {
+                                        bot.netakbistro = false;
+                                        await delay(getRandomDelayInRange(1100, 1100));
+                                        await safeClickBuy(bot, slotToBuy, 0);
+                                    } else if (slotToBuy < 18) {
+                                        await delay(getRandomDelayInRange(100, 150));
+                                        await safeClickBuy(bot, slotToBuy, 0);
                                     } else {
-                                        await delay(getRandomDelayInRange(2000, 4000));
+                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
                                     }
-                                    await safeClickBuy(bot, slotToBuy, 0);
+                                    
 
     
                                     break;
@@ -409,7 +410,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
                 if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_sword') count++
             }
-            const msg = {name: 'balance', username: bot.username, balance: balance, count: count};
+            const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
             parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
@@ -417,9 +418,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay player2229 ${balance - minBalance}`)
-                await delay(500)
-                bot.chat(`/pay player2229 ${balance - minBalance}`)
+                bot.chat(`/clan invest ${balance - minBalance}`)
             }
             return
         }
@@ -543,6 +542,7 @@ async function safeClick(bot, slot, time) {
 
 async function safeAH(bot) {
     if (bot.mu) return
+    bot.netakbistro = true
     let key = bot.key;
     bot.timeActive = Date.now();
     bot.menu = analysisAH
@@ -624,6 +624,8 @@ if (length > 0) {
                 name: enchant.id?.value,
                 lvl: enchant.lvl?.value
             }));
+
+            if (itemEnchants.some(en => en.name === 'minecraft:mending')) continue
 
             const missingEnchants = itemPrice.effects?.filter(required => 
                 !itemEnchants.some(actual => 

@@ -1,8 +1,10 @@
 import { Worker } from 'worker_threads';
+import { readFile, writeFile } from 'fs/promises';
+import { existsSync } from 'fs';
 import { join, dirname } from 'path';
-import TelegramBot from 'node-telegram-bot-api';
 import { fileURLToPath } from 'url';
-import { exec } from 'child_process';
+import TelegramBot from 'node-telegram-bot-api';
+import { exec } from 'child_process'; // Для выполнения команд в терминале
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -37,33 +39,37 @@ function runWorker(bot) {
 
         workers.push(worker);
 
-        worker.on('message', (message) => {
+        worker.on('message', async (message) => {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
-                currentBot.balance = message.balance;
+                if (!currentBot) return;
+
+                await updateBotStats(message.username, message.balance, message.count);
+
                 let msg = `\n${message.username}: ${Math.floor(message.balance / 1000000)}кк, ${message.count}шт`;
-                
-                // Проверяем, прошло ли больше 2-х дней с момента последнего сообщения
+
                 const now = new Date();
                 const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
-                
+
                 if (!currentBot.msgTime || currentBot.msgTime < twoDaysAgo) {
-                    tgBot.sendMessage(infoChatID, msg).then(message => {
+                    tgBot.sendMessage(infoChatID, msg).then(sentMessage => {
                         if (currentBot.msgID) {
-                            tgBot.deleteMessage(infoChatID, currentBot.msgID).catch(err => console.error('Error deleting message:', err));
+                            tgBot.deleteMessage(infoChatID, currentBot.msgID).catch(err => console.error('Ошибка удаления старого сообщения:', err));
                         }
-                        currentBot.msgID = message.message_id;
-                        currentBot.msgTime = new Date(); // Обновляем время отправки
+                        currentBot.msgID = sentMessage.message_id;
+                        currentBot.msgTime = new Date(); // Обновляем время
                     });
                 } else {
                     tgBot.editMessageText(msg, {
                         chat_id: infoChatID,
                         message_id: currentBot.msgID
+                    }).catch(err => {
+                        console.error('Ошибка редактирования сообщения:', err.message);
                     });
                 }
-                return;
+            } else {
+                tgBot.sendMessage(alertChatID, message);
             }
-            tgBot.sendMessage(alertChatID, message);
         });
 
         worker.on('error', (error) => {
@@ -102,7 +108,7 @@ function gitPull() {
     return new Promise((resolve, reject) => {
         exec('git pull', (err, stdout, stderr) => {
             if (err) {
-                reject(`Error executing git pull:`);
+                reject(`Error executing git pull: ${stderr}`);
             } else {
                 resolve(stdout);
             }
@@ -142,7 +148,7 @@ tgBot.onText(/\/update/, async (msg) => {
     }
     try {
         await stopWorkers();
-        
+
         const pullResult = await gitPull();
         tgBot.sendMessage(alertChatID, `Git pull выполнен:\n${pullResult}`);
 
@@ -176,15 +182,70 @@ tgBot.onText(/\/stop/, async (msg) => {
     if (now - messageTime > 10) {
         return; // Если прошло больше 10 секунд, прекращаем выполнение
     }
-    
+
     try {
         tgBot.sendMessage(alertChatID, 'Остановка ботов');
         await stopWorkers();
         bots.forEach(bot => bot.isManualStop = true);
-
     } catch (error) {
         tgBot.sendMessage(alertChatID, `Произошла ошибка: ${error.message}`);
     }
 });
 
 startBots();
+
+const dataPath = join(__dirname, 'data.json');
+
+
+async function updateBotStats(username, incomingBalance, incomingCount) {
+    const MSK_OFFSET = -3;
+    const nowUTC = new Date();
+    const nowMSK = new Date(nowUTC.getTime() + MSK_OFFSET * 60 * 60 * 1000);
+    const currentDateStr = nowMSK.toISOString().split('T')[0];
+    const currentHour = nowMSK.getHours();
+
+    let data = [];
+
+    try {
+        if (existsSync(dataPath)) {
+            const content = await readFile(dataPath, 'utf8');
+            data = JSON.parse(content || '[]');
+        }
+    } catch (error) {
+        console.error('Ошибка при чтении или парсинге data.json:', error.message);
+        data = [];
+    }
+
+    let user = data.find(u => u.username === username);
+
+    // Логируем текущие данные
+    console.log(`currentDateStr: ${currentDateStr}, user.time: ${user ? user.time : 'none'}`);
+
+    // Измененная логика сброса
+    const shouldReset = currentHour >= 20 || (user && user.time !== currentDateStr);
+
+    if (!user) {
+        user = {
+            username,
+            balance: incomingBalance,
+            count: incomingCount,
+            time: currentDateStr // Устанавливаем актуальное время
+        };
+        data.push(user);
+    } else {
+        if (shouldReset) {
+            user.balance = incomingBalance;
+            user.count = incomingCount;
+            user.time = currentDateStr; // Обновляем время при сбросе
+        } else {
+            user.balance += incomingBalance;
+            user.count = incomingCount;
+        }
+    }
+
+    try {
+        await writeFile(dataPath, JSON.stringify(data, null, 2), 'utf8');
+    } catch (error) {
+        console.error('Ошибка при записи data.json:', error.message);
+    }
+}

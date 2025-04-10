@@ -1,6 +1,5 @@
 import fs from 'fs/promises';
 import mineflayer from 'mineflayer';
-import inventoryViewer from 'mineflayer-web-inventory';
 import { createLogger, transports, format } from 'winston';
 import { workerData, parentPort } from 'worker_threads';
 import { loader as autoEat } from 'mineflayer-auto-eat'
@@ -406,7 +405,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
                 if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_sword') count++
             }
-            const msg = {name: 'balance', username: bot.username, balance: balance, count: count};
+            const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
             parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
@@ -414,9 +413,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             if (balance - minBalance >= 1000000) {
                 await delay(500)
-                bot.chat(`/pay player2224 ${balance - minBalance}`)
-                await delay(500)
-                bot.chat(`/pay player2224 ${balance - minBalance}`)
+                bot.chat(`/clan invest ${balance - minBalance}`)
             }
             return
         }
