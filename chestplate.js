@@ -626,7 +626,6 @@ if (length > 0) {
                 lvl: enchant.lvl?.value
             }));
 
-            if (itemEnchants.some(en => en.name === 'minecraft:mending')) continue
 
             const missingEnchants = itemPrice.effects?.filter(required => 
                 !itemEnchants.some(actual => 
