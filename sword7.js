@@ -57,10 +57,10 @@ const itemPrices = [    {
         },
     ],
     "priceBuy": 2500000,
-    "priceSell": 3000000
+    "priceSell": 3300000
 }]
 
-const priceSell = 3000000
+const priceSell = 3300000
 
 const minBalance = 20000000
 
@@ -410,8 +410,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
                 if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_sword') count++
             }
-            const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
-            parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
                 return
