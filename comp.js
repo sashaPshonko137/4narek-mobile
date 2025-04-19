@@ -18,8 +18,8 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'shaltai_glotai', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'trusishki_bmw', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3001, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'shaltai_chocopie', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'bmw__trusy', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3001, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
 ];
 
 // Массив для хранения ссылок на воркеров
