@@ -9,7 +9,7 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 120000
+const maxPrice = 100000
 const priceSell = 250000
 
 const minBalance = 5000000
@@ -372,7 +372,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                 logger.error('баланс NAN')
                 return
             }
-              if (balance - minBalance >= 1000000) {
+              if (balance - minBalance >= 10000000) {
                   const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
                   parentPort.postMessage(msg);
                   await delay(500)

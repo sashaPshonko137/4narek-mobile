@@ -19,7 +19,7 @@ const alertChatID = -4763690917
 // Массив с ботами
 const bots = [
     { username: 'Sonox_tw', password: 'ggggg', anarchy: 603, type: 'chestplate', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    // { username: 'belyash_kyslui', password: 'ggggg', anarchy: 603, type: 'chestplate', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: '3ushka66', password: 'ggggg', anarchy: 603, type: 'chorus', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
     // { username: 'krasnyi_alert', password: 'ggggg', anarchy: 603, type: 'leggins', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
 ];
 
