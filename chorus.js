@@ -9,8 +9,8 @@ const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
 
-const maxPrice = 150000
-const priceSell = 300000
+const maxPrice = 120000
+const priceSell = 250000
 
 const minBalance = 5000000
 
@@ -368,18 +368,16 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
                 if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'chorus_fruit') count++
             }
-            const msg = {name: 'balance', username: bot.username, balance: balance, count: count};
-            parentPort.postMessage(msg);
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
                 return
             }
-            if (balance - minBalance >= 1000000) {
-                await delay(500)
-                bot.chat(`/pay player2227 ${balance - minBalance}`)
-                await delay(500)
-                bot.chat(`/pay player2227 ${balance - minBalance}`)
-            }
+              if (balance - minBalance >= 1000000) {
+                  const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
+                  parentPort.postMessage(msg);
+                  await delay(500)
+                  bot.chat(`/clan invest ${balance - minBalance}`)
+              }
             return
         }
     })

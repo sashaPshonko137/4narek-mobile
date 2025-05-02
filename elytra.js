@@ -5,13 +5,10 @@ import { createLogger, transports, format } from 'winston';
 import { workerData, parentPort } from 'worker_threads';
 import { loader as autoEat } from 'mineflayer-auto-eat'
 
+
 const minDelay = 500;
 const AHDelay = 2000;
 const loadingDelay = 100;
-const minBalance = 22000000
-
-const maxPrice = 500000
-const priceSell = 600000
 
 const chooseBuying = 'Выбор скупки ресурсов';
 const setSectionFarmer = 'Установка секции "фермер"';
@@ -33,9 +30,23 @@ const slotToLeaveSection = 3;
 const slotToSetSectionFood = 21;
 const slotToSetSectionResources = 23;
 const slotToSetSectionLoot = 31;
+const slotToTuneAH = 52;
 const slotToReloadAH = 49;
+const slotToTryBuying = 0;
 
 const ahCommand = '/ah search elytra';
+
+const itemPrices = [    {
+    "name": "elytra",
+    "effects": [
+    ],
+    "priceBuy": 400000,
+    "priceSell": 600000
+}]
+
+const priceSell = 600000
+
+const minBalance = 20000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -59,7 +70,8 @@ const logger = createLogger({
     ]
 });
 
-async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
+
+async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     const bot = mineflayer.createBot({
         host: 'mc.funtime.su',
         port: 25565,
@@ -68,11 +80,6 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
         version: '1.16.5',
     });
 
-    bot.inventory = {
-        slots: new Array(45).fill(null)
-    }
-
-    inventoryViewer(bot, {port: inventoryPort});
 
 
     const loginCommand = `/l ${name}`;
@@ -80,6 +87,33 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
     const shopCommand = '/shop';
 
     console.warn = () => {};
+
+    bot.once('spawn', async () => {
+        const msg = `${bot.username} запущен!` 
+        parentPort.postMessage(msg);
+        bot.loadPlugin(autoEat)
+        bot.mu = false;
+        bot.startTime = Date.now() - 240000;
+        bot.ahFull = false;
+        bot.timeReset = Date.now() - 60000;
+        bot.login = true;
+        bot.timeActive = Date.now();
+        bot.inventoryFull = false;
+        bot.timeLogin = Date.now()
+        bot.prices = []
+        bot.count = 0
+        bot.netakbistro = true
+        
+        logger.info(`${name} успешно проник на сервер.`);
+        await delay(minDelay);
+        bot.chat(loginCommand);
+
+        await delay(minDelay);
+        bot.chat(anarchyCommand);
+
+        await delay(minDelay);
+        bot.chat(shopCommand);
+    });
 
     bot.on('physicsTick', async () => {
         if (Date.now() - bot.timeActive > 90000) {
@@ -90,31 +124,12 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
         }
     })
 
-    bot.once('spawn', async () => {
-        bot.loadPlugin(autoEat)
-        bot.mu = false;
-        bot.startTime = Date.now() - 240000;
-        bot.ahFull = false;
-        bot.timeReset = Date.now();
-        bot.login = true;
-        bot.timeActive = Date.now();
-        logger.info(`${name} успешно проник на сервер.`);
-        await delay(minDelay);
-        bot.chat(loginCommand);
-        bot.timeLogin = Date.now()
-        bot.inventoryFull = false;
-        bot.reported = false
-
-        await delay(minDelay);
-        bot.chat(anarchyCommand);
-
-        await delay(minDelay);
-        bot.chat(shopCommand);
-    });
-
     bot.menu = chooseBuying;
 
     let slotToBuy = undefined;
+
+    bot.startTime = Date.now() - 240000;
+
 
     bot.on('windowOpen', async () => {
         switch (bot.menu) {
@@ -144,6 +159,7 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                 break;
 
             case setSectionFood:
+                
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = sectionFood;
 
@@ -160,7 +176,6 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                 break;
 
             case setSectionResources:
-                bot.timeActive = Date.now();
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = sectionResources;
 
@@ -193,17 +208,18 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                 break;
 
             case sectionLoot:
-                bot.timeActive = Date.now();
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = analysisAH;
                 await delay(5000);
                 bot.closeWindow(bot.currentWindow);
                 await delay(500);
-                while(Date.now() - bot.timeLogin < 13000) await delay(1000)
+
+                while (Date.now() - bot.timeLogin < 13000) {
+                    await delay(1000)
+                }
                 await safeAH(bot);
 
                 break;
-
 
                 case analysisAH:
                     bot.timeActive = Date.now();
@@ -241,28 +257,28 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
     
                         case false:
                             logger.info(`${name} - поиск лучшего предмета`);
-                            slotToBuy = await getBestAHSlot(bot);
+                            slotToBuy = await getBestAHSlot(bot, itemPrices);
     
                             switch (slotToBuy) {
                                 case undefined:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 4000));
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
     
                                     break;
                                 default:
-                                    logger.info(`${name} - найден: ${slotToBuy}`);
-                                    if (slotToBuy < 18) {
-                                        if (Math.random() < 0.7) {
-                                            await delay(getRandomDelayInRange(500, 1200));
-                                        } else {
-                                            await delay(getRandomDelayInRange(2000, 4000));
-                                        }
+                                    if (bot.netakbistro) {
+                                        bot.netakbistro = false;
+                                        await delay(getRandomDelayInRange(1100, 1100));
+                                        await safeClickBuy(bot, slotToBuy, 0);
+                                    } else if (slotToBuy < 18) {
+                                        await delay(getRandomDelayInRange(100, 150));
+                                        await safeClickBuy(bot, slotToBuy, 0);
                                     } else {
-                                        await delay(getRandomDelayInRange(2000, 4000));
+                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
                                     }
-                                    bot.menu = buy;
-                                    await safeClick(bot, slotToBuy, 0);
+                                    
+
     
                                     break;
                             }
@@ -275,23 +291,26 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
                         logger.info(`${name} - ${bot.menu}`);
                       
                         bot.menu = analysisAH
-
                         await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
-    
+        
+                        break;
+
             case myItems:
-                bot.timeActive = Date.now();
                 logger.info(`${name} - ${bot.menu}`);
+                bot.count = 0
+                for (let i = 0; i < 3; i++) {
+                    if (bot.currentWindow?.slots[i]) bot.count++
+                }
                 bot.menu = setAH;
+                bot.timeReset = Date.now()
 
                 await safeClick(bot, 52, getRandomDelayInRange(700, 1300))
 
                 break;
 
             case setAH:
-                bot.timeActive = Date.now();
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = analysisAH;
-                bot.timeReset = Date.now();
 
                 await safeClick(bot, 46, getRandomDelayInRange(700, 1300))
 
@@ -315,11 +334,13 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
+            bot.count--
             await sellItems(bot)
             return
         }
         if (messageText.includes('выставлен на продажу!')) {
             bot.inventoryFull = false
+            bot.count++
             return
         }
         if (messageText.includes('Не так быстро..')) {
@@ -332,11 +353,6 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             await safeAH(bot);
             return
         }
-        
-        if (messageText.includes('[☃] У Вас полный инвентарь и Хранилище!') || messageText.includes('[☃] Инвентарь полон')) {
-            bot.inventoryFull = true;
-            return
-        }
         if (messageText.includes('[☃] Освободите хранилище или уберите предметы с продажи')) {
             bot.ahFull = true;
             return
@@ -344,15 +360,26 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('Добро пожаловать на FunTime.su') && bot.login) {
             logger.info(`${name} - зашел на сервер`);
-            bot.timeLogin = Date.now
             await delay(5000);
+            bot.timeLogin = Date.now()
             bot.chat(anarchyCommand)
 
             bot.ahFull = false;
             bot.mu = true;
             bot.menu = chooseBuying;
+
             await delay(1000);
             bot.chat(shopCommand)
+            return
+        }
+
+        if (messageText.includes('[☃] У Вас полный инвентарь и Хранилище!')) {
+            bot.inventoryFull = true;
+            return
+        }
+
+        if (messageText.includes('выставлен на продажу!')) {
+            bot.inventoryFull = false
             return
         }
 
@@ -363,27 +390,30 @@ async function launchElytraBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-            console.log(`${name} - баланс: ${balanceStr}`)
-            console.log(`${name} - баланс: ${balance}`)
+            let count = 0
+            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
+                if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'elytra') count++
+            }
+
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
                 return
             }
             if (balance - minBalance >= 1000000) {
+                const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
+                parentPort.postMessage(msg);
                 await delay(500)
-                bot.chat(`/pay CHUGAT ${balance - minBalance}`)
-                await delay(500)
-                bot.chat(`/pay CHUGAT ${balance - minBalance}`)
+                bot.chat(`/clan invest ${balance - minBalance}`)
             }
             return
         }
     })
 
+
     // bot.on('end', () => {
     //     logger.error(`${name} спалился!`);
     // })
 }
-
 async function sellItems(bot) {
     if (bot.mu) {
         if (bot.mu) {
@@ -419,7 +449,6 @@ async function sellItems(bot) {
 
                         // Перемещаем предмет в слот продажи
                         try {
-                            await delay(300)
                             await bot.moveSlotItem(invSlot, sellSlot);
                             items[sellSlot - firstSellSlot] = true;  // Обновляем флаг в массиве по индексу слота продажи
                             await delay(getRandomDelayInRange(1000, 1500));
@@ -434,13 +463,12 @@ async function sellItems(bot) {
                     items[sellSlot - firstSellSlot] = item?.name === 'elytra';
                 }
             }
+
             if (countPomoi > 4 && !bot.reported) {
                 const msg = `@sasha_pshonko\nу ${bot.username} насрано!` 
                 parentPort.postMessage(msg);
                 bot.reported = true
             }
-
-            console.log(items)
 
             for (let i = 0; i < items.length; i++) { // Изменение здесь
                 if (bot.ahFull) {
@@ -466,6 +494,9 @@ async function sellItems(bot) {
 
     logger.info(`${bot.username} - прогулка закончена`);
 
+    await delay(500)
+
+
     bot.startTime = Date.now();
     bot.mu = false;
 
@@ -475,6 +506,10 @@ async function sellItems(bot) {
     bot.menu = analysisAH;  // Устанавливаем правильное меню
     await safeAH(bot);
 
+}
+
+function generateRandomKey(bot) {
+    bot.key = Math.random().toString(36).substring(2, 15);
 }
 
 async function delay(time) {
@@ -490,15 +525,12 @@ async function safeClick(bot, slot, time) {
     }
 }
 
-function generateRandomKey(bot) {
-    bot.key = Math.random().toString(36).substring(2, 15);
-}
-
 async function safeAH(bot) {
     if (bot.mu) return
-    bot.timeActive = Date.now();
+    bot.netakbistro = true
     let key = bot.key;
-    bot.menu = analysisAH;
+    bot.timeActive = Date.now();
+    bot.menu = analysisAH
     while (key === bot.key) {
         bot.chat(ahCommand);
         await delay(1000);
@@ -516,16 +548,20 @@ function inventoryFull(bot) {
     return true;
 }
 
-async function getBestAHSlot(bot) {
+async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) {
         return undefined;
     }
+
+    const itemPrice = itemPrices[0]; // Предполагаем, что массив всегда содержит только один предмет
+
     for (let i = firstAHSlot; i <= lastAHSlot; i++) {
-        const slotData = bot.currentWindow?.slots[i];
+        const slotData = bot.currentWindow.slots[i];
         if (!slotData) continue;
 
-        if (slotData.name !== 'elytra') continue;
-        
+        const name = slotData.name;
+        if (itemPrice.name !== name) continue;
+
         let durabilityLeft = 0;
         if (slotData.maxDurability) {
             const damage = slotData.nbt?.value?.Damage?.value || 0;
@@ -537,16 +573,73 @@ async function getBestAHSlot(bot) {
 
         try {
             const price = await getBuyPrice(slotData);
-            if (!price || price > maxPrice) continue;
+            if (!price) continue;
+
+            let countItems = 0
+            for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
+                const item = bot.inventory.slots[sellSlot];
+                if (item && item?.name === 'elytra') countItems++
+            }
+            let bestPrice = 0
+            if (bot.count + countItems < 4) {
+                bestPrice = priceSell-200000
+            } else if (countItems < 11 || bot.prices.length === 0) {
+                bestPrice = itemPrice.priceBuy
+            } else {
+                let sortedPrices = [...bot.prices].sort((a, b) => a - b);
+
+const length = sortedPrices.length;
+
+// Если массив не пустой
+if (length > 0) {
+    // Индекс, который находится на 25% от длины массива
+    const index = Math.floor(length * 0.25);
+
+    // Получаем цену, соответствующую этому индексу
+    bestPrice = sortedPrices[index];
+}
+
+              }
+
+            if (price > bestPrice) continue;
+
+            // Проверка на зачарования после проверки цены
+            const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
+            const itemEnchants = enchantments.map(enchant => ({
+                name: enchant.id?.value,
+                lvl: enchant.lvl?.value
+            }));
+
+
+            const missingEnchants = itemPrice.effects?.filter(required => 
+                !itemEnchants.some(actual => 
+                    actual.name === required.name && actual.lvl >= required.lvl
+                )
+            ) || [];
+
+            if (missingEnchants.length > 0) continue;
+
+            if (countItems < 11 && bot.count + countItems > 3) {
+                if (bot.prices.length < 20) {
+                    bot.prices.push(price);
+                  } else {
+                    // Если массив полон, удаляем первый элемент и добавляем новый в конец
+                    bot.prices.shift(); // Убираем первый элемент
+                    bot.prices.push(price); // Добавляем новый элемент в конец
+                  }
+            }
 
             return slotData.slot;
         } catch (error) {
             continue;
         }
     }
-    
+
     return undefined;
 }
+
+
+
 
 async function getBuyPrice(slotData) {
     const loreArray = slotData.nbt?.value?.display?.value?.Lore?.value?.value;
@@ -579,8 +672,9 @@ function getRandomDelayInRange(min, max) {
 }
 
 if (workerData) {
-    launchElytraBuyer(workerData.username, workerData.password, workerData.anarchy, workerData.inventoryPort);
+    launchBookBuyer(workerData.username, workerData.password, workerData.anarchy, workerData.inventoryPort);
 }
+
 
 async function longWalk(bot) {
     bot.autoEat.enableAuto()
@@ -645,4 +739,13 @@ async function walk(bot) {
 
     bot.autoEat.disableAuto()
 
+}
+
+async function safeClickBuy(bot, slot, time) {
+    await delay(time);
+
+    if (bot.currentWindow) {
+        bot.timeActive = Date.now();
+        await bot.clickWindow(slot, leftMouseButton, 1);
+    }
 }

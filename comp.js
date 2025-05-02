@@ -19,7 +19,8 @@ const tgBot = new TelegramBot(token, { polling: true });
 // Массив с ботами
 const bots = [
     { username: 'shaltai_chocopie', password: 'ggggg', anarchy: 605, type: 'unbreak', inventoryPort: 3000, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'bmw__trusy', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3001, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'bmw__trusy', password: 'ggggg', anarchy: 605, type: 'chorus', inventoryPort: 3001, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'don___gandon', password: 'ggggg', anarchy: 605, type: 'elytra', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isRunning: false, isManualStop: false  },
 ];
 
 // Массив для хранения ссылок на воркеров
