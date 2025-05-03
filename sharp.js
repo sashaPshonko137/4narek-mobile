@@ -33,9 +33,9 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search книга острота';
+const ahCommand = '/ah search книга прочность';
 
-const itemPrices = [{
+const itemPrices = [    {
     "name": "enchanted_book",
     "effects": [
         {
@@ -43,10 +43,9 @@ const itemPrices = [{
             "lvl": 5
         }
     ],
-    "priceBuy": 70000,
-    "priceSell": 150000
-}
-]
+    "priceBuy": 50000,
+    "priceSell": 300000
+}]
 
 const minBalance = 5000000
 
@@ -82,7 +81,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         version: '1.16.5',
     });
 
-    inventoryViewer(bot, {port: inventoryPort});
 
 
     const loginCommand = `/l ${name}`;
@@ -91,16 +89,9 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
     console.warn = () => {};
 
-    bot.on('physicsTick', async () => {
-        if (Date.now() - bot.timeActive > 90000) {
-            bot.timeActive = Date.now();
-            bot.menu = analysisAH
-            bot.mu = false;
-            await safeAH(bot);
-        }
-    })
-
     bot.once('spawn', async () => {
+        const msg = `${bot.username} запущен!` 
+        parentPort.postMessage(msg);
         bot.loadPlugin(autoEat)
         bot.mu = false;
         bot.startTime = Date.now() - 240000;
@@ -110,6 +101,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.timeActive = Date.now();
         bot.inventoryFull = false;
         bot.timeLogin = Date.now()
+        bot.netakbistro = true
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
         bot.chat(loginCommand);
@@ -120,6 +112,15 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         await delay(minDelay);
         bot.chat(shopCommand);
     });
+
+    bot.on('physicsTick', async () => {
+        if (Date.now() - bot.timeActive > 90000) {
+            bot.timeActive = Date.now();
+            bot.menu = analysisAH
+            bot.mu = false;
+            await safeAH(bot);
+        }
+    })
 
     bot.menu = chooseBuying;
 
@@ -156,6 +157,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 break;
 
             case setSectionFood:
+               
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = sectionFood;
 
@@ -210,7 +212,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 if (bot.currentWindow) bot.closeWindow(bot.currentWindow);
                 await delay(500);
 
-                while (Date.now() - bot.timeLogin < 15000) {
+                while (Date.now() - bot.timeLogin < 13000) {
                     await delay(1000)
                 }
                 await safeAH(bot);
@@ -259,22 +261,21 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 case undefined:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 4000));
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
     
                                     break;
                                 default:
-                                    logger.info(`${name} - найден: ${slotToBuy}`);
-                                    if (slotToBuy < 18) {
-                                        if (Math.random() < 0.7) {
-                                            await delay(getRandomDelayInRange(500, 1200));
-                                        } else {
-                                            await delay(getRandomDelayInRange(2000, 4000));
-                                        }
+                                    if (bot.netakbistro) {
+                                        bot.netakbistro = false;
+                                        await delay(getRandomDelayInRange(1100, 1100));
+                                        await safeClickBuy(bot, slotToBuy, 0);
+                                    } else if (slotToBuy < 18) {
+                                        await delay(getRandomDelayInRange(100, 150));
+                                        await safeClickBuy(bot, slotToBuy, 0);
                                     } else {
-                                        await delay(getRandomDelayInRange(2000, 4000));
+                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
                                     }
-                                    bot.menu = buy;
-                                    await safeClick(bot, slotToBuy, 0);
+
     
                                     break;
                             }
@@ -287,8 +288,9 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                         logger.info(`${name} - ${bot.menu}`);
                       
                         bot.menu = analysisAH
-
                         await safeClick(bot, Math.floor(Math.random() * 3), getRandomDelayInRange(400, 500))
+        
+                        break;
 
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
@@ -350,13 +352,13 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         if (messageText.includes('Добро пожаловать на FunTime.su') && bot.login) {
             logger.info(`${name} - зашел на сервер`);
             await delay(5000);
-            bot.timeLogin = Date.now
-
+            bot.timeLogin = Date.now()
             bot.chat(anarchyCommand)
 
             bot.ahFull = false;
             bot.mu = true;
             bot.menu = chooseBuying;
+
             await delay(1000);
             bot.chat(shopCommand)
             return
@@ -379,21 +381,25 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-            console.log(`${name} - баланс: ${balanceStr}`)
-            console.log(`${name} - баланс: ${balance}`)
-            if (isNaN(balance)) {
-                logger.error('баланс NAN')
-                return
+            let count = 0
+            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
+                if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'enchanted_book') count++
             }
-            if (balance - minBalance >= 1000000) {
-                await delay(500)
-                bot.chat(`/pay player2224 ${balance - minBalance}`)
-                await delay(500)
-                bot.chat(`/pay player2224 ${balance - minBalance}`)
-            }
+
+                        if (isNaN(balance)) {
+                            logger.error('баланс NAN')
+                            return
+                        }
+                        if (balance - minBalance >= 1000000) {
+                            const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
+                            parentPort.postMessage(msg);
+                            await delay(500)
+                            bot.chat(`/clan invest ${balance - minBalance}`)
+                        }
             return
         }
     })
+
 
     // bot.on('end', () => {
     //     logger.error(`${name} спалился!`);
@@ -412,7 +418,7 @@ async function sellItems(bot) {
         bot.closeWindow(bot.currentWindow);
     }
 
-    while (Date.now() - bot.timeLogin < 15000) await delay(1000)
+    while (Date.now() - bot.timeLogin < 13000) await delay(1000)
     if (!bot.ahFull) {
         try {
     
@@ -423,7 +429,6 @@ async function sellItems(bot) {
             for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
                 const item = bot.inventory.slots[sellSlot];
                 if (item && item?.name != 'enchanted_book') countPomoi++
-
                 
                 if (!item) {
                     items.push(0);  // Если слот пустой, добавляем 0
@@ -442,8 +447,8 @@ async function sellItems(bot) {
                                 const enchant = enchantments[j];
                                 if (!enchant?.id?.value) continue;  // Пропускаем если нет id
                                 itemEnchants.push({
-                                    name: enchant?.id?.value || '',
-                                    lvl: enchant?.lvl?.value || 0  // Если нет lvl, используем 0
+                                    name: enchant.id?.value || '',
+                                    lvl: enchant.lvl?.value || 0  // Если нет lvl, используем 0
                                 });
                             }
                         }
@@ -488,8 +493,8 @@ async function sellItems(bot) {
                             const enchant = enchantments[j];
                             if (!enchant?.id?.value) continue;  // Пропускаем если нет id
                             itemEnchants.push({
-                                name: enchant?.id?.value || '', 
-                                lvl: enchant?.lvl?.value || 1  // Если нет lvl, используем 0
+                                name: enchant.id?.value || '', 
+                                lvl: enchant.lvl?.value || 0  // Если нет lvl, используем 0
                             });
                         }
                     }
@@ -513,6 +518,7 @@ async function sellItems(bot) {
                 parentPort.postMessage(msg);
                 bot.reported = true
             }
+
             console.log(items)
     
             for (let i = 0; i <= 8; i++) {
@@ -527,14 +533,6 @@ async function sellItems(bot) {
             logger.error(`Ошибка в sellItems: ${error}`);
         }
     }
- 
-    await delay(500);
-    
-    const walkTime = 15000;
-    const endTime = Date.now() + walkTime;
-    await delay(500)
-
-    logger.info(`${bot.username} - прогулка`);
  
     await delay(500)
     bot.chat('/balance')   
@@ -569,6 +567,7 @@ async function safeClick(bot, slot, time) {
 
 async function safeAH(bot) {
     if (bot.mu) return
+    bot.netakbistro = true
     let key = bot.key;
     bot.timeActive = Date.now();
     bot.menu = analysisAH
@@ -615,8 +614,8 @@ async function getBestAHSlot(bot, itemPrices) {
             for (let j = 0; j < enchantments.length; j++) {
                 const enchant = enchantments[j];
                 const enchantObj = {
-                    name: enchant?.id?.value,
-                    lvl: enchant?.lvl?.value
+                    name: enchant.id?.value,
+                    lvl: enchant.lvl?.value
                 };
                 itemEnchants.push(enchantObj);
             }
@@ -664,7 +663,7 @@ async function getBestAHSlot(bot, itemPrices) {
             const count = slotData.count;
             const priceToSell = priceToSellOne.priceBuy * count;
 
-            if (price <= priceToSell) {
+            if (price < priceToSell) {
                 return slotData.slot;
             }
         } catch (error) {
@@ -774,4 +773,13 @@ async function walk(bot) {
 
     bot.autoEat.disableAuto()
 
+}
+
+async function safeClickBuy(bot, slot, time) {
+    await delay(time);
+
+    if (bot.currentWindow) {
+        bot.timeActive = Date.now();
+        await bot.clickWindow(slot, leftMouseButton, 1);
+    }
 }
