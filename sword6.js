@@ -52,11 +52,11 @@ const itemPrices = [    {
             "lvl": 1
         },
     ],
-    "priceBuy": 1800000,
-    "priceSell": 2400000
+    "priceBuy": 2000000,
+    "priceSell": 2600000
 }]
 
-const priceSell = 2400000
+const priceSell = 2600000
 
 const minBalance = 20000000
 
@@ -416,6 +416,9 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 parentPort.postMessage(msg);
                 await delay(500)
                 bot.chat(`/clan invest ${balance - minBalance}`)
+            } else {
+                const msg = {name: 'balance', username: bot.username, balance: 0, count: count};
+                parentPort.postMessage(msg);
             }
             return
         }
