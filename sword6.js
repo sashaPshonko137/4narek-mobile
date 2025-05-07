@@ -52,11 +52,10 @@ const itemPrices = [    {
             "lvl": 1
         },
     ],
-    "priceBuy": 2000000,
-    "priceSell": 2600000
+    "priceBuy": 2200000,
 }]
 
-const priceSell = 2600000
+const priceSell = 2700000
 
 const minBalance = 20000000
 
