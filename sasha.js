@@ -45,12 +45,12 @@ function runWorker(bot) {
                 if (!currentBot) return;
         
                 // Обновляем статистику бота
-                await updateBotStats(message.username, message.balance, message.count);
+                await updateBotStats(message.username, message.balance, message?.count);
         
                 // Находим обновленного пользователя в массиве data
                 const updatedUser = await getUserData(message.username);
         
-                let msg = `\n${message.username}: ${Math.floor(updatedUser.balance / 1000000)}кк, ${updatedUser.count}шт`;
+                let msg = `\n${message.username}: ${Math.floor(updatedUser?.balance / 1000000)}кк, ${updatedUser?.count}шт`;
         
                 const now = new Date();
                 const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
