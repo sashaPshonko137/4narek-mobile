@@ -54,9 +54,9 @@ const itemPrices = [    {
     "priceBuy": 1500000,
 }]
 
-const priceSell = 2400000
+const priceSell = 1700000
 
-const minBalance = 20000000
+const minBalance = 25000000
 
 const leftMouseButton = 0;
 const noShift = 0;
