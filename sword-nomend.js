@@ -55,7 +55,7 @@ const itemPrices = [    {
     "priceBuy": 1200000,
 }]
 
-const priceSell = 1900000
+const priceSell = 2000000
 
 const minBalance = 20000000
 
