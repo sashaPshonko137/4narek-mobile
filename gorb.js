@@ -19,9 +19,9 @@ const alertChatID = -4763690917
 
 // Массив с ботами
 const bots = [
-    { username: 'gorbatorotiy', password: 'ggggg', anarchy: 505, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'golovogorbatyi', password: 'ggggg', anarchy: 505, type: 'sword6', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'gorbatosoplivyi', password: 'ggggg', anarchy: 505, type: 'sword7-nomend', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'gorbatorotiy', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'golovogorbatyi', password: 'ggggg', anarchy: 605, type: 'sword6', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'gorbatosoplivyi', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 
 // Массив для хранения ссылок на воркеров
