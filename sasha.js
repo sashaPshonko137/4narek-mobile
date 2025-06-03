@@ -86,6 +86,7 @@ function runWorker(bot) {
         });
 
         worker.on('error', (error) => {
+            bot.success = false
             console.error(`Worker error: ${error}`);
             tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
             if (!bot.isManualStop) {
@@ -94,6 +95,7 @@ function runWorker(bot) {
         });
 
         worker.on('exit', (code) => {
+            bot.success = false
             tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
             if (!bot.isManualStop) {
                 runWorker(bot);
