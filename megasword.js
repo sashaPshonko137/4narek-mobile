@@ -353,7 +353,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             return
         }
 
-        if (messageText.includes('сервер заполнен')) {
+        if (messageText.includes('Сервер заполнен')) {
             bot.mu = false;
             bot.startTime = Date.now() - 240000;
             bot.ahFull = false;
