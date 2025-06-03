@@ -39,7 +39,7 @@ function runWorker(bot) {
         workers.push(worker);
         setTimeout(() => {
             if (!bot.success) {
-                workers.find(w => w.workerData.username === bot.username)?.terminate();
+                worker.terminate();
             }
         }, 30000)
         worker.on('message', async (message) => {
