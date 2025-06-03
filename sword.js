@@ -342,6 +342,23 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         const messageText = message.toString();
         console.log(messageText)
 
+        if (messageText.includes('сервер заполнен')) {
+            bot.mu = false
+            bot.startTime = Date.now() - 240000;
+            bot.ahFull = false;
+            bot.timeReset = Date.now() - 60000;
+            bot.login = true;
+            bot.timeActive = Date.now();
+            bot.inventoryFull = false;
+            bot.timeLogin = Date.now()
+            bot.prices = []
+            bot.count = 0
+            bot.netakbistro = true
+
+            await delay(minDelay);
+            bot.chat(anarchyCommand);
+        }
+
         if (messageText.includes('[☃] Вы успешно купили') && !bot.ahFull) {
             await sellItems(bot)
             return

@@ -35,11 +35,9 @@ function runWorker(bot) {
             workerData: bot
         });
 
-        bot.isRunning = true;
         bot.isManualStop = false;
 
         workers.push(worker);
-
         worker.on('message', async (message) => {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
@@ -79,25 +77,25 @@ function runWorker(bot) {
 
         worker.on('error', (error) => {
             console.error(`Worker error: ${error}`);
-            reject(error);
+            tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
+            if (!bot.isManualStop) {
+                runWorker(bot);
+            }
         });
 
         worker.on('exit', (code) => {
             tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
-            bot.isRunning = false;
-            if (code !== 0 && !bot.isManualStop) {
-                // runWorker(bot);
-            }
-            if (code !== 0) {
-                reject(new Error(`Worker stopped with exit code ${code}`));
-            } else {
-                resolve(`${bot.type} bot finished successfully`);
+            if (!bot.isManualStop) {
+                runWorker(bot);
             }
         });
     });
 }
 
 function stopWorkers() {
+    bots.forEach(bot => {
+        bot.isManualStop = true
+    })
     return new Promise((resolve, reject) => {
         try {
             workers.forEach(worker => worker.terminate());
@@ -191,7 +189,6 @@ tgBot.onText(/\/stop/, async (msg) => {
     try {
         tgBot.sendMessage(alertChatID, 'Остановка ботов');
         await stopWorkers();
-        bots.forEach(bot => bot.isManualStop = true);
     } catch (error) {
         tgBot.sendMessage(alertChatID, `Произошла ошибка: ${error.message}`);
     }
@@ -200,6 +197,7 @@ tgBot.onText(/\/stop/, async (msg) => {
 startBots();
 
 const dataPath = join(__dirname, 'data.json');
+
 async function updateBotStats(username, incomingBalance, incomingCount) {
     const MSK_OFFSET = -3;
     const nowUTC = new Date();

@@ -19,9 +19,9 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'don_don__don', password: 'ggggg', anarchy: 602, type: 'sword7', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isRunning: false, isManualStop: false  },
-    { username: 'poedalu_hlop', password: 'ggggg', anarchy: 602, type: 'sword-nomend', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isRunning: false, isManualStop: false  },
-    { username: 'mr_gazonuh', password: 'ggggg', anarchy: 602, type: 'sword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isRunning: false, isManualStop: false   },
+    // { username: 'don_don__don', password: 'ggggg', anarchy: 602, type: 'sword7', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    // { username: 'poedalu_hlop', password: 'ggggg', anarchy: 602, type: 'sword-nomend', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'mr_gazonuh', password: 'ggggg', anarchy: 602, type: 'sword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
 ];
 
 // Массив для хранения ссылок на воркеров
@@ -35,7 +35,6 @@ function runWorker(bot) {
             workerData: bot
         });
 
-        bot.isRunning = true;
         bot.isManualStop = false;
 
         workers.push(worker);
@@ -78,25 +77,25 @@ function runWorker(bot) {
 
         worker.on('error', (error) => {
             console.error(`Worker error: ${error}`);
-            reject(error);
+            tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
+            if (!bot.isManualStop) {
+                runWorker(bot);
+            }
         });
 
         worker.on('exit', (code) => {
             tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
-            bot.isRunning = false;
-            if (code !== 0 && !bot.isManualStop) {
-                // runWorker(bot);
-            }
-            if (code !== 0) {
-                reject(new Error(`Worker stopped with exit code ${code}`));
-            } else {
-                resolve(`${bot.type} bot finished successfully`);
+            if (!bot.isManualStop) {
+                runWorker(bot);
             }
         });
     });
 }
 
 function stopWorkers() {
+    bots.forEach(bot => {
+        bot.isManualStop = true
+    })
     return new Promise((resolve, reject) => {
         try {
             workers.forEach(worker => worker.terminate());
@@ -190,7 +189,6 @@ tgBot.onText(/\/stop/, async (msg) => {
     try {
         tgBot.sendMessage(alertChatID, 'Остановка ботов');
         await stopWorkers();
-        bots.forEach(bot => bot.isManualStop = true);
     } catch (error) {
         tgBot.sendMessage(alertChatID, `Произошла ошибка: ${error.message}`);
     }
