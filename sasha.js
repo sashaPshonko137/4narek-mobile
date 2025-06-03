@@ -19,8 +19,8 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    // { username: 'don_don__don', password: 'ggggg', anarchy: 602, type: 'sword7', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    // { username: 'poedalu_hlop', password: 'ggggg', anarchy: 602, type: 'sword-nomend', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'don_don__don', password: 'ggggg', anarchy: 602, type: 'sword7', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'poedalu_hlop', password: 'ggggg', anarchy: 602, type: 'sword-nomend', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
     { username: 'mr_gazonuh', password: 'ggggg', anarchy: 602, type: 'sword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
 ];
 
@@ -38,6 +38,11 @@ function runWorker(bot) {
         bot.isManualStop = false;
 
         workers.push(worker);
+        setTimeout(() => {
+            if (!bot.success) {
+                workers.find(w => w.workerData.username === bot.username)?.terminate();
+            }
+        }, 30000)
         worker.on('message', async (message) => {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
@@ -69,6 +74,11 @@ function runWorker(bot) {
                     }).catch(err => {
                         console.error('Ошибка редактирования сообщения:', err.message);
                     });
+                }
+            } else if (message.name === 'success') {
+                const botToUpdate = bots.find(bot => bot.username === message.username);
+                if (botToUpdate) {
+                    botToUpdate.success = true;
                 }
             } else {
                 tgBot.sendMessage(alertChatID, message);

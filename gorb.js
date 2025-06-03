@@ -24,7 +24,6 @@ const bots = [
     { username: 'gorbatosoplivyi', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 
-// Массив для хранения ссылок на воркеров
 let workers = [];
 
 function runWorker(bot) {
@@ -38,6 +37,11 @@ function runWorker(bot) {
         bot.isManualStop = false;
 
         workers.push(worker);
+        setTimeout(() => {
+            if (!bot.success) {
+                workers.find(w => w.workerData.username === bot.username)?.terminate();
+            }
+        }, 30000)
         worker.on('message', async (message) => {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
@@ -69,6 +73,11 @@ function runWorker(bot) {
                     }).catch(err => {
                         console.error('Ошибка редактирования сообщения:', err.message);
                     });
+                }
+            } else if (message.name === 'success') {
+                const botToUpdate = bots.find(bot => bot.username === message.username);
+                if (botToUpdate) {
+                    botToUpdate.success = true;
                 }
             } else {
                 tgBot.sendMessage(alertChatID, message);

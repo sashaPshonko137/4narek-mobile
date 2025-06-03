@@ -149,6 +149,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     bot.on('windowOpen', async () => {
         switch (bot.menu) {
             case chooseBuying:
+                                const msg = {name: 'success', username: bot.username};
+                parentPort.postMessage(msg);
                 await delay(3000);
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = setSectionFarmer;
