@@ -448,6 +448,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     // })
 }
 async function sellItems(bot) {
+    const itemPrice = itemPrices[0];
     if (bot.mu) {
         if (bot.mu) {
             await delay(500)
@@ -473,7 +474,7 @@ async function sellItems(bot) {
             for (let i = 0; i < lastInventorySlot; i++) {
                 if (bot.inventory.slots[i]?.name !== 'netherite_sword') {
                     await delay(500)
-                    await bot.tossStack(i)
+                    if (bot.inventory.slots[i]?.name) await bot.tossStack(bot.inventory.slots[i])
                     continue
                 }
                 const slotData = bot.inventory.slots[i]
@@ -491,7 +492,7 @@ async function sellItems(bot) {
 
                 if (missingEnchants.length > 0) {
                     await delay(500)
-                    await bot.tossStack(i)
+                    if (slotData?.name) await bot.tossStack(slotData)
                 }
             }
 
@@ -552,6 +553,7 @@ async function sellItems(bot) {
     await safeAH(bot);
 
 }
+
 
 
 function generateRandomKey(bot) {
