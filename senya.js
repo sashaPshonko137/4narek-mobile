@@ -18,11 +18,12 @@ const alertChatID = -4763690917
 
 // Массив с ботами
 const bots = [
-    { username: 'Sonox_tw', password: 'ggggg', anarchy: 603, type: 'chestplate', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: '3ushka66', password: 'ggggg', anarchy: 603, type: 'chorus', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'king___shiz', password: 'ggggg', anarchy: 603, type: 'sharp', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
+    { username: 'antonaetogoebal', password: 'ggggg', anarchy: 603, type: 'sword7-nomend', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'vot_dosada', password: 'ggggg', anarchy: 603, type: 'sword6', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'king____shiz', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
 ];
 
+// Массив для хранения ссылок на воркеров
 // Массив для хранения ссылок на воркеров
 let workers = [];
 
@@ -34,23 +35,26 @@ function runWorker(bot) {
             workerData: bot
         });
 
-        bot.isRunning = true;
         bot.isManualStop = false;
 
         workers.push(worker);
-
+        setTimeout(() => {
+            if (!bot.success) {
+                worker.terminate();
+            }
+        }, 30000)
         worker.on('message', async (message) => {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
                 if (!currentBot) return;
         
                 // Обновляем статистику бота
-                await updateBotStats(message.username, message.balance, message.count);
+                await updateBotStats(message.username, message.balance, message?.count);
         
                 // Находим обновленного пользователя в массиве data
                 const updatedUser = await getUserData(message.username);
         
-                let msg = `\n${message.username}: ${Math.floor(updatedUser.balance / 1000000)}кк, ${updatedUser?.count}шт`;
+                let msg = `\n${message.username}: ${Math.floor(updatedUser?.balance / 1000000)}кк, ${updatedUser?.count}шт`;
         
                 const now = new Date();
                 const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
@@ -71,32 +75,39 @@ function runWorker(bot) {
                         console.error('Ошибка редактирования сообщения:', err.message);
                     });
                 }
+            } else if (message.name === 'success') {
+                const botToUpdate = bots.find(bot => bot.username === message.username);
+                if (botToUpdate) {
+                    botToUpdate.success = true;
+                }
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }
         });
 
         worker.on('error', (error) => {
+            bot.success = false
             console.error(`Worker error: ${error}`);
-            reject(error);
+            tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
+            if (!bot.isManualStop) {
+                runWorker(bot);
+            }
         });
 
         worker.on('exit', (code) => {
+            bot.success = false
             tgBot.sendMessage(alertChatID, `@sasha_pshonko\n${bot.username} вырубился`);
-            bot.isRunning = false;
-            if (code !== 0 && !bot.isManualStop) {
-                // runWorker(bot);
-            }
-            if (code !== 0) {
-                reject(new Error(`Worker stopped with exit code ${code}`));
-            } else {
-                resolve(`${bot.type} bot finished successfully`);
+            if (!bot.isManualStop) {
+                runWorker(bot);
             }
         });
     });
 }
 
 function stopWorkers() {
+    bots.forEach(bot => {
+        bot.isManualStop = true
+    })
     return new Promise((resolve, reject) => {
         try {
             workers.forEach(worker => worker.terminate());
@@ -190,7 +201,6 @@ tgBot.onText(/\/stop/, async (msg) => {
     try {
         tgBot.sendMessage(alertChatID, 'Остановка ботов');
         await stopWorkers();
-        bots.forEach(bot => bot.isManualStop = true);
     } catch (error) {
         tgBot.sendMessage(alertChatID, `Произошла ошибка: ${error.message}`);
     }
@@ -199,7 +209,6 @@ tgBot.onText(/\/stop/, async (msg) => {
 startBots();
 
 const dataPath = join(__dirname, 'data.json');
-
 
 async function updateBotStats(username, incomingBalance, incomingCount) {
     const MSK_OFFSET = -3;
