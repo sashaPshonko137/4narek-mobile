@@ -470,37 +470,49 @@ async function sellItems(bot) {
             let countPomoi = 0
 
             // Проверяем слоты продажи
-            for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
-                const item = bot.inventory.slots[sellSlot];
-                if (item && item?.name != 'netherite_sword') countPomoi++
+            for (let i = 0; i < lastInventorySlot; i++) {
+                if (bot.inventory.slots[i]?.name !== 'netherite_sword') {
+                    await delay(500)
+                    await bot.tossStack(i)
+                    continue
+                }
+                const slotData = bot.inventory.slots[i]
+                const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
+                const itemEnchants = enchantments.map(enchant => ({
+                    name: enchant.id?.value,
+                    lvl: enchant.lvl?.value
+                }));
 
-                if (!item) {
-                    // Ищем элитры для продажи в инвентаре
-                    for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
-                        const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem?.name !== 'netherite_sword') continue;
+                const missingEnchants = itemPrice.effects?.filter(required => 
+                    !itemEnchants.some(actual => 
+                    actual.name === required.name && actual.lvl >= required.lvl
+                    )
+                ) || [];
 
-                        // Перемещаем предмет в слот продажи
-                        try {
-                            await bot.moveSlotItem(invSlot, sellSlot);
-                            items[sellSlot - firstSellSlot] = true;  // Обновляем флаг в массиве по индексу слота продажи
-                            await delay(getRandomDelayInRange(1000, 1500));
-                            break;  // Переходим к следующему пустому слоту продажи
-                        } catch (error) {
-                            logger.error(`Ошибка при перемещении предмета: ${error}`);
-                            continue;
-                        }
-                    }
-                } else {
-                    // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item?.name === 'netherite_sword';
+                if (missingEnchants.length > 0) {
+                    await delay(500)
+                    await bot.tossStack(i)
                 }
             }
 
-            if (countPomoi > 4 && !bot.reported) {
-                const msg = `@sasha_pshonko\nу ${bot.username} насрано!` 
-                parentPort.postMessage(msg);
-                bot.reported = true
+            for (let i = 0; i < 9; i++) {
+                if (bot.inventory.slots[firstSellSlot+i].name === 'netherite_sword') {
+                    await delay(100)
+                    if (bot.quickBarSlot !== i) await bot.setQuickBarSlot(i);
+                    await delay(getRandomDelayInRange(500, 700));
+                    bot.chat(`/ah sell ${priceSell}`);
+                    continue
+                }
+                await delay(100)
+                if (bot.quickBarSlot !== 0) await bot.setQuickBarSlot(0);
+                for (let j = 0; j < 27; i++) {
+                    if (bot.inventory.slots[j].name === 'netherite_sword') {
+                        await delay(500)
+                        await bot.moveSlotItem(j, 0);
+                        await delay(getRandomDelayInRange(500, 700));
+                        bot.chat(`/ah sell ${priceSell}`)
+                    }
+                }
             }
 
             for (let i = 0; i < items.length; i++) { // Изменение здесь
@@ -540,6 +552,7 @@ async function sellItems(bot) {
     await safeAH(bot);
 
 }
+
 
 function generateRandomKey(bot) {
     bot.key = Math.random().toString(36).substring(2, 15);
