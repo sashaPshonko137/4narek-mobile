@@ -468,7 +468,6 @@ async function sellItems(bot) {
     if (!bot.ahFull) {
         try {
             let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
-            let countPomoi = 0
 
             // Проверяем слоты продажи
             for (let i = 0; i < lastInventorySlot; i++) {
@@ -492,12 +491,12 @@ async function sellItems(bot) {
 
                 if (missingEnchants.length > 0) {
                     await delay(500)
-                    if (slotData?.name) await bot.tossStack(slotData)
+                    if (slotData) await bot.tossStack(slotData)
                 }
             }
 
             for (let i = 0; i < 9; i++) {
-                if (bot.inventory.slots[firstSellSlot+i].name === 'netherite_sword') {
+                if (bot.inventory.slots[firstSellSlot+i]?.name === 'netherite_sword') {
                     await delay(100)
                     if (bot.quickBarSlot !== i) await bot.setQuickBarSlot(i);
                     await delay(getRandomDelayInRange(500, 700));
@@ -507,7 +506,7 @@ async function sellItems(bot) {
                 await delay(100)
                 if (bot.quickBarSlot !== 0) await bot.setQuickBarSlot(0);
                 for (let j = 0; j < 27; i++) {
-                    if (bot.inventory.slots[j].name === 'netherite_sword') {
+                    if (bot.inventory.slots[j]?.name === 'netherite_sword') {
                         await delay(500)
                         await bot.moveSlotItem(j, 0);
                         await delay(getRandomDelayInRange(500, 700));
