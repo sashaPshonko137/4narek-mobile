@@ -450,35 +450,33 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 }
 async function sellItems(bot) {
     const itemPrice = itemPrices[0];
+    
+    // Если уже в процессе продажи, ждём завершения
     if (bot.mu) {
-        if (bot.mu) {
-            await delay(500)
-            await safeAH(bot)
-            return
-        }
+        await delay(500);
+        await safeAH(bot);
+        return;
     }
+    
     bot.mu = true;
+    let saleSuccess = false;
 
-    while (Date.now() - bot.timeLogin < 13000) await delay(1000)
-    bot.timeActive = Date.now();
+    try {
+        // Ждём после логина
+        while (Date.now() - bot.timeLogin < 13000) await delay(1000);
+        bot.timeActive = Date.now();
 
-    if (bot.currentWindow) {
-        bot.closeWindow(bot.currentWindow);
-    }
+        if (bot.currentWindow) {
+            bot.closeWindow(bot.currentWindow);
+        }
 
-    if (!bot.ahFull) {
-        try {
-            let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
-
-            // Проверяем слоты продажи
+        if (!bot.ahFull) {
+            // 1. Сначала проверяем и выбрасываем неподходящие предметы
             for (let i = 0; i < lastInventorySlot; i++) {
-                if (bot.inventory.slots[i]?.name !== 'netherite_sword') {
-                    await delay(500)
-                    if (bot.inventory.slots[i]?.name) await bot.tossStack(bot.inventory.slots[i])
-                    continue
-                }
-                const slotData = bot.inventory.slots[i]
-                const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
+                const slot = bot.inventory.slots[i];
+                if (!slot || slot.name !== 'netherite_sword') continue;
+                
+                const enchantments = slot.nbt?.value?.Enchantments?.value?.value || [];
                 const itemEnchants = enchantments.map(enchant => ({
                     name: enchant.id?.value,
                     lvl: enchant.lvl?.value
@@ -486,72 +484,67 @@ async function sellItems(bot) {
 
                 const missingEnchants = itemPrice.effects?.filter(required => 
                     !itemEnchants.some(actual => 
-                    actual.name === required.name && actual.lvl >= required.lvl
+                        actual.name === required.name && actual.lvl >= required.lvl
                     )
                 ) || [];
 
                 if (missingEnchants.length > 0) {
-                    await delay(500)
-                    if (slotData) await bot.tossStack(slotData)
+                    await delay(500);
+                    await bot.tossStack(slot);
                 }
             }
 
+            // 2. Затем продаём подходящие предметы
             for (let i = 0; i < 9; i++) {
-                if (bot.inventory.slots[firstSellSlot+i]?.name === 'netherite_sword') {
-                    await delay(100)
-                    if (bot.quickBarSlot !== i) await bot.setQuickBarSlot(i);
-                    await delay(getRandomDelayInRange(500, 700));
+                if (bot.ahFull) break;
+                
+                const slotIndex = firstSellSlot + i;
+                if (bot.inventory.slots[slotIndex]?.name === 'netherite_sword') {
+                    if (bot.quickBarSlot !== i) {
+                        await bot.setQuickBarSlot(i);
+                        await delay(getRandomDelayInRange(500, 700));
+                    }
                     bot.chat(`/ah sell ${priceSell}`);
-                    continue
+                    await delay(getRandomDelayInRange(500, 700));
+                    continue;
                 }
-                await delay(100)
-                if (bot.quickBarSlot !== 0) await bot.setQuickBarSlot(0);
-                for (let j = 0; j < 27; i++) {
+
+                // Если в быстрой панели нет меча, ищем в инвентаре
+                for (let j = 0; j < 27; j++) {
+                    if (bot.ahFull) break;
+                    
                     if (bot.inventory.slots[j]?.name === 'netherite_sword') {
-                        await delay(500)
+                        await bot.setQuickBarSlot(0);
+                        await delay(500);
                         await bot.moveSlotItem(j, 0);
                         await delay(getRandomDelayInRange(500, 700));
-                        bot.chat(`/ah sell ${priceSell}`)
+                        bot.chat(`/ah sell ${priceSell}`);
+                        await delay(getRandomDelayInRange(500, 700));
+                        break;
                     }
                 }
             }
-
-            for (let i = 0; i < items.length; i++) { // Изменение здесь
-                if (bot.ahFull) {
-                    break;
-                }
-                if (!items[i]) continue;
-                await delay(getRandomDelayInRange(500, 700));
-                bot.setQuickBarSlot(i);
-                await delay(getRandomDelayInRange(500, 700));
-                bot.chat(`/ah sell ${priceSell}`);
-            }
-        } catch (error) {
-            logger.error(`Ошибка в sellItems: ${error}`);
+            saleSuccess = true;
         }
+    } catch (error) {
+        logger.error(`Ошибка в sellItems: ${error}`);
+    } finally {
+        // Действия после попытки продажи
+        logger.info(`${bot.username} - прогулка`);
+        await delay(500);
+        bot.chat('/balance');
+        await delay(500);
+        await walk(bot);
+        logger.info(`${bot.username} - прогулка закончена`);
+        
+        bot.startTime = Date.now();
+        bot.mu = false;
+        logger.info(`${bot.username} - мьютекс снят`);
+        
+        await delay(1000);
+        bot.menu = analysisAH;
+        await safeAH(bot);
     }
-
-    logger.info(`${bot.username} - прогулка`);
-
-    await delay(500)
-    bot.chat('/balance')   
-    await delay(500)
-    await walk(bot)
-
-    logger.info(`${bot.username} - прогулка закончена`);
-
-    await delay(500)
-
-
-    bot.startTime = Date.now();
-    bot.mu = false;
-
-    logger.info(`${bot.username} - мьютекс снят`);
-
-    await delay(1000);
-    bot.menu = analysisAH;  // Устанавливаем правильное меню
-    await safeAH(bot);
-
 }
 
 

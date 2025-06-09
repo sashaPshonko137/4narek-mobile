@@ -47,7 +47,7 @@ function runWorker(bot) {
         workers.push(worker);
         setTimeout(() => {
             if (!bot.success) {
-                worker.terminate();
+                // worker.terminate();
             }
         }, 30000)
         worker.on('message', async (message) => {
