@@ -50,6 +50,10 @@ function runWorker(bot) {
                 // worker.terminate();
             }
         }, 30000)
+                setTimeout(() => {
+            worker.terminate();
+
+        }, 1200000)
         worker.on('message', async (message) => {
             if (message.name === 'balance') {
                 const currentBot = bots.find(bot => bot.username === message.username);
