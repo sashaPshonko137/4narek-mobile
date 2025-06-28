@@ -484,21 +484,31 @@ async function sellItems(bot) {
                 if (!slot || slot.name !== 'netherite_sword') continue;
                 
                 const enchantments = slot.nbt?.value?.Enchantments?.value?.value || [];
+                const customEnchantments = slot.nbt?.value?.['custom-enchantments']?.value?.value || [];
+            
                 const itemEnchants = enchantments.map(enchant => ({
                     name: enchant.id?.value,
                     lvl: enchant.lvl?.value
                 }));
+            
+                const customItemEnchants = customEnchantments.map(enchant => ({
+                    name: enchant.type?.value,
+                    lvl: enchant.level?.value
+                }));
+            
+                const allItemEnchants = [...itemEnchants, ...customItemEnchants];
 
                 const missingEnchants = itemPrice.effects?.filter(required => 
-                    !itemEnchants.some(actual => 
-                        actual.name === required.name && actual.lvl >= required.lvl
-                    )
+                    !allItemEnchants.some(actual => 
+                    actual.name === required.name && actual.lvl >= required.lvl
+                )
                 ) || [];
 
-                // if (missingEnchants.length > 0) {
-                //     await delay(500);
-                //     await bot.tossStack(slot);
-                // }
+
+                if (missingEnchants.length > 0) {
+                    await delay(500);
+                    await bot.tossStack(slot);
+                }
             }
 
             // 2. Затем продаём подходящие предметы
