@@ -124,6 +124,13 @@ function stopWorkers() {
 
 function gitPull() {
     return new Promise((resolve, reject) => {
+        exec('rm data.json', (err, stdout, stderr) => {
+            if (err) {
+                reject(`Error executing rm data.json: ${stderr}`);
+            } else {
+                resolve(stdout);
+            }
+        });
         exec('git pull', (err, stdout, stderr) => {
             if (err) {
                 reject(`Error executing git pull: ${stderr}`);
