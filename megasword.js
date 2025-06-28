@@ -495,10 +495,10 @@ async function sellItems(bot) {
                     )
                 ) || [];
 
-                if (missingEnchants.length > 0) {
-                    await delay(500);
-                    await bot.tossStack(slot);
-                }
+                // if (missingEnchants.length > 0) {
+                //     await delay(500);
+                //     await bot.tossStack(slot);
+                // }
             }
 
             // 2. Затем продаём подходящие предметы

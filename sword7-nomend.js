@@ -56,7 +56,7 @@ const itemPrices = [    {
 
 const priceSell = 2700000
 
-const minBalance = 25000000
+const minBalance = 20000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -488,10 +488,10 @@ async function sellItems(bot) {
                     )
                 ) || [];
 
-                if (missingEnchants.length > 0) {
-                    await delay(500);
-                    await bot.tossStack(slot);
-                }
+                // if (missingEnchants.length > 0) {
+                //     await delay(500);
+                //     await bot.tossStack(slot);
+                // }
             }
 
             // 2. Затем продаём подходящие предметы
