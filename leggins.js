@@ -41,28 +41,31 @@ const itemPrices = [    {
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 4
+            "lvl": 5
         },
         {
             "name": "minecraft:protection",
             "lvl": 5
         },
         {
-            "name": "minecraft:mending",
-            "lvl": 1
+            "name": "minecraft:fire_resistance",
+            "lvl": 5
         },
         {
-            "name": "minecraft:thorns",
-            "lvl": 3
-        }
+            "name": "projectile_protection",
+            "lvl": 5
+        },
+         {
+            "name": "mending",
+            "lvl": 1
+        },
     ],
-    "priceBuy": 1500000,
-    "priceSell": 2000000
+    "priceBuy": 8000000,
 }]
 
-const priceSell = 2000000
+const priceSell = 9000000
 
-const minBalance = 20000000
+const minBalance = 45000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -150,6 +153,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     bot.on('windowOpen', async () => {
         switch (bot.menu) {
             case chooseBuying:
+                                const msg = {name: 'success', username: bot.username};
+                parentPort.postMessage(msg);
                 await delay(3000);
                 logger.info(`${name} - ${bot.menu}`);
                 bot.menu = setSectionFarmer;
@@ -348,6 +353,23 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             return
         }
 
+        if (messageText.includes('Сервер заполнен')) {
+            bot.mu = false;
+            bot.startTime = Date.now() - 240000;
+            bot.ahFull = false;
+            bot.timeReset = Date.now() - 60000;
+            bot.login = true;
+            bot.timeActive = Date.now();
+            bot.inventoryFull = false;
+            bot.timeLogin = Date.now()
+            bot.prices = []
+            bot.count = 0
+            bot.netakbistro = true
+
+            await delay(minDelay);
+            bot.chat(anarchyCommand);
+        }
+
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
             bot.count--
@@ -415,11 +437,14 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 logger.error('баланс NAN')
                 return
             }
-            if (balance - minBalance >= 1000000) {
+            if (balance - minBalance >= 10000000) {
                 const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
                 parentPort.postMessage(msg);
                 await delay(500)
                 bot.chat(`/clan invest ${balance - minBalance}`)
+            } else {
+                const msg = {name: 'balance', username: bot.username, balance: 0, count: count};
+                parentPort.postMessage(msg);
             }
             return
         }
@@ -431,97 +456,112 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     // })
 }
 async function sellItems(bot) {
+    const itemPrice = itemPrices[0];
+    
+    // Если уже в процессе продажи, ждём завершения
     if (bot.mu) {
-        if (bot.mu) {
-            await delay(500)
-            await safeAH(bot)
-            return
-        }
+        await delay(500);
+        await safeAH(bot);
+        return;
     }
+    
     bot.mu = true;
+    let saleSuccess = false;
 
-    while (Date.now() - bot.timeLogin < 13000) await delay(1000)
-    bot.timeActive = Date.now();
+    try {
+        // Ждём после логина
+        while (Date.now() - bot.timeLogin < 13000) await delay(1000);
+        bot.timeActive = Date.now();
 
-    if (bot.currentWindow) {
-        bot.closeWindow(bot.currentWindow);
-    }
-
-    if (!bot.ahFull) {
-        try {
-            let items = new Array(9).fill(false); // Массив для отслеживания проданных предметов
-            let countPomoi = 0
-
-            // Проверяем слоты продажи
-            for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
-                const item = bot.inventory.slots[sellSlot];
-                if (item && item?.name != 'netherite_leggings') countPomoi++
-
-                if (!item) {
-                    // Ищем элитры для продажи в инвентаре
-                    for (let invSlot = firstInventorySlot; invSlot <= lastInventorySlot; invSlot++) {
-                        const invItem = bot.inventory.slots[invSlot];
-                        if (!invItem || invItem?.name !== 'netherite_leggings') continue;
-
-                        // Перемещаем предмет в слот продажи
-                        try {
-                            await bot.moveSlotItem(invSlot, sellSlot);
-                            items[sellSlot - firstSellSlot] = true;  // Обновляем флаг в массиве по индексу слота продажи
-                            await delay(getRandomDelayInRange(1000, 1500));
-                            break;  // Переходим к следующему пустому слоту продажи
-                        } catch (error) {
-                            logger.error(`Ошибка при перемещении предмета: ${error}`);
-                            continue;
-                        }
-                    }
-                } else {
-                    // Если слот не пустой, проверяем, является ли это элитрой
-                    items[sellSlot - firstSellSlot] = item?.name === 'netherite_leggings';
-                }
-            }
-
-            if (countPomoi > 4 && !bot.reported) {
-                const msg = `@sasha_pshonko\nу ${bot.username} насрано!` 
-                parentPort.postMessage(msg);
-                bot.reported = true
-            }
-
-            for (let i = 0; i < items.length; i++) { // Изменение здесь
-                if (bot.ahFull) {
-                    break;
-                }
-                if (!items[i]) continue;
-                await delay(getRandomDelayInRange(500, 700));
-                bot.setQuickBarSlot(i);
-                await delay(getRandomDelayInRange(500, 700));
-                bot.chat(`/ah sell ${priceSell}`);
-            }
-        } catch (error) {
-            logger.error(`Ошибка в sellItems: ${error}`);
+        if (bot.currentWindow) {
+            bot.closeWindow(bot.currentWindow);
         }
+
+        if (!bot.ahFull) {
+            // 1. Сначала проверяем и выбрасываем неподходящие предметы
+            for (let i = 0; i < lastInventorySlot; i++) {
+                const slot = bot.inventory.slots[i];
+                if (!slot || slot.name !== 'netherite_leggings') continue;
+                
+                const enchantments = slot.nbt?.value?.Enchantments?.value?.value || [];
+                const customEnchantments = slot.nbt?.value?.['custom-enchantments']?.value?.value || [];
+            
+                const itemEnchants = enchantments.map(enchant => ({
+                    name: enchant.id?.value,
+                    lvl: enchant.lvl?.value
+                }));
+            
+                const customItemEnchants = customEnchantments.map(enchant => ({
+                    name: enchant.type?.value,
+                    lvl: enchant.level?.value
+                }));
+            
+                const allItemEnchants = [...itemEnchants, ...customItemEnchants];
+
+                const missingEnchants = itemPrice.effects?.filter(required => 
+                    !allItemEnchants.some(actual => 
+                    actual.name === required.name && actual.lvl >= required.lvl
+                )
+                ) || [];
+
+
+                if (missingEnchants.length > 0) {
+                    await delay(500);
+                    await bot.tossStack(slot);
+                }
+            }
+
+            // 2. Затем продаём подходящие предметы
+            for (let i = 0; i < 9; i++) {
+                if (bot.ahFull) break;
+                
+                const slotIndex = firstSellSlot + i;
+                if (bot.inventory.slots[slotIndex]?.name === 'netherite_leggings') {
+                    if (bot.quickBarSlot !== i) {
+                        await bot.setQuickBarSlot(i);
+                        await delay(getRandomDelayInRange(500, 700));
+                    }
+                    bot.chat(`/ah sell ${priceSell}`);
+                    await delay(getRandomDelayInRange(500, 700));
+                    continue;
+                }
+
+                // Если в быстрой панели нет меча, ищем в инвентаре
+                for (let j = 0; j < 27; j++) {
+                    if (bot.ahFull) break;
+                    
+                    if (bot.inventory.slots[j]?.name === 'netherite_leggings') {
+                        await bot.setQuickBarSlot(0);
+                        await delay(500);
+                        await bot.moveSlotItem(j, 0);
+                        await delay(getRandomDelayInRange(500, 700));
+                        bot.chat(`/ah sell ${priceSell}`);
+                        await delay(getRandomDelayInRange(500, 700));
+                        break;
+                    }
+                }
+            }
+            saleSuccess = true;
+        }
+    } catch (error) {
+        logger.error(`Ошибка в sellItems: ${error}`);
+    } finally {
+        // Действия после попытки продажи
+        logger.info(`${bot.username} - прогулка`);
+        await delay(500);
+        bot.chat('/balance');
+        await delay(500);
+        await walk(bot);
+        logger.info(`${bot.username} - прогулка закончена`);
+        
+        bot.startTime = Date.now();
+        bot.mu = false;
+        logger.info(`${bot.username} - мьютекс снят`);
+        
+        await delay(1000);
+        bot.menu = analysisAH;
+        await safeAH(bot);
     }
-
-    logger.info(`${bot.username} - прогулка`);
-
-    await delay(500)
-    bot.chat('/balance')   
-    await delay(500)
-    await walk(bot)
-
-    logger.info(`${bot.username} - прогулка закончена`);
-
-    await delay(500)
-
-
-    bot.startTime = Date.now();
-    bot.mu = false;
-
-    logger.info(`${bot.username} - мьютекс снят`);
-
-    await delay(1000);
-    bot.menu = analysisAH;  // Устанавливаем правильное меню
-    await safeAH(bot);
-
 }
 
 function generateRandomKey(bot) {
@@ -621,14 +661,22 @@ if (length > 0) {
 
             // Проверка на зачарования после проверки цены
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
+            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
+            
             const itemEnchants = enchantments.map(enchant => ({
                 name: enchant.id?.value,
                 lvl: enchant.lvl?.value
             }));
-
+            
+            const customItemEnchants = customEnchantments.map(enchant => ({
+                name: enchant.type?.value,
+                lvl: enchant.level?.value
+            }));
+            
+            const allItemEnchants = [...itemEnchants, ...customItemEnchants];
 
             const missingEnchants = itemPrice.effects?.filter(required => 
-                !itemEnchants.some(actual => 
+                !allItemEnchants.some(actual => 
                     actual.name === required.name && actual.lvl >= required.lvl
                 )
             ) || [];
