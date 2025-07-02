@@ -19,7 +19,7 @@ const alertChatID = -4763690917
 
 // Массив с ботами
 const bots = [
-    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'chestpalte', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'chestplate', inventoryPort: 3000, balance: 0, msgID: 0 },
     { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'leggins', inventoryPort: 3001, balance: 0, msgID: 0 },
     // { username: 'gorbatoslunyavyi', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
