@@ -53,7 +53,7 @@ const itemPrices = [    {
         },
         {
             "name": "minecraft:projectile_protection",
-            "lvl": 5
+            "lvl": 4
         },
          {
             "name": "minecraft:mending",
