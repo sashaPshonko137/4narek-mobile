@@ -19,8 +19,8 @@ const alertChatID = -4763690917
 
 // Массив с ботами
 const bots = [
-    { username: 'gorbomozgatyi', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'gorbotonkyi', password: 'ggggg', anarchy: 605, type: 'sword6', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'mozgatogorbatyi', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'gorbatayaKrysa', password: 'ggggg', anarchy: 605, type: 'sword6', inventoryPort: 3001, balance: 0, msgID: 0 },
     { username: 'gorbatyidristun', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 //potap_obsas
