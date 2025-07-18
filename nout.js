@@ -26,7 +26,7 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-     { username: 'likeBaToma', password: 'ggggg', anarchy: 604, type: 'sword7-nomend', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'likeBaToma', password: 'ggggg', anarchy: 604, type: 'sword7-nomend', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
     { username: 'antonaNeEbi', password: 'ggggg', anarchy: 604, type: 'sword6', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
     { username: 'ZhukTarakan', password: 'ggggg', anarchy: 604, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
     // { username: 'mr_gazoliz', password: 'ggggg', anarchy: 604, type: 'sword7', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
