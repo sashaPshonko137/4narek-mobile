@@ -55,7 +55,7 @@ function runWorker(bot) {
                 if (botToUpdate) {
                     botToUpdate.success = true;
                 }
-            } else if (message.name = "buy") {
+            } else if (message.name === "buy") {
                 tgBot.sendMessage(pomoikaChatID, message.text);
             } else {
                 tgBot.sendMessage(alertChatID, message);
