@@ -30,7 +30,7 @@ let workers = [];
 
 function runWorker(bot) {
     return new Promise((resolve, reject) => {
-        const workerScriptPath = join(__dirname, `${bot.type}.js`);
+        const workerScriptPath = join(__dirname, `${bot.type}.mjs`);
 
         const worker = new Worker(workerScriptPath, {
             workerData: bot
