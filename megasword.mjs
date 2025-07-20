@@ -697,7 +697,7 @@ async function sellItems(bot) {
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
 function getBestSellPrice(item, itemPrices) {
-    // if (!item || !itemPrices?.length) return 0;
+    if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
