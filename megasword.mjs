@@ -697,7 +697,7 @@ async function sellItems(bot) {
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
 function getBestSellPrice(item, itemPrices) {
-    if (!item || !itemPrices?.length) return 0;
+    // if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
@@ -707,23 +707,23 @@ function getBestSellPrice(item, itemPrices) {
         // 1.1. Проверка названия
         if (item.name !== configItem.name) continue;
 
-        // 1.2. Проверка зачарований (гибкая)
-        const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
-        const customEnchantments = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
+        // // 1.2. Проверка зачарований (гибкая)
+        // const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
+        // const customEnchantments = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
         
-        const allEnchants = [
-            ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
-            ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
-        ];
+        // const allEnchants = [
+        //     ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
+        //     ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
+        // ];
 
-        const areEnchantsValid = configItem.effects?.every(required => {
-            const foundEnchant = allEnchants.find(e => e.name === required.name);
-            if (!foundEnchant) return false; // Нет такого зачарования
-            return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
-        });
+        // const areEnchantsValid = configItem.effects?.every(required => {
+        //     const foundEnchant = allEnchants.find(e => e.name === required.name);
+        //     if (!foundEnchant) return false; // Нет такого зачарования
+        //     return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
+        // });
 
-        if (!areEnchantsValid) continue;
-        if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
+        // if (!areEnchantsValid) continue;
+        // if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
 
         // 1.3. Проверка прочности (если есть durability)
         if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
