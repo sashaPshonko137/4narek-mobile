@@ -726,11 +726,11 @@ function getBestSellPrice(item, itemPrices) {
         // if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
 
         // 1.3. Проверка прочности (если есть durability)
-        if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
-            const damage = item.nbt?.value?.Damage?.value || 0;
-            const durabilityLeft = item.maxDurability - damage;
-            if (durabilityLeft < item.maxDurability * 0.9) continue;
-        }
+        // if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
+        //     const damage = item.nbt?.value?.Damage?.value || 0;
+        //     const durabilityLeft = item.maxDurability - damage;
+        //     if (durabilityLeft < item.maxDurability * 0.9) continue;
+        // }
 
         // 2. Нашли подходящий шаблон — возвращаем его priceSell!
         return configItem.priceSell;
