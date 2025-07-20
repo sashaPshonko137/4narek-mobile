@@ -483,8 +483,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             const price = parseInt(priceString);
             const id = getIdBySellPrice(itemPrices, price)
             if (id) {
-                const msg = {name: 'buy', text: id};
-                parentPort.postMessage(msg);
+                await sendText(id);
             } else {
                 logger.error('НЕ НАШЕЛ ПРОДАННЫЙ ТОВАР БАЛЯ')
             }
@@ -559,6 +558,21 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             return
         }
     })
+}
+
+async function sendText(text) {
+  try {
+    // Просто отправляем и не ждём ответ
+    await fetch('http://31.207.74.231:8080/buy', {
+      method: 'POST',
+      body: text,
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    });
+  } catch (e) {
+    console.log('Ошибка отправки (но код продолжит работу):', e.message);
+  }
 }
 
 function getIdBySellPrice(itemPrices, targetPrice) {
