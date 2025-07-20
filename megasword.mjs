@@ -626,7 +626,7 @@ async function sellItems(bot) {
                     await delay(getRandomDelayInRange(600, 800));
                 } else {
                     // Выбрасывание невалидного предмета
-                    await bot.tossStack(item);
+                    // await bot.tossStack(item);
                     await delay(getRandomDelayInRange(300, 500));
                 }
             }
@@ -660,7 +660,7 @@ async function sellItems(bot) {
                             break; // После успешной продажи прерываем цикл
                         } else {
                             // Выбрасывание невалидного предмета
-                            await bot.tossStack(item);
+                            // await bot.tossStack(item);
                             await delay(getRandomDelayInRange(300, 500));
                         }
                     }
