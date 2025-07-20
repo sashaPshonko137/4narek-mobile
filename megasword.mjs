@@ -626,7 +626,7 @@ async function sellItems(bot) {
                     await delay(getRandomDelayInRange(600, 800));
                 } else {
                     // Выбрасывание невалидного предмета
-                    // await bot.tossStack(item);
+                    await bot.tossStack(item);
                     await delay(getRandomDelayInRange(300, 500));
                 }
             }
@@ -660,7 +660,7 @@ async function sellItems(bot) {
                             break; // После успешной продажи прерываем цикл
                         } else {
                             // Выбрасывание невалидного предмета
-                            // await bot.tossStack(item);
+                            await bot.tossStack(item);
                             await delay(getRandomDelayInRange(300, 500));
                         }
                     }
@@ -697,7 +697,7 @@ async function sellItems(bot) {
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
 function getBestSellPrice(item, itemPrices) {
-    if (!item || !itemPrices?.length) return 0;
+    // if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
@@ -729,7 +729,7 @@ function getBestSellPrice(item, itemPrices) {
         if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
             const damage = item.nbt?.value?.Damage?.value || 0;
             const durabilityLeft = item.maxDurability - damage;
-            if (durabilityLeft < item.maxDurability * 0.6) continue;
+            if (durabilityLeft < item.maxDurability * 0.9) continue;
         }
 
         // 2. Нашли подходящий шаблон — возвращаем его priceSell!
