@@ -562,16 +562,15 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
 async function sendText(text) {
   try {
-    // Просто отправляем и не ждём ответ
     await fetch('http://31.207.74.231:8080/buy', {
       method: 'POST',
-      body: text,
+      body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
-        'Content-Type': 'text/plain'
+        'Content-Type': 'application/json' // Указываем что отправляем JSON
       }
     });
   } catch (e) {
-    console.log('Ошибка отправки (но код продолжит работу):', e.message);
+    console.log('Ошибка отправки:', e.message);
   }
 }
 
