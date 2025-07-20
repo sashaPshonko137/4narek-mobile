@@ -723,7 +723,7 @@ function getBestSellPrice(item, itemPrices) {
         });
 
         if (!areEnchantsValid) continue;
-        if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
+        // if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
 
         // 1.3. Проверка прочности (если есть durability)
         if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
