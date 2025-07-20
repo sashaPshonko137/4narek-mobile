@@ -510,6 +510,18 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             return
         }
 
+        if (messageText.includes('[☃] У Вас не хватает денег!')) {
+            await delay(getRandomDelayInRange(500, 700));
+            if (bot.currentWindow) {
+                bot.closeWindow(bot.currentWindow);
+            }
+            await delay(getRandomDelayInRange(500, 700));
+            bot.chat('/clan withdraw 20000000')
+            await delay(getRandomDelayInRange(500, 700));
+            bot.menu = analysisAH;
+            await safeAH(bot);
+        }
+
         if (messageText.includes('Добро пожаловать на FunTime.su') && bot.login) {
             logger.info(`${name} - зашел на сервер`);
             await delay(5000);
