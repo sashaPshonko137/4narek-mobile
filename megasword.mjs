@@ -783,7 +783,7 @@ async function getBestAHSlot(bot, itemPrices) {
             // 1.1. Проверка названия
             if (slotData.name !== configItem.name) continue;
 
-            // 1.2. Проверка зачарований (гибкая)
+            // 1.2. Проверка зачарований (только >= без strictLevel)
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
             const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
             
@@ -795,13 +795,13 @@ async function getBestAHSlot(bot, itemPrices) {
             const areEnchantsValid = configItem.effects?.every(required => {
                 const foundEnchant = allEnchants.find(e => e.name === required.name);
                 if (!foundEnchant) return false;
-                return required.strictLevel 
-                    ? foundEnchant.lvl === required.lvl
-                    : foundEnchant.lvl >= required.lvl;
+                return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
             });
 
             if (!areEnchantsValid) continue;
-            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
+            
+            // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
+            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
 
             // 1.3. Проверка прочности (если есть durability)
             if (slotData.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
@@ -819,7 +819,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 continue;
             }
 
-            // 2. Нашли лучшее совпадение (первое в отсортированном конфиге)!
+            // 2. Нашли лучшее совпадение!
             return {
                 slot: slot,
                 matchedItem: configItem,
@@ -827,9 +827,9 @@ async function getBestAHSlot(bot, itemPrices) {
             };
         }
     }
-
-    return null; // Ничего не найдено
+    return null;
 }
+
 
 
 
