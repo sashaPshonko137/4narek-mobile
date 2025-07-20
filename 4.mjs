@@ -19,8 +19,8 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'babatoma2_0', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'babagalya2_0', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    // { username: 'babatoma2_0', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    // { username: 'babagalya2_0', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
     { username: 'dadafon228', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
 ];
 

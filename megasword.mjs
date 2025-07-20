@@ -716,11 +716,11 @@ function getBestSellPrice(item, itemPrices) {
             ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
         ];
 
-        // const areEnchantsValid = configItem.effects?.every(required => {
-        //     const foundEnchant = allEnchants.find(e => e.name === required.name);
-        //     if (!foundEnchant) return false; // Нет такого зачарования
-        //     return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
-        // });
+        const areEnchantsValid = configItem.effects?.every(required => {
+            const foundEnchant = allEnchants.find(e => e.name === required.name);
+            if (!foundEnchant) return false; // Нет такого зачарования
+            return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
+        });
 
         // if (!areEnchantsValid) continue;
         if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
