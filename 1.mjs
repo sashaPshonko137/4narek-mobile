@@ -18,32 +18,27 @@ const token = '7443919586:AAG3S5k1dAkR-kIW66p-EubIgv22mogdi58';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
-// // Массив с ботами
-// const bots = [
-//     { username: 'mr_gazoliz', password: 'ggggg', anarchy: 604, type: 'sword7', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-//     { username: 'dudkaCringe', password: 'ggggg', anarchy: 604, type: 'sword-nomend', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isRunning: false, isManualStop: false  },
-//     { username: 'gorbatyi_nahui', password: 'ggggg', anarchy: 604, type: 'sword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isRunning: false, isManualStop: false  },
-// ];
 
 // Массив с ботами
 const bots = [
     { username: 'likeBaToma', password: 'ggggg', anarchy: 604, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
     { username: 'antonaNeEbi', password: 'ggggg', anarchy: 604, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
     { username: 'ZhukTarakan', password: 'ggggg', anarchy: 604, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
-    // { username: 'mr_gazoliz', password: 'ggggg', anarchy: 604, type: 'sword7', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    // { username: 'dudkaCringe', password: 'ggggg', anarchy: 604, type: 'sword-nomend', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    // { username: 'gorbatyi_nahui', password: 'ggggg', anarchy: 604, type: 'sword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
 ];
 
 // Массив для хранения ссылок на воркеров
 let workers = [];
 
 function runWorker(bot) {
+    workers = workers.filter(w => w.workerData?.username !== bot.username);
     return new Promise((resolve, reject) => {
         const workerScriptPath = join(__dirname, `${bot.type}.mjs`);
 
         const worker = new Worker(workerScriptPath, {
-            workerData: bot
+            workerData: bot,
+            resourceLimits: {
+                maxOldGenerationSizeMb: 200, // Лимит памяти
+            }
         });
 
         bot.isManualStop = false;

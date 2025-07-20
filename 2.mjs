@@ -30,11 +30,15 @@ const bots = [
 let workers = [];
 
 function runWorker(bot) {
+    workers = workers.filter(w => w.workerData?.username !== bot.username);
     return new Promise((resolve, reject) => {
         const workerScriptPath = join(__dirname, `${bot.type}.mjs`);
 
         const worker = new Worker(workerScriptPath, {
-            workerData: bot
+            workerData: bot,
+            resourceLimits: {
+                maxOldGenerationSizeMb: 200, // Лимит памяти
+            }
         });
 
         bot.isManualStop = false;
