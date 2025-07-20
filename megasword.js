@@ -36,8 +36,118 @@ const slotToTryBuying = 0;
 
 const ahCommand = '/ah search netherite sword';
 
-const itemPrices = [    {
+const itemPrices = [
+    {
     "name": "netherite_sword",
+    "id": "5nomend",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 3200000,
+    "priceSell": 4000000,
+    },
+    {
+    "name": "netherite_sword",
+    "id": "sword5",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:mending",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 3300000, 
+    "priceSell": 4000000,
+    },
+    {
+    "name": "netherite_sword",
+    "id": "sword6",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 6
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 3300000,
+    "priceSell": 4000000,
+    },
+    {   
+    "name": "netherite_sword",
+    "id": "7nomend",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 5400000,
+    "priceSell": 6400000
+    },
+    {
+    "name": "netherite_sword",
+    "id": "sword7",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:mending",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 7500000,
+    "priceSell": 8400000,
+    },
+    {
+    "name": "netherite_sword",
+    "id": "megasword",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -61,9 +171,11 @@ const itemPrices = [    {
         },
     ],
     "priceBuy": 8600000,
-}]
+    "priceSell": 10000000,
+    }
+]
 
-const priceSell = 10000000
+const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
 const minBalance = 100000000
 
@@ -153,7 +265,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     bot.on('windowOpen', async () => {
         switch (bot.menu) {
             case chooseBuying:
-                                const msg = {name: 'success', username: bot.username};
+                const msg = {name: 'success', username: bot.username};
                 parentPort.postMessage(msg);
                 await delay(3000);
                 logger.info(`${name} - ${bot.menu}`);
@@ -281,7 +393,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                             slotToBuy = await getBestAHSlot(bot, itemPrices);
     
                             switch (slotToBuy) {
-                                case undefined:
+                                case null:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
                                     await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
@@ -339,11 +451,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         }
     });
 
-    // bot.on('kicked', () => {
-    //     logger.error(`${name} спалился!`);
-    // });
-
-
     bot.on('message', async (message) => {
         const messageText = message.toString();
         console.log(messageText)
@@ -372,7 +479,15 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
-            bot.count--
+            const priceString = messageText.replace(/\D/g, '');
+            const price = parseInt(priceString);
+            const id = getIdBySellPrice(itemPrices, price)
+            if (id) {
+                const msg = {name: 'buy', text: id};
+                parentPort.postMessage(msg);
+            } else {
+                logger.error('НЕ НАШЕЛ ПРОДАННЫЙ ТОВАР БАЛЯ')
+            }
             await sellItems(bot)
             return
         }
@@ -438,121 +553,119 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 return
             }
             if (balance - minBalance >= 10000000) {
-                const msg = {name: 'balance', username: bot.username, balance: balance - minBalance, count: count};
-                parentPort.postMessage(msg);
                 await delay(500)
                 bot.chat(`/clan invest ${balance - minBalance}`)
-            } else {
-                const msg = {name: 'balance', username: bot.username, balance: 0, count: count};
-                parentPort.postMessage(msg);
             }
             return
         }
     })
-
-
-    // bot.on('end', () => {
-    //     logger.error(`${name} спалился!`);
-    // })
 }
-async function sellItems(bot) {
-    const itemPrice = itemPrices[0];
+
+function getIdBySellPrice(itemPrices, targetPrice) {
+    // Ищем предмет с точным совпадением цены
+    const foundItem = itemPrices.find(item => item.priceSell === targetPrice);
     
-    // Если уже в процессе продажи, ждём завершения
+    // Если нашли - возвращаем id, иначе null
+    return foundItem ? foundItem.id : null;
+}
+
+async function sellItems(bot) {
     if (bot.mu) {
         await delay(500);
         await safeAH(bot);
         return;
     }
-    
+
     bot.mu = true;
-    let saleSuccess = false;
 
     try {
-        // Ждём после логина
-        while (Date.now() - bot.timeLogin < 13000) await delay(1000);
+        // Ожидание после логина
+        while (Date.now() - bot.timeLogin < 13000) {
+            await delay(1000);
+        }
         bot.timeActive = Date.now();
 
+        // Закрытие всех окон перед началом
         if (bot.currentWindow) {
             bot.closeWindow(bot.currentWindow);
+            await delay(getRandomDelayInRange(300, 500));
         }
 
+        // Продажа предметов только если AH не заполнен
         if (!bot.ahFull) {
-            // 1. Сначала проверяем и выбрасываем неподходящие предметы
-            for (let i = 0; i < lastInventorySlot; i++) {
-                const slot = bot.inventory.slots[i];
-                if (!slot || slot.name !== 'netherite_sword') continue;
-                
-                const enchantments = slot.nbt?.value?.Enchantments?.value?.value || [];
-                const customEnchantments = slot.nbt?.value?.['custom-enchantments']?.value?.value || [];
-            
-                const itemEnchants = enchantments.map(enchant => ({
-                    name: enchant.id?.value,
-                    lvl: enchant.lvl?.value
-                }));
-            
-                const customItemEnchants = customEnchantments.map(enchant => ({
-                    name: enchant.type?.value,
-                    lvl: enchant.level?.value
-                }));
-            
-                const allItemEnchants = [...itemEnchants, ...customItemEnchants];
-
-                const missingEnchants = itemPrice.effects?.filter(required => 
-                    !allItemEnchants.some(actual => 
-                    actual.name === required.name && actual.lvl >= required.lvl
-                )
-                ) || [];
-
-
-                if (missingEnchants.length > 0) {
-                    await delay(500);
-                    await bot.tossStack(slot);
-                }
-            }
-
-            // 2. Затем продаём подходящие предметы
-            for (let i = 0; i < 9; i++) {
+            // 1. Сначала проверяем быструю панель (горячие слоты)
+            for (let quickSlot = 0; quickSlot < 9; quickSlot++) {
                 if (bot.ahFull) break;
                 
-                const slotIndex = firstSellSlot + i;
-                if (bot.inventory.slots[slotIndex]?.name === 'netherite_sword') {
-                    if (bot.quickBarSlot !== i) {
-                        await bot.setQuickBarSlot(i);
-                        await delay(getRandomDelayInRange(500, 700));
+                const slotIndex = firstSellSlot + quickSlot;
+                const item = bot.inventory.slots[slotIndex];
+                
+                if (!item) continue;
+                
+                const price = getBestSellPrice(item, itemPrices);
+                if (price > 0) {
+                    // Подготовка и продажа
+                    if (bot.quickBarSlot !== quickSlot) {
+                        await bot.setQuickBarSlot(quickSlot);
+                        await delay(getRandomDelayInRange(400, 600));
                     }
-                    bot.chat(`/ah sell ${priceSell}`);
-                    await delay(getRandomDelayInRange(500, 700));
-                    continue;
+                    bot.chat(`/ah sell ${price}`);
+                    await delay(getRandomDelayInRange(600, 800));
+                } else {
+                    // Выбрасывание невалидного предмета
+                    await bot.tossStack(item);
+                    await delay(getRandomDelayInRange(300, 500));
                 }
+            }
 
-                // Если в быстрой панели нет меча, ищем в инвентаре
-                for (let j = 0; j < 27; j++) {
-                    if (bot.ahFull) break;
+            // 2. Затем проверяем основной инвентарь
+            if (!bot.ahFull) {
+                let sellSlot = null
+                for (let i = 0; i < 9; i++) {
+                    if (!bot.inventory.slots[i+firstSellSlot]) {
+                        sellSlot = i
+                        break
+                    }
+                }
+                if (sellSlot !== null) {
+                    for (let inventorySlot = 0; inventorySlot < 27; inventorySlot++) {
+                        if (bot.ahFull) break;
                     
-                    if (bot.inventory.slots[j]?.name === 'netherite_sword') {
-                        await bot.setQuickBarSlot(0);
-                        await delay(500);
-                        await bot.moveSlotItem(j, 0);
-                        await delay(getRandomDelayInRange(500, 700));
-                        bot.chat(`/ah sell ${priceSell}`);
-                        await delay(getRandomDelayInRange(500, 700));
-                        break;
+                        const item = bot.inventory.slots[inventorySlot];
+                        if (!item) continue;
+                    
+                        const price = getBestSellPrice(item, itemPrices);
+                        if (price > 0) {
+                            // Переносим в первый слот быстрой панели и продаем
+                            await bot.setQuickBarSlot(sellSlot);
+                            await delay(300);
+                            await bot.moveSlotItem(inventorySlot, firstSellSlot + sellSlot);
+                            await delay(getRandomDelayInRange(500, 700));
+                        
+                            bot.chat(`/ah sell ${price}`);
+                            await delay(getRandomDelayInRange(600, 800));
+                            break; // После успешной продажи прерываем цикл
+                        } else {
+                            // Выбрасывание невалидного предмета
+                            await bot.tossStack(item);
+                            await delay(getRandomDelayInRange(300, 500));
+                        }
                     }
                 }
             }
-            saleSuccess = true;
         }
     } catch (error) {
-        logger.error(`Ошибка в sellItems: ${error}`);
+        logger.error(`${bot.username} - Ошибка в sellItems: ${error.stack || error}`);
     } finally {
-        // Действия после попытки продажи
-        logger.info(`${bot.username} - прогулка`);
+        // Пост-обработка
+        logger.info(`${bot.username} - завершение продажи`);
         await delay(500);
+        
         bot.chat('/balance');
         await delay(500);
+        
         await walk(bot);
-        logger.info(`${bot.username} - прогулка закончена`);
+        logger.info(`${bot.username} - прогулка завершена`);
         
         bot.startTime = Date.now();
         bot.mu = false;
@@ -562,6 +675,55 @@ async function sellItems(bot) {
         bot.menu = analysisAH;
         await safeAH(bot);
     }
+}
+
+/**
+ * Находит лучшую цену продажи для предмета на основе зачарований.
+ * @param {Object} item - Предмет (из inventory.slots или window.slots).
+ * @param {Array} itemPrices - Конфиг с шаблонами цен.
+ * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
+ */
+function getBestSellPrice(item, itemPrices) {
+    if (!item || !itemPrices?.length) return 0;
+
+    // Сортируем конфиг по priceSell (от большего к меньшему)
+    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+
+    // 1. Проверяем предмет против ВСЕХ шаблонов конфига
+    for (const configItem of sortedConfig) {
+        // 1.1. Проверка названия
+        if (item.name !== configItem.name) continue;
+
+        // 1.2. Проверка зачарований (гибкая)
+        const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
+        const customEnchantments = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
+        
+        const allEnchants = [
+            ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
+            ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
+        ];
+
+        const areEnchantsValid = configItem.effects?.every(required => {
+            const foundEnchant = allEnchants.find(e => e.name === required.name);
+            if (!foundEnchant) return false; // Нет такого зачарования
+            return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
+        });
+
+        if (!areEnchantsValid) continue;
+        if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
+
+        // 1.3. Проверка прочности (если есть durability)
+        if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
+            const damage = item.nbt?.value?.Damage?.value || 0;
+            const durabilityLeft = item.maxDurability - damage;
+            if (durabilityLeft < item.maxDurability * 0.6) continue;
+        }
+
+        // 2. Нашли подходящий шаблон — возвращаем его priceSell!
+        return configItem.priceSell;
+    }
+
+    return 0; // Предмет не подходит под конфиг
 }
 
 function generateRandomKey(bot) {
@@ -593,113 +755,67 @@ async function safeAH(bot) {
     }
 }
 
-function inventoryFull(bot) {
-    for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
-        const slot = bot.inventory.slots[i];
-        if (!slot) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 async function getBestAHSlot(bot, itemPrices) {
-    if (!bot.currentWindow?.slots) {
-        return undefined;
-    }
+    if (!bot.currentWindow?.slots) return null;
 
-    const itemPrice = itemPrices[0]; // Предполагаем, что массив всегда содержит только один предмет
+    // Сортируем конфиг по priceBuy (от большего к меньшему)
+    const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
 
-    for (let i = firstAHSlot; i <= lastAHSlot; i++) {
-        const slotData = bot.currentWindow.slots[i];
+    for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
+        const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
 
-        const name = slotData.name;
-        if (itemPrice.name !== name) continue;
+        // 1. Проверяем предмет слота против ВСЕХ шаблонов конфига
+        for (const configItem of sortedConfig) {
+            // 1.1. Проверка названия
+            if (slotData.name !== configItem.name) continue;
 
-        let durabilityLeft = 0;
-        if (slotData.maxDurability) {
-            const damage = slotData.nbt?.value?.Damage?.value || 0;
-            durabilityLeft = slotData.maxDurability - damage;
-            if (durabilityLeft < slotData.maxDurability * 0.6) continue;
-        } else {
-            continue;
-        }
-
-        try {
-            const price = await getBuyPrice(slotData);
-            if (!price) continue;
-
-            let countItems = 0
-            for (let sellSlot = firstSellSlot; sellSlot <= lastInventorySlot; sellSlot++) {
-                const item = bot.inventory.slots[sellSlot];
-                if (item && item?.name === 'netherite_sword') countItems++
-            }
-            let bestPrice = 0
-            if (bot.count + countItems < 4) {
-                bestPrice = priceSell-200000
-            } else if (countItems < 11 || bot.prices.length === 0) {
-                bestPrice = itemPrice.priceBuy
-            } else {
-                let sortedPrices = [...bot.prices].sort((a, b) => a - b);
-
-const length = sortedPrices.length;
-
-// Если массив не пустой
-if (length > 0) {
-    // Индекс, который находится на 25% от длины массива
-    const index = Math.floor(length * 0.25);
-
-    // Получаем цену, соответствующую этому индексу
-    bestPrice = sortedPrices[index];
-}
-
-              }
-
-            if (price > bestPrice) continue;
-
-            // Проверка на зачарования после проверки цены
+            // 1.2. Проверка зачарований (гибкая)
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
             const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
             
-            const itemEnchants = enchantments.map(enchant => ({
-                name: enchant.id?.value,
-                lvl: enchant.lvl?.value
-            }));
-            
-            const customItemEnchants = customEnchantments.map(enchant => ({
-                name: enchant.type?.value,
-                lvl: enchant.level?.value
-            }));
-            
-            const allItemEnchants = [...itemEnchants, ...customItemEnchants];
+            const allEnchants = [
+                ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
+                ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
+            ];
 
-            const missingEnchants = itemPrice.effects?.filter(required => 
-                !allItemEnchants.some(actual => 
-                    actual.name === required.name && actual.lvl >= required.lvl
-                )
-            ) || [];
+            const areEnchantsValid = configItem.effects?.every(required => {
+                const foundEnchant = allEnchants.find(e => e.name === required.name);
+                if (!foundEnchant) return false;
+                return required.strictLevel 
+                    ? foundEnchant.lvl === required.lvl
+                    : foundEnchant.lvl >= required.lvl;
+            });
 
-            if (missingEnchants.length > 0) continue;
+            if (!areEnchantsValid) continue;
+            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
 
-            if (countItems < 11 && bot.count + countItems > 3) {
-                if (bot.prices.length < 20) {
-                    bot.prices.push(price);
-                  } else {
-                    // Если массив полон, удаляем первый элемент и добавляем новый в конец
-                    bot.prices.shift(); // Убираем первый элемент
-                    bot.prices.push(price); // Добавляем новый элемент в конец
-                  }
+            // 1.3. Проверка прочности (если есть durability)
+            if (slotData.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
+                const damage = slotData.nbt?.value?.Damage?.value || 0;
+                const durabilityLeft = slotData.maxDurability - damage;
+                if (durabilityLeft < slotData.maxDurability * 0.9) continue;
             }
 
-            return slotData.slot;
-        } catch (error) {
-            continue;
+            // 1.4. Получаем цену предмета
+            let price;
+            try {
+                price = await getBuyPrice(slotData);
+                if (!price || price >= configItem.priceBuy) continue;
+            } catch (error) {
+                continue;
+            }
+
+            // 2. Нашли лучшее совпадение (первое в отсортированном конфиге)!
+            return {
+                slot: slot,
+                matchedItem: configItem,
+                price: price
+            };
         }
     }
 
-    return undefined;
+    return null; // Ничего не найдено
 }
 
 

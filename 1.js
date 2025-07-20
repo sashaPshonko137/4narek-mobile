@@ -12,6 +12,7 @@ const __dirname = dirname(__filename);
 
 const infoChatID = -4709535234
 const alertChatID = -4763690917
+const pomoikaChatID = -4896488855
 
 const token = '7443919586:AAG3S5k1dAkR-kIW66p-EubIgv22mogdi58';
 
@@ -58,42 +59,13 @@ function runWorker(bot) {
 
         }, 1200000)
         worker.on('message', async (message) => {
-            if (message.name === 'balance') {
-                const currentBot = bots.find(bot => bot.username === message.username);
-                if (!currentBot) return;
-        
-                // Обновляем статистику бота
-                await updateBotStats(message.username, message.balance, message?.count);
-        
-                // Находим обновленного пользователя в массиве data
-                const updatedUser = await getUserData(message.username);
-        
-                let msg = `\n${message.username}: ${Math.floor(updatedUser?.balance / 1000000)}кк, ${updatedUser?.count}шт`;
-        
-                const now = new Date();
-                const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
-        
-                if (!currentBot.msgTime || currentBot.msgTime < twoDaysAgo) {
-                    tgBot.sendMessage(infoChatID, msg).then(sentMessage => {
-                        if (currentBot.msgID) {
-                            tgBot.deleteMessage(infoChatID, currentBot.msgID).catch(err => console.error('Ошибка удаления старого сообщения:', err));
-                        }
-                        currentBot.msgID = sentMessage.message_id;
-                        currentBot.msgTime = new Date(); // Обновляем время
-                    });
-                } else {
-                    tgBot.editMessageText(msg, {
-                        chat_id: infoChatID,
-                        message_id: currentBot.msgID
-                    }).catch(err => {
-                        console.error('Ошибка редактирования сообщения:', err.message);
-                    });
-                }
-            } else if (message.name === 'success') {
+            if (message.name === 'success') {
                 const botToUpdate = bots.find(bot => bot.username === message.username);
                 if (botToUpdate) {
                     botToUpdate.success = true;
                 }
+            } else if (message.name = "buy") {
+                tgBot.sendMessage(pomoikaChatID, message.text);
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }
