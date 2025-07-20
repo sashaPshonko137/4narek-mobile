@@ -722,7 +722,7 @@ function getBestSellPrice(item, itemPrices) {
             return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
         });
 
-        // if (!areEnchantsValid) continue;
+        if (!areEnchantsValid) continue;
         if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
 
         // 1.3. Проверка прочности (если есть durability)
