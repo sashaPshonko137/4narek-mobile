@@ -862,7 +862,7 @@ async function getBestAHSlot(bot, itemPrices) {
         const mostMissedEnchant = Object.entries(missingEnchantsStats)
             .sort((a, b) => b[1] - a[1])[0];
         
-        console.log(`[AH STATS] Наиболее часто пропускаемое зачарование: ${mostMissedEnchant[0]} (${mostMissedEnchant[1]} раз)`);
+        logger.info(`[AH STATS] Наиболее часто пропускаемое зачарование: ${mostMissedEnchant[0]} (${mostMissedEnchant[1]} раз)`);
     }
 
     return null;
