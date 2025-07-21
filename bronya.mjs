@@ -99,7 +99,7 @@ const itemPrices = [
         },
     ],
     "priceBuy": 12000000,
-    "priceSell": 13000000,
+    "priceSell": 13000001,
     },
     {
     "name": "netherite_helmet",
@@ -183,7 +183,7 @@ const itemPrices = [
         },
     ],
     "priceBuy": 14000000,
-    "priceSell": 15000000,
+    "priceSell": 15000001,
     },
 ]
 
