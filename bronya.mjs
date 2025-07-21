@@ -66,8 +66,8 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 11000000,
-    "priceSell": 12500000,
+    "priceBuy": 12000000,
+    "priceSell": 13000000,
     },
     {
     "name": "netherite_chestplate",
@@ -98,8 +98,8 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 11000000,
-    "priceSell": 12500000,
+    "priceBuy": 12000000,
+    "priceSell": 13000000,
     },
     {
     "name": "netherite_helmet",
@@ -138,8 +138,8 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 12500000,
-    "priceSell": 14000000,
+    "priceBuy": 14000000,
+    "priceSell": 15000000,
     },
         {
     "name": "netherite_boots",
@@ -182,8 +182,8 @@ const itemPrices = [
             "lvl": 4
         },
     ],
-    "priceBuy": 12500000,
-    "priceSell": 14000000,
+    "priceBuy": 14000000,
+    "priceSell": 15000000,
     },
 ]
 
@@ -402,7 +402,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     
                         case false:
                             logger.info(`${name} - поиск лучшего предмета`);
-                            slotToBuy = await getBestAHSlot(bot, itemPrices);
+                            let slotToBuy = await getBestAHSlot(bot, itemPrices);
     
                             switch (slotToBuy) {
                                 case null:
@@ -468,6 +468,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         console.log(messageText)
 
         if (messageText.includes('[☃] Вы успешно купили') && !bot.ahFull) {
+            await sendBuy(bot.type)
             await sellItems(bot)
             return
         }
@@ -495,7 +496,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             const price = parseInt(priceString);
             const id = getIdBySellPrice(itemPrices, price)
             if (id) {
-                await sendText(id);
+                await sendSell(id);
             } else {
                 logger.error('НЕ НАШЕЛ ПРОДАННЫЙ ТОВАР БАЛЯ')
             }
@@ -566,7 +567,10 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-        
+            let count = 0
+            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
+                if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_sword') count++
+            }
 
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
@@ -581,9 +585,23 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     })
 }
 
-async function sendText(text) {
+async function sendSell(text) {
   try {
-    await fetch('http://31.207.74.231:8080/update', {
+    await fetch('http://31.207.74.231:8080/sell', {
+      method: 'POST',
+      body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
+      headers: {
+        'Content-Type': 'application/json' // Указываем что отправляем JSON
+      }
+    });
+  } catch (e) {
+    console.log('Ошибка отправки:', e.message);
+  }
+}
+
+async function sendBuy(text) {
+  try {
+    await fetch('http://31.207.74.231:8080/buy', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -841,6 +859,7 @@ async function getBestAHSlot(bot, itemPrices) {
             }
 
             // 2. Нашли лучшее совпадение!
+            bot.type = configItem.id
             return slotData.slot
         }
     }
