@@ -176,7 +176,7 @@ const itemPrices = [
     }
 ]
 
-const missingEnchantsNames = ["heavy", "unstable"]
+const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
 const minBalance = 100000000
 
