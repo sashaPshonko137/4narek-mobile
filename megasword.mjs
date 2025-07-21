@@ -403,13 +403,13 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 default:
                                     if (bot.netakbistro) {
                                         bot.netakbistro = false;
-                                        await delay(getRandomDelayInRange(1100, 1100));
+                                        await delay(1100);
                                         await safeClickBuy(bot, slotToBuy, 0);
                                     } else if (slotToBuy < 18) {
                                         await delay(getRandomDelayInRange(100, 150));
                                         await safeClickBuy(bot, slotToBuy, 0);
                                     } else {
-                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 2000));
+                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(100, 1100));
                                     }
                                     
 
