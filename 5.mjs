@@ -21,7 +21,7 @@ const alertChatID = -4763690917
 const bots = [
     { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'bronya', inventoryPort: 3000, balance: 0, msgID: 0 },
     { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'bronya', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'han__babay', password: 'ggggg', anarchy: 504, type: 'sword7-bronya', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'han__babay', password: 'ggggg', anarchy: 504, type: 'bronya', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 let workers = [];
 
