@@ -34,151 +34,162 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search netherite sword';
+const ahCommand = '/ah search броня';
 
 const itemPrices = [
     {
-    "name": "netherite_sword",
-    "id": "5nomend",
+    "name": "netherite_leggings",
+    "id": "штаны",
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
             "lvl": 5
         },
         {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 2800000,
-    "priceSell": 3600000,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sword5",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
+            "name": "minecraft:blast_protection",
             "lvl": 5
         },
         {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
+            "name": "minecraft:fire_protection",
+            "lvl": 5
         },
         {
             "name": "minecraft:mending",
             "lvl": 1
         },
+        {
+            "name": "minecraft:projectile_protection",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:protection",
+            "lvl": 5
+        },
     ],
-    "priceBuy": 3600000, 
-    "priceSell": 4400000,
+    "priceBuy": 11000000,
+    "priceSell": 12500000,
     },
     {
-    "name": "netherite_sword",
-    "id": "sword6",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 6
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 3900000,
-    "priceSell": 4700000,
-    },
-    {   
-    "name": "netherite_sword",
-    "id": "7nomend",
+    "name": "netherite_chestplate",
+    "id": "нагрудник",
     "effects": [
         {
             "name": "minecraft:unbreaking",
             "lvl": 5
         },
         {
-            "name": "minecraft:sharpness",
-            "lvl": 7
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 5800000,
-    "priceSell": 6700000
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sword7",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
+            "name": "minecraft:blast_protection",
             "lvl": 5
         },
         {
-            "name": "minecraft:sharpness",
-            "lvl": 7
+            "name": "minecraft:fire_protection",
+            "lvl": 5
         },
         {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-
             "name": "minecraft:mending",
             "lvl": 1
         },
+        {
+            "name": "minecraft:projectile_protection",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:protection",
+            "lvl": 5
+        },
     ],
-    "priceBuy": 6200000,
-    "priceSell": 7300000,
+    "priceBuy": 11000000,
+    "priceSell": 12500000,
     },
     {
-    "name": "netherite_sword",
-    "id": "megasword",
+    "name": "netherite_helmet",
+    "id": "шлем",
+    "effects": [
+        {
+            "name": "minecraft:blast_protection",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:fire_protection",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:aqua_affinity",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:respiration",
+            "lvl": 3
+        },
+        {
+            "name": "minecraft:mending",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:projectile_protection",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:protection",
+            "lvl": 5
+        },
+    ],
+    "priceBuy": 12500000,
+    "priceSell": 14000000,
+    },
+        {
+    "name": "netherite_botts",
+    "id": "бошмаки",
     "effects": [
         {
             "name": "minecraft:unbreaking",
             "lvl": 5
         },
         {
-            "name": "minecraft:sharpness",
-            "lvl": 7
+            "name": "minecraft:blast_protection",
+            "lvl": 5
         },
         {
-            "name": "minecraft:fire_aspect",
+            "name": "minecraft:fire_protection",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:mending",
             "lvl": 1
         },
         {
-            "name": "poison",
-            "lvl": 2
+            "name": "minecraft:projectile_protection",
+            "lvl": 5
         },
         {
-            "name": "vampirism",
-            "lvl": 2
+            "name": "minecraft:protection",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:depth_strider",
+            "lvl": 3
+        },
+        {
+            "name": "minecraft:soul_speed",
+            "lvl": 3
+        },
+        {
+            "name": "minecraft:feather_falling",
+            "lvl": 4
         },
     ],
-    "priceBuy": 9000000,
-    "priceSell": 10000000,
-    }
+    "priceBuy": 12500000,
+    "priceSell": 14000000,
+    },
 ]
 
-const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
+const missingEnchantsNames = ["minecraft:thorns"]
 
-const minBalance = 100000000
+const minBalance = 150000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -555,10 +566,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-            let count = 0
-            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
-                if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_sword') count++
-            }
+        
 
             if (isNaN(balance)) {
                 logger.error('баланс NAN')

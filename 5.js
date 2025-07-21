@@ -19,21 +19,22 @@ const alertChatID = -4763690917
 
 // Массив с ботами
 const bots = [
-    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'chestplate', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'leggins', inventoryPort: 3001, balance: 0, msgID: 0 },
-    // { username: 'gorbatoslunyavyi', password: 'ggggg', anarchy: 605, type: 'sword7-nomend', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'bronya', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'bronya', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'han__babay', password: 'ggggg', anarchy: 504, type: 'sword7-bronya', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
-//potap_obsas
-//grisha_NABAYANE
-
 let workers = [];
 
 function runWorker(bot) {
+    workers = workers.filter(w => w.workerData?.username !== bot.username);
     return new Promise((resolve, reject) => {
-        const workerScriptPath = join(__dirname, `${bot.type}.js`);
+        const workerScriptPath = join(__dirname, `${bot.type}.mjs`);
 
         const worker = new Worker(workerScriptPath, {
-            workerData: bot
+            workerData: bot,
+            resourceLimits: {
+                maxOldGenerationSizeMb: 200, // Лимит памяти
+            }
         });
 
         bot.isManualStop = false;
@@ -49,42 +50,13 @@ function runWorker(bot) {
 
         }, 1200000)
         worker.on('message', async (message) => {
-            if (message.name === 'balance') {
-                const currentBot = bots.find(bot => bot.username === message.username);
-                if (!currentBot) return;
-        
-                // Обновляем статистику бота
-                await updateBotStats(message.username, message.balance, message?.count);
-        
-                // Находим обновленного пользователя в массиве data
-                const updatedUser = await getUserData(message.username);
-        
-                let msg = `\n${message.username}: ${Math.floor(updatedUser?.balance / 1000000)}кк, ${updatedUser?.count}шт`;
-        
-                const now = new Date();
-                const twoDaysAgo = new Date(now.getTime() - 48 * 60 * 60 * 1000);
-        
-                if (!currentBot.msgTime || currentBot.msgTime < twoDaysAgo) {
-                    tgBot.sendMessage(infoChatID, msg).then(sentMessage => {
-                        if (currentBot.msgID) {
-                            tgBot.deleteMessage(infoChatID, currentBot.msgID).catch(err => console.error('Ошибка удаления старого сообщения:', err));
-                        }
-                        currentBot.msgID = sentMessage.message_id;
-                        currentBot.msgTime = new Date(); // Обновляем время
-                    });
-                } else {
-                    tgBot.editMessageText(msg, {
-                        chat_id: infoChatID,
-                        message_id: currentBot.msgID
-                    }).catch(err => {
-                        console.error('Ошибка редактирования сообщения:', err.message);
-                    });
-                }
-            } else if (message.name === 'success') {
+            if (message.name === 'success') {
                 const botToUpdate = bots.find(bot => bot.username === message.username);
                 if (botToUpdate) {
                     botToUpdate.success = true;
                 }
+            } else if (message.name === "buy") {
+                tgBot.sendMessage(pomoikaChatID, message.text);
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }
@@ -126,13 +98,6 @@ function stopWorkers() {
 
 function gitPull() {
     return new Promise((resolve, reject) => {
-        exec('rm data.json', (err, stdout, stderr) => {
-            if (err) {
-                reject(`Error executing rm data.json: ${stderr}`);
-            } else {
-                resolve(stdout);
-            }
-        });
         exec('git pull', (err, stdout, stderr) => {
             if (err) {
                 reject(`Error executing git pull: ${stderr}`);
