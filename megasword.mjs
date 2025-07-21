@@ -391,7 +391,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     
                         case false:
                             logger.info(`${name} - поиск лучшего предмета`);
-                            slotToBuy = await getBestAHSlot(bot, itemPrices);
+                            let slotToBuy = await getBestAHSlot(bot, itemPrices);
     
                             switch (slotToBuy) {
                                 case null:
@@ -457,6 +457,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         console.log(messageText)
 
         if (messageText.includes('[☃] Вы успешно купили') && !bot.ahFull) {
+            await sendBuy(bot.type)
             await sellItems(bot)
             return
         }
@@ -484,7 +485,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             const price = parseInt(priceString);
             const id = getIdBySellPrice(itemPrices, price)
             if (id) {
-                await sendText(id);
+                await sendSell(id);
             } else {
                 logger.error('НЕ НАШЕЛ ПРОДАННЫЙ ТОВАР БАЛЯ')
             }
@@ -573,9 +574,23 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
     })
 }
 
-async function sendText(text) {
+async function sendSell(text) {
   try {
-    await fetch('http://31.207.74.231:8080/update', {
+    await fetch('http://31.207.74.231:8080/sell', {
+      method: 'POST',
+      body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
+      headers: {
+        'Content-Type': 'application/json' // Указываем что отправляем JSON
+      }
+    });
+  } catch (e) {
+    console.log('Ошибка отправки:', e.message);
+  }
+}
+
+async function sendBuy(text) {
+  try {
+    await fetch('http://31.207.74.231:8080/buy', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -833,6 +848,7 @@ async function getBestAHSlot(bot, itemPrices) {
             }
 
             // 2. Нашли лучшее совпадение!
+            bot.type = configItem.id
             return slotData.slot
         }
     }
