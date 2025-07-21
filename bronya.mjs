@@ -792,49 +792,48 @@ async function safeAH(bot) {
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
+    fs.writeFileSync('data.json', JSON.stringify(bot.currentWindow?.slots, null, 2));
+
+    // Сортируем конфиг по priceBuy (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
-    const missingEnchantsStats = {};
 
     for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
         const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
 
+        // 1. Проверяем предмет слота против ВСЕХ шаблонов конфига
         for (const configItem of sortedConfig) {
+            // 1.1. Проверка названия
             if (slotData.name !== configItem.name) continue;
 
+            // 1.2. Проверка зачарований (только >= без strictLevel)
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
-            const customEnchants = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
+            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
             
             const allEnchants = [
                 ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
-                ...customEnchants.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
+                ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
             ];
 
-            let missingRequiredEnchants = [];
             const areEnchantsValid = configItem.effects?.every(required => {
                 const foundEnchant = allEnchants.find(e => e.name === required.name);
-                if (!foundEnchant) {
-                    missingRequiredEnchants.push(required.name);
-                    return false;
-                }
-                return foundEnchant.lvl >= required.lvl;
+                if (!foundEnchant) return false;
+                return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
             });
 
-            if (!areEnchantsValid) {
-                missingRequiredEnchants.forEach(enchantName => {
-                    missingEnchantsStats[enchantName] = (missingEnchantsStats[enchantName] || 0) + 1;
-                });
-                continue;
-            }
+            if (!areEnchantsValid) continue;
             
+            // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
             if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
 
+            // 1.3. Проверка прочности (если есть durability)
             if (slotData.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
                 const damage = slotData.nbt?.value?.Damage?.value || 0;
                 const durabilityLeft = slotData.maxDurability - damage;
                 if (durabilityLeft < slotData.maxDurability * 0.9) continue;
             }
 
+            // 1.4. Получаем цену предмета
             let price;
             try {
                 price = await getBuyPrice(slotData);
@@ -842,22 +841,11 @@ async function getBestAHSlot(bot, itemPrices) {
             } catch (error) {
                 continue;
             }
-            if (slot === 44) return slotData.slot;
+
+            // 2. Нашли лучшее совпадение!
+            return slotData.slot
         }
     }
-
-    // Выводим статистику в консоль
-    if (Object.keys(missingEnchantsStats).length > 0) {
-        const sortedStats = Object.entries(missingEnchantsStats)
-            .sort((a, b) => b[1] - a[1]);
-        
-        console.log('=== AH STATS: Наиболее часто пропускаемые зачарования ===');
-        sortedStats.forEach(([enchant, count]) => {
-            console.log(`${enchant}: ${count} раз`);
-        });
-        console.log('=======================================================');
-    }
-
     return null;
 }
 
