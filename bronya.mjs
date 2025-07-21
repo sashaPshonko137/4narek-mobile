@@ -795,6 +795,9 @@ async function getBestAHSlot(bot, itemPrices) {
     // Сортируем конфиг по priceBuy (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
 
+    // Объект для отслеживания пропущенных зачарований
+    const missingEnchantsStats = {};
+
     for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
         const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
@@ -813,15 +816,24 @@ async function getBestAHSlot(bot, itemPrices) {
                 ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
             ];
 
+            let missingRequiredEnchants = [];
             const areEnchantsValid = configItem.effects?.every(required => {
                 const foundEnchant = allEnchants.find(e => e.name === required.name);
-                if (!foundEnchant) return false;
-                return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
+                if (!foundEnchant) {
+                    missingRequiredEnchants.push(required.name);
+                    return false;
+                }
+                return foundEnchant.lvl >= required.lvl;
             });
 
-            if (!areEnchantsValid) continue;
+            if (!areEnchantsValid) {
+                // Записываем статистику по пропущенным зачарованиям
+                missingRequiredEnchants.forEach(enchantName => {
+                    missingEnchantsStats[enchantName] = (missingEnchantsStats[enchantName] || 0) + 1;
+                });
+                continue;
+            }
             
-            // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
             if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
 
             // 1.3. Проверка прочности (если есть durability)
@@ -841,9 +853,18 @@ async function getBestAHSlot(bot, itemPrices) {
             }
 
             // 2. Нашли лучшее совпадение!
-            return slotData.slot
+            return slotData.slot;
         }
     }
+
+    // Логируем статистику по пропущенным зачарованиям в конце цикла
+    if (Object.keys(missingEnchantsStats).length > 0) {
+        const mostMissedEnchant = Object.entries(missingEnchantsStats)
+            .sort((a, b) => b[1] - a[1])[0];
+        
+        console.log(`[AH STATS] Наиболее часто пропускаемое зачарование: ${mostMissedEnchant[0]} (${mostMissedEnchant[1]} раз)`);
+    }
+
     return null;
 }
 
