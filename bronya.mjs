@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'fs';
 import mineflayer from 'mineflayer';
 import inventoryViewer from 'mineflayer-web-inventory';
 import { createLogger, transports, format } from 'winston';
@@ -142,7 +142,7 @@ const itemPrices = [
     "priceSell": 14000000,
     },
         {
-    "name": "netherite_botts",
+    "name": "netherite_boots",
     "id": "бошмаки",
     "effects": [
         {
@@ -792,8 +792,6 @@ async function safeAH(bot) {
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
-    fs.writeFileSync('data.json', JSON.stringify(bot.currentWindow?.slots, null, 2));
-
     // Сортируем конфиг по priceBuy (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
 
@@ -848,10 +846,6 @@ async function getBestAHSlot(bot, itemPrices) {
     }
     return null;
 }
-
-
-
-
 
 async function getBuyPrice(slotData) {
     const loreArray = slotData.nbt?.value?.display?.value?.Lore?.value?.value;

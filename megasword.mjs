@@ -176,7 +176,7 @@ const itemPrices = [
     }
 ]
 
-const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
+const missingEnchantsNames = ["heavy", "unstable"]
 
 const minBalance = 100000000
 
@@ -838,10 +838,6 @@ async function getBestAHSlot(bot, itemPrices) {
     }
     return null;
 }
-
-
-
-
 
 async function getBuyPrice(slotData) {
     const loreArray = slotData.nbt?.value?.display?.value?.Lore?.value?.value;
