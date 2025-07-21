@@ -141,50 +141,50 @@ const itemPrices = [
     "priceBuy": 14000000,
     "priceSell": 15000000,
     },
-        {
-    "name": "netherite_boots",
-    "id": "бошмаки",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 5
-        },
-        {
-            "name": "minecraft:blast_protection",
-            "lvl": 5
-        },
-        {
-            "name": "minecraft:fire_protection",
-            "lvl": 5
-        },
-        {
-            "name": "minecraft:mending",
-            "lvl": 1
-        },
-        {
-            "name": "minecraft:projectile_protection",
-            "lvl": 5
-        },
-        {
-            "name": "minecraft:protection",
-            "lvl": 5
-        },
-        {
-            "name": "minecraft:depth_strider",
-            "lvl": 3
-        },
-        {
-            "name": "minecraft:soul_speed",
-            "lvl": 3
-        },
-        {
-            "name": "minecraft:feather_falling",
-            "lvl": 4
-        },
-    ],
-    "priceBuy": 14000000,
-    "priceSell": 15000001,
-    },
+    //     {
+    // "name": "netherite_boots",
+    // "id": "бошмаки",
+    // "effects": [
+    //     {
+    //         "name": "minecraft:unbreaking",
+    //         "lvl": 5
+    //     },
+    //     {
+    //         "name": "minecraft:blast_protection",
+    //         "lvl": 5
+    //     },
+    //     {
+    //         "name": "minecraft:fire_protection",
+    //         "lvl": 5
+    //     },
+    //     {
+    //         "name": "minecraft:mending",
+    //         "lvl": 1
+    //     },
+    //     {
+    //         "name": "minecraft:projectile_protection",
+    //         "lvl": 5
+    //     },
+    //     {
+    //         "name": "minecraft:protection",
+    //         "lvl": 5
+    //     },
+    //     {
+    //         "name": "minecraft:depth_strider",
+    //         "lvl": 3
+    //     },
+    //     {
+    //         "name": "minecraft:soul_speed",
+    //         "lvl": 3
+    //     },
+    //     {
+    //         "name": "minecraft:feather_falling",
+    //         "lvl": 4
+    //     },
+    // ],
+    // "priceBuy": 14000000,
+    // "priceSell": 15000001,
+    // },
 ]
 
 const missingEnchantsNames = ["minecraft:thorns"]
