@@ -842,8 +842,7 @@ async function getBestAHSlot(bot, itemPrices) {
             } catch (error) {
                 continue;
             }
-
-            return slotData.slot;
+            if (slot === 44) return slotData.slot;
         }
     }
 
