@@ -604,7 +604,7 @@ async function sellItems(bot) {
         // Продажа предметов только если AH не заполнен
         if (!bot.ahFull) {
             // 1. Сначала проверяем быструю панель (горячие слоты)
-            for (let quickSlot = 0; quickSlot < 0-bot.count; quickSlot++) {
+            for (let quickSlot = 0; quickSlot < 8-bot.count; quickSlot++) {
                 if (bot.ahFull) break;
                 
                 const slotIndex = firstSellSlot + quickSlot;
@@ -631,7 +631,7 @@ async function sellItems(bot) {
             // 2. Затем проверяем основной инвентарь
             if (!bot.ahFull) {
                 let sellSlot = null
-                for (let i = 0; i < 9; i++) {
+                for (let i = 0; i < 8-bot.count; i++) {
                     if (!bot.inventory.slots[i+firstSellSlot]) {
                         sellSlot = i
                         break

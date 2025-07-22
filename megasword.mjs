@@ -176,6 +176,7 @@ const itemPrices = [
     }
 ]
 
+
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
 const minBalance = 100000000
@@ -432,7 +433,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
-                for (let i = 0; i < 3; i++) {
+                for (let i = 0; i < 9; i++) {
                     if (bot.currentWindow?.slots[i]) bot.count++
                 }
                 bot.menu = setAH;
@@ -481,14 +482,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
-            const priceString = messageText.replace(/\D/g, '');
-            const price = parseInt(priceString);
-            const id = getIdBySellPrice(itemPrices, price)
-            if (id) {
-                await sendSell(id);
-            } else {
-                logger.error('НЕ НАШЕЛ ПРОДАННЫЙ ТОВАР БАЛЯ')
-            }
+            bot.count--
             await sellItems(bot)
             return
         }
@@ -635,7 +629,7 @@ async function sellItems(bot) {
         // Продажа предметов только если AH не заполнен
         if (!bot.ahFull) {
             // 1. Сначала проверяем быструю панель (горячие слоты)
-            for (let quickSlot = 0; quickSlot < 9; quickSlot++) {
+            for (let quickSlot = 0; quickSlot < 8-bot.count; quickSlot++) {
                 if (bot.ahFull) break;
                 
                 const slotIndex = firstSellSlot + quickSlot;
@@ -662,7 +656,7 @@ async function sellItems(bot) {
             // 2. Затем проверяем основной инвентарь
             if (!bot.ahFull) {
                 let sellSlot = null
-                for (let i = 0; i < 9; i++) {
+                for (let i = 0; i < 8-bot.count; i++) {
                     if (!bot.inventory.slots[i+firstSellSlot]) {
                         sellSlot = i
                         break
@@ -724,7 +718,7 @@ async function sellItems(bot) {
  * @param {Array} itemPrices - Конфиг с шаблонами цен.
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
-function getBestSellPrice(item, itemPrices) {
+async function getBestSellPrice(item, itemPrices) {
     // if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
@@ -761,6 +755,7 @@ function getBestSellPrice(item, itemPrices) {
         }
 
         // 2. Нашли подходящий шаблон — возвращаем его priceSell!
+        await sendSell(configItem.id)
         return configItem.priceSell;
     }
 
