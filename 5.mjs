@@ -19,9 +19,9 @@ const alertChatID = -4763690917
 
 // Массив с ботами
 const bots = [
-    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'bronya', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'bronya', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'han__babay', password: 'ggggg', anarchy: 504, type: 'bronya', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'mega-test', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'mega-test', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'han__babay', password: 'ggggg', anarchy: 504, type: 'mega-test', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 let workers = [];
 

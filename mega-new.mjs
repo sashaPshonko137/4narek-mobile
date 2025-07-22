@@ -36,199 +36,76 @@ const slotToTryBuying = 0;
 
 const ahCommand = '/ah search netherite sword';
 
-const itemPrices = [
-    {
-    "name": "netherite_sword",
-    "id": "sh5un4",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
+const data = fs.readFileSync('sword-price.json', 'utf8');
+const prices = JSON.parse(data);
+
+const requiredEnchants = [
         {
             "name": "minecraft:sharpness",
-            "lvl": 5
+            "lvl": 5,
         },
-    ],
-    "priceBuy": 2000001,
-    "priceSell": 2600001,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sh5un5",
-    "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 5
+            "lvl": 4,
         },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
-        },
-    ],
-    "priceBuy": 2300002, 
-    "priceSell": 3000002,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sh5un4mend",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
-        },
+]
+
+const enchants = [
         {
             "name": "minecraft:mending",
-            "lvl": 1
+            "lvl": 1,
+            "ratio": 0.1
         },
-    ],
-    "priceBuy": 2600003,
-    "priceSell": 3400003,
-    },
-    {   
-    "name": "netherite_sword",
-    "id": "sh5un4fr1",
-    "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 4
+            "lvl": 5,
+            "ratio": 0.1
         },
         {
             "name": "minecraft:sharpness",
-            "lvl": 5
+            "lvl": 6,
+            "ratio": 0.16
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7,
+            "ratio": 0.6
         },
         {
             "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 2400004,
-    "priceSell": 3100004,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sh5un4fr1",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
+            "lvl": 1,
+            "ratio": 0.1
         },
         {
             "name": "minecraft:fire_aspect",
-            "lvl": 2
-        },
-    ],
-    "priceBuy": 2500005,
-    "priceSell": 3200005,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sh5un4ps1",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
+            "lvl": 2,
+            "ratio": 0.2
         },
         {
             "name": "poison",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 2400006,
-    "priceSell": 3100006,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sh5un4ps2",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
+            "lvl": 1,
+            "ratio": 0.2
         },
         {
             "name": "poison",
-            "lvl": 2
-        },
-    ],
-    "priceBuy": 2800007,
-    "priceSell": 3500007,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sh5un4ps3",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
+            "lvl": 2,
+            "ratio": 0.3
         },
         {
             "name": "poison",
-            "lvl": 3
-        },
-    ],
-    "priceBuy": 2300008,
-    "priceSell": 3000008,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sh5un4vp1",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
+            "lvl": 3,
+            "ratio": 0.4
         },
         {
             "name": "vampirism",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 2400009,
-    "priceSell": 3000009,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sh5un4vp2",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
+            "lvl": 1,
+            "ratio": 0.15
         },
         {
             "name": "vampirism",
-            "lvl": 2
+            "lvl": 2,
+            "ratio": 0.3
         },
-    ],
-    "priceBuy": 2800010,
-    "priceSell": 3700010,
-    }
 ]
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
@@ -487,7 +364,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
-                for (let i = 0; i < 3; i++) {
+                for (let i = 0; i < 8; i++) {
                     if (bot.currentWindow?.slots[i]) bot.count++
                 }
                 bot.menu = setAH;
@@ -535,20 +412,13 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         }
 
         if (messageText.includes('[☃] У Вас купили')) {
+            bot.count--
             bot.ahFull = false;
-            const priceString = messageText.replace(/\D/g, '');
-            const price = parseInt(priceString);
-            const id = getIdBySellPrice(itemPrices, price)
-            if (id) {
-                await sendSell(id);
-            } else {
-                logger.error('НЕ НАШЕЛ ПРОДАННЫЙ ТОВАР БАЛЯ')
-            }
+
             await sellItems(bot)
             return
         }
         if (messageText.includes('выставлен на продажу!')) {
-            bot.inventoryFull = false
             bot.count++
             return
         }
@@ -563,6 +433,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             return
         }
         if (messageText.includes('[☃] Освободите хранилище или уберите предметы с продажи')) {
+            bot.count = 8
             bot.ahFull = true;
             return
         }
@@ -631,7 +502,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
 async function sendSell(text) {
   try {
-    await fetch('http://31.207.74.231:8080/sell', {
+    await fetch('http://31.207.74.231:8080/sell_shue', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -645,7 +516,7 @@ async function sendSell(text) {
 
 async function sendBuy(text) {
   try {
-    await fetch('http://31.207.74.231:8080/buy', {
+    await fetch('http://31.207.74.231:8080/buy_shue', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -690,7 +561,7 @@ async function sellItems(bot) {
         // Продажа предметов только если AH не заполнен
         if (!bot.ahFull) {
             // 1. Сначала проверяем быструю панель (горячие слоты)
-            for (let quickSlot = 0; quickSlot < 9; quickSlot++) {
+            for (let quickSlot = 0; quickSlot < 8-bot.count; quickSlot++) {
                 if (bot.ahFull) break;
                 
                 const slotIndex = firstSellSlot + quickSlot;
@@ -779,47 +650,59 @@ async function sellItems(bot) {
  * @param {Array} itemPrices - Конфиг с шаблонами цен.
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
-function getBestSellPrice(item, itemPrices) {
-    // if (!item || !itemPrices?.length) return 0;
+async function getBestSellPrice(item) {
+    if (!item) return 0;
 
-    // Сортируем конфиг по priceSell (от большего к меньшему)
-    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+    // Конфигурация (используем глобальные константы)
+    const config = {
+        basePrice: prices.sellPrice, // Базовая цена продажи без зачарований
+        requiredEnchants: requiredEnchants,
+        forbiddenEnchants: missingEnchantsNames,
+        durabilityThreshold: 0.9
+    };
 
-    // 1. Проверяем предмет против ВСЕХ шаблонов конфига
-    for (const configItem of sortedConfig) {
-        // 1.1. Проверка названия
-        if (item.name !== configItem.name) continue;
-
-        // // 1.2. Проверка зачарований (гибкая)
-        const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
-        const customEnchantments = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
-        
-        const allEnchants = [
-            ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
-            ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
-        ];
-
-        const areEnchantsValid = configItem.effects?.every(required => {
-            const foundEnchant = allEnchants.find(e => e.name === required.name);
-            if (!foundEnchant) return false; // Нет такого зачарования
-            return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
-        });
-
-        if (!areEnchantsValid) continue;
-        if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
-
-        // 1.3. Проверка прочности (если есть durability)
-        if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
-            const damage = item.nbt?.value?.Damage?.value || 0;
-            const durabilityLeft = item.maxDurability - damage;
-            if (durabilityLeft < item.maxDurability * 0.9) continue;
+    // 1. Проверка прочности
+    const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
+    if (item.maxDurability && !enchantments.some(e => e.id?.value === 'minecraft:mending')) {
+        const damage = item.nbt?.value?.Damage?.value || 0;
+        if ((item.maxDurability - damage) < item.maxDurability * config.durabilityThreshold) {
+            return 0;
         }
-
-        // 2. Нашли подходящий шаблон — возвращаем его priceSell!
-        return configItem.priceSell;
     }
 
-    return 0; // Предмет не подходит под конфиг
+    // 2. Извлекаем все зачарования предмета
+    const customEnchants = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
+    const allEnchants = [
+        ...enchantments.map(e => ({ 
+            name: e.id?.value, 
+            lvl: e.lvl?.value 
+        })),
+        ...customEnchants.map(e => ({ 
+            name: e.type?.value, 
+            lvl: e.level?.value 
+        }))
+    ];
+
+    // 3. Проверка обязательных зачарований
+    const meetsRequirements = config.requiredEnchants.every(req => {
+        const found = allEnchants.find(e => e.name === req.name);
+        return found && found.lvl >= req.lvl;
+    });
+    
+    if (!meetsRequirements) return 0;
+
+    // 4. Проверка запрещенных зачарований
+    if (allEnchants.some(e => config.forbiddenEnchants.includes(e.name))) return 0;
+
+    // 5. Расчет цены
+    try {
+        const priceMultiplier = calculatePriceMultiplier(allEnchants);
+        const calculatedPrice = Math.floor(config.basePrice * priceMultiplier);
+        await sendSell(generateEnchantsString)
+        return calculatedPrice;
+    } catch (error) {
+        return 0;
+    }
 }
 
 function generateRandomKey(bot) {
@@ -851,67 +734,153 @@ async function safeAH(bot) {
     }
 }
 
-async function getBestAHSlot(bot, itemPrices) {
+function generateEnchantsString(allEnchants) {
+    // 1. Получаем список всех уникальных зачарований из конфига
+    const knownEnchants = [...new Set(enchants.map(e => e.name))];
+    
+    // 2. Определяем обязательные зачарования (первые два из конфига)
+    const requiredEnchantNames = [
+        'minecraft:sharpness', 
+        'minecraft:unbreaking'
+    ];
+
+    // 3. Фильтруем только известные зачарования
+    const filteredEnchants = allEnchants.filter(enchant => 
+        knownEnchants.includes(enchant.name)
+    );
+
+    // 4. Разделяем на обязательные и дополнительные
+    const [required, additional] = filteredEnchants.reduce((acc, enchant) => {
+        requiredEnchantNames.includes(enchant.name) ? 
+            acc[0].push(enchant) : 
+            acc[1].push(enchant);
+        return acc;
+    }, [[], []]);
+
+    // 5. Сортируем:
+    // - обязательные в заданном порядке
+    // - дополнительные по алфавиту
+    const sortedRequired = requiredEnchantNames
+        .map(name => required.find(e => e.name === name))
+        .filter(Boolean)
+        // Берем максимальный уровень для каждого обязательного зачарования
+        .reduce((unique, item) => {
+            const existing = unique.find(e => e.name === item.name);
+            if (!existing || item.lvl > existing.lvl) {
+                return [...unique.filter(e => e.name !== item.name), item];
+            }
+            return unique;
+        }, []);
+
+    const sortedAdditional = additional
+        .sort((a, b) => a.name.localeCompare(b.name))
+        // Убираем дубликаты (оставляем максимальный уровень)
+        .reduce((unique, item) => {
+            const existing = unique.find(e => e.name === item.name);
+            if (!existing || item.lvl > existing.lvl) {
+                return [...unique.filter(e => e.name !== item.name), item];
+            }
+            return unique;
+        }, []);
+
+    // 6. Формируем итоговую строку
+    const result = [...sortedRequired, ...sortedAdditional]
+        .map(enchant => {
+            const shortName = enchant.name.replace('minecraft:', '');
+            return `${shortName}-${enchant.lvl}`;
+        })
+        .join('_');
+
+    return result || 'no_enchants'; // Возвращаем 'no_enchants' если нет зачарований
+}
+
+async function getBestAHSlot(bot) {
     if (!bot.currentWindow?.slots) return null;
 
-    // Сортируем конфиг по priceBuy (от большего к меньшему)
-    const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
+    // Конфигурация (используем переданные глобальные константы)
+    const config = {
+        basePrice: prices.buyPrice,
+        requiredEnchants: requiredEnchants,
+        forbiddenEnchants: missingEnchantsNames,
+        durabilityThreshold: 0.9
+    };
 
     for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
         const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
 
-        // 1. Проверяем предмет слота против ВСЕХ шаблонов конфига
-        for (const configItem of sortedConfig) {
-            // 1.1. Проверка названия
-            if (slotData.name !== configItem.name) continue;
-
-            // 1.2. Проверка зачарований (только >= без strictLevel)
-            const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
-            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
-            
-            const allEnchants = [
-                ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
-                ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
-            ];
-
-            const areEnchantsValid = configItem.effects?.every(required => {
-                const foundEnchant = allEnchants.find(e => e.name === required.name);
-                if (!foundEnchant) return false;
-                return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
-            });
-
-            if (!areEnchantsValid) continue;
-            
-            // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
-            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
-
-            // 1.3. Проверка прочности (если есть durability)
-            if (slotData.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
-                const damage = slotData.nbt?.value?.Damage?.value || 0;
-                const durabilityLeft = slotData.maxDurability - damage;
-                if (durabilityLeft < slotData.maxDurability * 0.9) continue;
-            }
-
-            // 1.4. Получаем цену предмета
-            let price;
-            try {
-                price = await getBuyPrice(slotData);
-                if (!price || price >= configItem.priceBuy) continue;
-            } catch (error) {
+        // 1. Проверка прочности
+        const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
+        if (slotData.maxDurability && !enchantments.some(e => e.id?.value === 'minecraft:mending')) {
+            const damage = slotData.nbt?.value?.Damage?.value || 0;
+            if ((slotData.maxDurability - damage) < slotData.maxDurability * config.durabilityThreshold) {
                 continue;
             }
+        }
 
-            // 2. Нашли лучшее совпадение!
-            bot.type = configItem.id
-            if (!bot.type) {
-                console.log(configItem)
-                logger.error('id undefined')
-            }
+        // 2. Извлекаем все зачарования предмета
+        const customEnchants = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
+        const allEnchants = [
+            ...enchantments.map(e => ({ 
+                name: e.id?.value, 
+                lvl: e.lvl?.value 
+            })),
+            ...customEnchants.map(e => ({ 
+                name: e.type?.value, 
+                lvl: e.level?.value 
+            }))
+        ];
+
+        // 3. Проверка обязательных зачарований
+        const meetsRequirements = config.requiredEnchants.every(req => {
+            const found = allEnchants.find(e => e.name === req.name);
+            return found && found.lvl >= req.lvl;
+        });
+        
+        if (!meetsRequirements) continue;
+
+        // 4. Проверка запрещенных зачарований
+        if (allEnchants.some(e => config.forbiddenEnchants.includes(e.name))) continue;
+
+        // 5. Расчет цены
+        try {
+            const priceMultiplier = calculatePriceMultiplier(allEnchants);
+            const calculatedMaxPrice = Math.floor(config.basePrice * priceMultiplier);
+            const currentPrice = await getBuyPrice(slotData);
+
+            if (!currentPrice || currentPrice > calculatedMaxPrice) continue;
+
+            bot.type = generateEnchantsString(allEnchants)
             return slotData.slot
+        } catch (error) {
+            continue;
         }
     }
     return null;
+}
+
+function calculatePriceMultiplier(enchants) {
+    let totalRatio = 1.0;
+    
+    // Преобразуем глобальный массив enchants в удобный формат
+    const enchantRatios = {};
+    enchantsConfig.forEach(e => {
+        if (!enchantRatios[e.name]) enchantRatios[e.name] = {};
+        enchantRatios[e.name][e.lvl] = e.ratio;
+    });
+
+    enchants.forEach(enchant => {
+        const ratios = enchantRatios[enchant.name];
+        if (ratios) {
+            // Берем коэффициент для конкретного уровня зачарования
+            const ratio = ratios[enchant.lvl];
+            if (ratio !== undefined) {
+                totalRatio += ratio;
+            }
+        }
+    });
+
+    return totalRatio;
 }
 
 async function getBuyPrice(slotData) {
