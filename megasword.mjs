@@ -36,6 +36,8 @@ const slotToTryBuying = 0;
 
 const ahCommand = '/ah search netherite sword';
 
+let type = ""
+
 const itemPrices = [
     {
     "name": "netherite_sword",
@@ -54,8 +56,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 3200000,
-    "priceSell": 3900000,
+    "priceBuy": 3400000,
+    "priceSell": 4100000,
     },
     {
     "name": "netherite_sword",
@@ -78,8 +80,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 3500000, 
-    "priceSell": 4300000,
+    "priceBuy": 3700000, 
+    "priceSell": 4500000,
     },
     {
     "name": "netherite_sword",
@@ -98,8 +100,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 3900000,
-    "priceSell": 4800000,
+    "priceBuy": 4100000,
+    "priceSell": 4900000,
     },
     {   
     "name": "netherite_sword",
@@ -118,8 +120,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 5800000,
-    "priceSell": 6800000
+    "priceBuy": 6000000,
+    "priceSell": 6900000
     },
     {
     "name": "netherite_sword",
@@ -143,8 +145,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 6400000,
-    "priceSell": 7400000,
+    "priceBuy": 6700000,
+    "priceSell": 7700000,
     },
     {
     "name": "netherite_sword",
@@ -171,11 +173,10 @@ const itemPrices = [
             "lvl": 2
         },
     ],
-    "priceBuy": 9000000,
+    "priceBuy": 9300000,
     "priceSell": 10000000,
     }
 ]
-
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
@@ -433,7 +434,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
-                for (let i = 0; i < 9; i++) {
+                for (let i = 0; i < 3; i++) {
                     if (bot.currentWindow?.slots[i]) bot.count++
                 }
                 bot.menu = setAH;
@@ -482,7 +483,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
-            bot.count--
+            await sendSell(bot.type)
             await sellItems(bot)
             return
         }
@@ -629,7 +630,7 @@ async function sellItems(bot) {
         // Продажа предметов только если AH не заполнен
         if (!bot.ahFull) {
             // 1. Сначала проверяем быструю панель (горячие слоты)
-            for (let quickSlot = 0; quickSlot < 8-bot.count; quickSlot++) {
+            for (let quickSlot = 0; quickSlot < 9; quickSlot++) {
                 if (bot.ahFull) break;
                 
                 const slotIndex = firstSellSlot + quickSlot;
@@ -656,7 +657,7 @@ async function sellItems(bot) {
             // 2. Затем проверяем основной инвентарь
             if (!bot.ahFull) {
                 let sellSlot = null
-                for (let i = 0; i < 8-bot.count; i++) {
+                for (let i = 0; i < 9; i++) {
                     if (!bot.inventory.slots[i+firstSellSlot]) {
                         sellSlot = i
                         break
@@ -718,7 +719,7 @@ async function sellItems(bot) {
  * @param {Array} itemPrices - Конфиг с шаблонами цен.
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
-async function getBestSellPrice(item, itemPrices) {
+function getBestSellPrice(item, itemPrices) {
     // if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
@@ -755,7 +756,7 @@ async function getBestSellPrice(item, itemPrices) {
         }
 
         // 2. Нашли подходящий шаблон — возвращаем его priceSell!
-        await sendSell(configItem.id)
+        type = configItem.id
         return configItem.priceSell;
     }
 
