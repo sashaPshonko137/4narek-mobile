@@ -482,14 +482,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
             bot.count--
-            const priceString = messageText.replace(/\D/g, '');
-            const price = parseInt(priceString);
-            const id = getIdBySellPrice(itemPrices, price)
-            if (id) {
-                await sendSell(id);
-            } else {
-                logger.error('НЕ НАШЕЛ ПРОДАННЫЙ ТОВАР БАЛЯ')
-            }
             await sellItems(bot)
             return
         }
@@ -636,7 +628,7 @@ async function sellItems(bot) {
         // Продажа предметов только если AH не заполнен
         if (!bot.ahFull) {
             // 1. Сначала проверяем быструю панель (горячие слоты)
-            for (let quickSlot = 0; quickSlot < 9; quickSlot++) {
+            for (let quickSlot = 0; quickSlot < 0-bot.count; quickSlot++) {
                 if (bot.ahFull) break;
                 
                 const slotIndex = firstSellSlot + quickSlot;
@@ -725,7 +717,7 @@ async function sellItems(bot) {
  * @param {Array} itemPrices - Конфиг с шаблонами цен.
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
-function getBestSellPrice(item, itemPrices) {
+async function getBestSellPrice(item, itemPrices) {
     // if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
@@ -762,6 +754,7 @@ function getBestSellPrice(item, itemPrices) {
         }
 
         // 2. Нашли подходящий шаблон — возвращаем его priceSell!
+        await sendSell(configItem.id)
         return configItem.priceSell;
     }
 

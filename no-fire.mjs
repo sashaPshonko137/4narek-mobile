@@ -38,8 +38,8 @@ const ahCommand = '/ah search netherite sword';
 
 const itemPrices = [
     {
-    "name": "netherite_sword",
-    "id": "5nomend-nofire",
+    "name": "netherite_sword-nofire",
+    "id": "5nomend",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -50,12 +50,12 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 3800000,
-    "priceSell": 4700000,
+    "priceBuy": 3200000,
+    "priceSell": 3900000,
     },
     {
-    "name": "netherite_sword",
-    "id": "sword5-nofire",
+    "name": "netherite_sword-nofire",
+    "id": "sword5",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -70,12 +70,12 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 4400000, 
-    "priceSell": 5400000,
+    "priceBuy": 3500000, 
+    "priceSell": 4300000,
     },
     {
-    "name": "netherite_sword",
-    "id": "sword6-nofire",
+    "name": "netherite_sword-nofire",
+    "id": "sword6",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -86,12 +86,12 @@ const itemPrices = [
             "lvl": 6
         },
     ],
-    "priceBuy": 4300000,
-    "priceSell": 5500000,
+    "priceBuy": 3900000,
+    "priceSell": 4800000,
     },
     {   
-    "name": "netherite_sword",
-    "id": "7nomend-nofire",
+    "name": "netherite_sword-nofire",
+    "id": "7nomend",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -102,12 +102,12 @@ const itemPrices = [
             "lvl": 7
         },
     ],
-    "priceBuy": 6200000,
-    "priceSell": 7300000
+    "priceBuy": 5800000,
+    "priceSell": 6800000
     },
     {
-    "name": "netherite_sword",
-    "id": "sword7-nofire",
+    "name": "netherite_sword-nofire",
+    "id": "sword7",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -123,12 +123,12 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 7000000,
-    "priceSell": 8200000,
+    "priceBuy": 6400000,
+    "priceSell": 7400000,
     },
     {
-    "name": "netherite_sword",
-    "id": "megasword-nofire",
+    "name": "netherite_sword-nofire",
+    "id": "megasword",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -147,11 +147,10 @@ const itemPrices = [
             "lvl": 2
         },
     ],
-    "priceBuy": 9300000,
+    "priceBuy": 9000000,
     "priceSell": 10000000,
     }
 ]
-
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
@@ -409,7 +408,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
-                for (let i = 0; i < 3; i++) {
+                for (let i = 0; i < 9; i++) {
                     if (bot.currentWindow?.slots[i]) bot.count++
                 }
                 bot.menu = setAH;
@@ -458,14 +457,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
-            const priceString = messageText.replace(/\D/g, '');
-            const price = parseInt(priceString);
-            const id = getIdBySellPrice(itemPrices, price)
-            if (id) {
-                await sendSell(id);
-            } else {
-                logger.error('НЕ НАШЕЛ ПРОДАННЫЙ ТОВАР БАЛЯ')
-            }
+            bot.count--
             await sellItems(bot)
             return
         }
@@ -553,7 +545,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
 async function sendSell(text) {
   try {
-    await fetch('http://31.207.74.231:8080/sell_shue', {
+    await fetch('http://31.207.74.231:8080/sell', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -567,7 +559,7 @@ async function sendSell(text) {
 
 async function sendBuy(text) {
   try {
-    await fetch('http://31.207.74.231:8080/buy_shue', {
+    await fetch('http://31.207.74.231:8080/buy', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -612,7 +604,7 @@ async function sellItems(bot) {
         // Продажа предметов только если AH не заполнен
         if (!bot.ahFull) {
             // 1. Сначала проверяем быструю панель (горячие слоты)
-            for (let quickSlot = 0; quickSlot < 9; quickSlot++) {
+            for (let quickSlot = 0; quickSlot < 0-bot.count; quickSlot++) {
                 if (bot.ahFull) break;
                 
                 const slotIndex = firstSellSlot + quickSlot;
@@ -701,7 +693,7 @@ async function sellItems(bot) {
  * @param {Array} itemPrices - Конфиг с шаблонами цен.
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
-function getBestSellPrice(item, itemPrices) {
+async function getBestSellPrice(item, itemPrices) {
     // if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
@@ -738,6 +730,7 @@ function getBestSellPrice(item, itemPrices) {
         }
 
         // 2. Нашли подходящий шаблон — возвращаем его priceSell!
+        await sendSell(configItem.id)
         return configItem.priceSell;
     }
 
