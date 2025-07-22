@@ -849,6 +849,7 @@ async function getBestAHSlot(bot, itemPrices) {
 
             // 2. Нашли лучшее совпадение!
             bot.type = configItem.id
+            if (bot.type) logger.error('id undefined')
             return slotData.slot
         }
     }
