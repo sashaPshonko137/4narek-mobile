@@ -606,6 +606,9 @@ function getIdBySellPrice(itemPrices, targetPrice) {
 }
 
 async function sellItems(bot) {
+    const sellLimit = 8 - bot.count; // Максимальное количество предметов для продажи
+    let itemsSold = 0; // Счетчик проданных предметов
+
     if (bot.mu) {
         await delay(500);
         await safeAH(bot);
@@ -627,11 +630,11 @@ async function sellItems(bot) {
             await delay(getRandomDelayInRange(300, 500));
         }
 
-        // Продажа предметов только если AH не заполнен
-        if (!bot.ahFull) {
+        // Продажа предметов только если AH не заполнен и не достигнут лимит
+        if (!bot.ahFull && itemsSold < sellLimit) {
             // 1. Сначала проверяем быструю панель (горячие слоты)
             for (let quickSlot = 0; quickSlot < 9; quickSlot++) {
-                if (bot.ahFull) break;
+                if (bot.ahFull || itemsSold >= sellLimit) break;
                 
                 const slotIndex = firstSellSlot + quickSlot;
                 const item = bot.inventory.slots[slotIndex];
@@ -646,6 +649,7 @@ async function sellItems(bot) {
                         await delay(getRandomDelayInRange(400, 600));
                     }
                     bot.chat(`/ah sell ${price}`);
+                    itemsSold++;
                     await delay(getRandomDelayInRange(600, 800));
                 } else {
                     // Выбрасывание невалидного предмета
@@ -655,17 +659,17 @@ async function sellItems(bot) {
             }
 
             // 2. Затем проверяем основной инвентарь
-            if (!bot.ahFull) {
-                let sellSlot = null
+            if (!bot.ahFull && itemsSold < sellLimit) {
+                let sellSlot = null;
                 for (let i = 0; i < 9; i++) {
                     if (!bot.inventory.slots[i+firstSellSlot]) {
-                        sellSlot = i
-                        break
+                        sellSlot = i;
+                        break;
                     }
                 }
                 if (sellSlot !== null) {
                     for (let inventorySlot = 0; inventorySlot < 27; inventorySlot++) {
-                        if (bot.ahFull) break;
+                        if (bot.ahFull || itemsSold >= sellLimit) break;
                     
                         const item = bot.inventory.slots[inventorySlot];
                         if (!item) continue;
@@ -679,6 +683,7 @@ async function sellItems(bot) {
                             await delay(getRandomDelayInRange(500, 700));
                         
                             bot.chat(`/ah sell ${price}`);
+                            itemsSold++;
                             await delay(getRandomDelayInRange(600, 800));
                             break; // После успешной продажи прерываем цикл
                         } else {
@@ -694,7 +699,7 @@ async function sellItems(bot) {
         logger.error(`${bot.username} - Ошибка в sellItems: ${error.stack || error}`);
     } finally {
         // Пост-обработка
-        logger.info(`${bot.username} - завершение продажи`);
+        logger.info(`${bot.username} - завершение продажи (продано ${itemsSold}/${sellLimit} предметов)`);
         await delay(500);
         
         bot.chat('/balance');
@@ -712,7 +717,6 @@ async function sellItems(bot) {
         await safeAH(bot);
     }
 }
-
 /**
  * Находит лучшую цену продажи для предмета на основе зачарований.
  * @param {Object} item - Предмет (из inventory.slots или window.slots).
