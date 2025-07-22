@@ -111,7 +111,7 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
-    "id": "sh5un4fr1",
+    "id": "sh5un4fr2",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -854,61 +854,59 @@ async function safeAH(bot) {
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
-    // Сортируем конфиг по priceBuy (от большего к меньшему)
-    const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
-
     for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
         const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
 
-        // 1. Проверяем предмет слота против ВСЕХ шаблонов конфига
-        for (const configItem of sortedConfig) {
-            // 1.1. Проверка названия
+        // 1. Проверяем предмет слота против всех конфигов
+        for (const configItem of itemPrices) {
+            // 1.1. Точное соответствие имени
             if (slotData.name !== configItem.name) continue;
 
-            // 1.2. Проверка зачарований (только >= без strictLevel)
+            // 1.2. Извлекаем зачарования предмета
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
-            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
+            const customEnchants = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
             
-            const allEnchants = [
+            const itemEnchants = [
                 ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
-                ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
+                ...customEnchants.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
             ];
 
-            const areEnchantsValid = configItem.effects?.every(required => {
-                const foundEnchant = allEnchants.find(e => e.name === required.name);
-                if (!foundEnchant) return false;
-                return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
-            });
-
-            if (!areEnchantsValid) continue;
+            // 1.3. Строгая проверка зачарований (точное соответствие)
+            const configEnchants = configItem.effects || [];
             
-            // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
-            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
+            // Проверяем что:
+            // 1. Все зачарования из конфига есть у предмета
+            // 2. Уровни точно соответствуют
+            // 3. Нет лишних зачарований
+            const enchantsMatch = 
+                configEnchants.every(required => {
+                    const found = itemEnchants.find(e => 
+                        e.name === required.name && e.lvl === required.lvl
+                    );
+                    return found;
+                }) &&
+                itemEnchants.length === configEnchants.length;
 
-            // 1.3. Проверка прочности (если есть durability)
-            if (slotData.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
+            if (!enchantsMatch) continue;
+
+            // 1.4. Проверка прочности
+            if (slotData.maxDurability && !enchantments.some(e => e.name === 'minecraft:mending')) {
                 const damage = slotData.nbt?.value?.Damage?.value || 0;
-                const durabilityLeft = slotData.maxDurability - damage;
-                if (durabilityLeft < slotData.maxDurability * 0.9) continue;
+                if ((slotData.maxDurability - damage) < slotData.maxDurability * 0.9) continue;
             }
 
-            // 1.4. Получаем цену предмета
-            let price;
+            // 1.5. Проверка цены
             try {
-                price = await getBuyPrice(slotData);
+                const price = await getBuyPrice(slotData);
                 if (!price || price >= configItem.priceBuy) continue;
+
+                // 2. Нашли идеальное соответствие!
+                bot.type = configItem.id
+                return slotData.slot
             } catch (error) {
                 continue;
             }
-
-            // 2. Нашли лучшее совпадение!
-            bot.type = configItem.id
-            if (!bot.type) {
-                console.log(configItem)
-                logger.error('id undefined')
-            }
-            return slotData.slot
         }
     }
     return null;
