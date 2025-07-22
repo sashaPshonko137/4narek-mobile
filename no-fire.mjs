@@ -460,11 +460,11 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
-            await sendSell(bot.type)
             await sellItems(bot)
             return
         }
         if (messageText.includes('выставлен на продажу!')) {
+            await sendSell(bot.type)
             bot.inventoryFull = false
             bot.count++
             return
