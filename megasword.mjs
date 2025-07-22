@@ -54,8 +54,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 3800000,
-    "priceSell": 4700000,
+    "priceBuy": 3200000,
+    "priceSell": 3900000,
     },
     {
     "name": "netherite_sword",
@@ -78,8 +78,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 4400000, 
-    "priceSell": 5400000,
+    "priceBuy": 3500000, 
+    "priceSell": 4300000,
     },
     {
     "name": "netherite_sword",
@@ -98,8 +98,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 4300000,
-    "priceSell": 5500000,
+    "priceBuy": 3900000,
+    "priceSell": 4800000,
     },
     {   
     "name": "netherite_sword",
@@ -118,8 +118,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 6200000,
-    "priceSell": 7300000
+    "priceBuy": 5800000,
+    "priceSell": 6800000
     },
     {
     "name": "netherite_sword",
@@ -143,8 +143,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 7000000,
-    "priceSell": 8200000,
+    "priceBuy": 6400000,
+    "priceSell": 7400000,
     },
     {
     "name": "netherite_sword",
@@ -171,7 +171,7 @@ const itemPrices = [
             "lvl": 2
         },
     ],
-    "priceBuy": 9300000,
+    "priceBuy": 9000000,
     "priceSell": 10000000,
     }
 ]
@@ -432,7 +432,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
-                for (let i = 0; i < 3; i++) {
+                for (let i = 0; i < 9; i++) {
                     if (bot.currentWindow?.slots[i]) bot.count++
                 }
                 bot.menu = setAH;
@@ -481,6 +481,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
+            bot.count--
             const priceString = messageText.replace(/\D/g, '');
             const price = parseInt(priceString);
             const id = getIdBySellPrice(itemPrices, price)
