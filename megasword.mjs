@@ -848,7 +848,7 @@ async function getBestAHSlot(bot, itemPrices) {
             }
 
             // 2. Нашли лучшее совпадение!
-            bot.type = configItem.id
+            bot.type = configItem["id"]
             if (bot.type) {
                 console.log(configItem)
                 logger.error('id undefined')
