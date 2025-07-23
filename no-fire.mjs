@@ -52,8 +52,8 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 3400000,
-    "priceSell": 4100000,
+    "priceBuy": 3500000,
+    "priceSell": 4200000,
     },
     {
     "name": "netherite_sword",
@@ -72,8 +72,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 3900000, 
-    "priceSell": 4600000,
+    "priceBuy": 4000000, 
+    "priceSell": 4700000,
     },
     {
     "name": "netherite_sword",
@@ -88,8 +88,8 @@ const itemPrices = [
             "lvl": 6
         },
     ],
-    "priceBuy": 4200000,
-    "priceSell": 5000000,
+    "priceBuy": 4400000,
+    "priceSell": 5200000,
     },
     {   
     "name": "netherite_sword",
@@ -104,8 +104,8 @@ const itemPrices = [
             "lvl": 7
         },
     ],
-    "priceBuy": 6000000,
-    "priceSell": 6900000
+    "priceBuy": 6200000,
+    "priceSell": 7100000
     },
     {
     "name": "netherite_sword",
@@ -125,8 +125,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 6900000,
-    "priceSell": 7900000,
+    "priceBuy": 7000000,
+    "priceSell": 800000,
     },
     {
     "name": "netherite_sword",

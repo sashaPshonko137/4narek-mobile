@@ -34,7 +34,7 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search netherite sword';
+const ahCommand = '/ah search elytra';
 
 let type = ""
 
