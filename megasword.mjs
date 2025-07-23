@@ -51,10 +51,6 @@ const itemPrices = [
             "name": "minecraft:sharpness",
             "lvl": 5
         },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
     ],
     "priceBuy": 3200000,
     "priceSell": 3800000,
@@ -70,10 +66,6 @@ const itemPrices = [
         {
             "name": "minecraft:sharpness",
             "lvl": 5
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
         },
         {
             "name": "minecraft:mending",
@@ -95,10 +87,6 @@ const itemPrices = [
             "name": "minecraft:sharpness",
             "lvl": 6
         },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
     ],
     "priceBuy": 4100000,
     "priceSell": 4900000,
@@ -115,10 +103,6 @@ const itemPrices = [
             "name": "minecraft:sharpness",
             "lvl": 7
         },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
     ],
     "priceBuy": 6000000,
     "priceSell": 6900000
@@ -134,10 +118,6 @@ const itemPrices = [
         {
             "name": "minecraft:sharpness",
             "lvl": 7
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
         },
         {
 
@@ -159,10 +139,6 @@ const itemPrices = [
         {
             "name": "minecraft:sharpness",
             "lvl": 7
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
         },
         {
             "name": "poison",
