@@ -41,7 +41,7 @@ let type = ""
 const itemPrices = [
     {
     "name": "netherite_sword",
-    "id": "5nomend",
+    "id": "5nomend-nofire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -57,7 +57,7 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
-    "id": "sword5",
+    "id": "sword5-nofire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -77,7 +77,7 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
-    "id": "sword6",
+    "id": "sword6-nofire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -93,15 +93,11 @@ const itemPrices = [
     },
     {   
     "name": "netherite_sword",
-    "id": "7nomend",
+    "id": "7nomend-nofire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
             "lvl": 5
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
         },
         {
             "name": "minecraft:sharpness",
@@ -113,15 +109,11 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
-    "id": "sword7",
+    "id": "sword7-nofire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
             "lvl": 5
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
         },
         {
             "name": "minecraft:sharpness",
@@ -138,7 +130,7 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
-    "id": "megasword",
+    "id": "megasword-nofire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -147,10 +139,6 @@ const itemPrices = [
         {
             "name": "minecraft:sharpness",
             "lvl": 7
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
         },
         {
             "name": "poison",
@@ -165,6 +153,7 @@ const itemPrices = [
     "priceSell": 10000000,
     }
 ]
+
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
@@ -559,7 +548,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
 async function sendSell(text) {
   try {
-    await fetch('http://31.207.74.231:8080/sell', {
+    await fetch('http://31.207.74.231:8080/sell_shue', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -573,7 +562,7 @@ async function sendSell(text) {
 
 async function sendBuy(text) {
   try {
-    await fetch('http://31.207.74.231:8080/buy', {
+    await fetch('http://31.207.74.231:8080/buy_shue', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -705,6 +694,7 @@ async function sellItems(bot) {
         await safeAH(bot);
     }
 }
+
 /**
  * Находит лучшую цену продажи для предмета на основе зачарований.
  * @param {Object} item - Предмет (из inventory.slots или window.slots).
