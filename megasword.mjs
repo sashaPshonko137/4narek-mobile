@@ -487,7 +487,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             return
         }
         if (messageText.includes('выставлен на продажу!')) {
-            await sendSell(bot.type)
+            await sendSell(type)
             bot.inventoryFull = false
             bot.count++
             return
