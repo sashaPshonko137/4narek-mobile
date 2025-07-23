@@ -141,6 +141,10 @@ const itemPrices = [
             "lvl": 7
         },
         {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
             "name": "poison",
             "lvl": 2
         },
