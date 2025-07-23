@@ -44,8 +44,8 @@ const itemPrices = [
     "id": "elytra",
     "effects": [
     ],
-    "priceBuy": 1300000,
-    "priceSell": 1700000,
+    "priceBuy": 1500000,
+    "priceSell": 2000000,
     },
     {
     "name": "elytra",
