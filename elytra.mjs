@@ -39,14 +39,14 @@ const ahCommand = '/ah search elytra';
 let type = ""
 
 const itemPrices = [
-    // {
-    // "name": "elytra",
-    // "id": "elytra",
-    // "effects": [
-    // ],
-    // "priceBuy": 1000000,
-    // "priceSell": 1500000,
-    // },
+    {
+    "name": "elytra",
+    "id": "elytra",
+    "effects": [
+    ],
+    "priceBuy": 1000000,
+    "priceSell": 1500000,
+    },
     {
     "name": "elytra",
     "id": "elytra-unbreak",
