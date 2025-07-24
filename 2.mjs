@@ -20,9 +20,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'mozgatogorbatyi', password: 'ggggg', anarchy: 605, type: 'no-unbreak', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'gorbatayaKrysa', password: 'gggggg', anarchy: 605, type: 'no-unbreak', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'gribGorbovik', password: 'ggggg', anarchy: 605, type: 'no-unbreak', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'mozgatogorbatyi', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'gorbatayaKrysa', password: 'gggggg', anarchy: 605, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'gribGorbovik', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 //potap_obsas
 //grisha_NABAYANE
