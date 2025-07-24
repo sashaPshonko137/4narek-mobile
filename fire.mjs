@@ -178,7 +178,7 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
-    "id": "megasword-fire",
+    "id": "megasword",
     "effects": [
         {
             "name": "minecraft:unbreaking",
