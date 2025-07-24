@@ -944,6 +944,7 @@ async function updateJsonKeyCount(key, filePath = 'stat.json') {
 
         // Обновление данных
         data[key] = (data[key] || 0) + 1;
+        console.log(data)
 
         // Запись в файл
         await fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
@@ -956,6 +957,7 @@ async function updateJsonKeyCount(key, filePath = 'stat.json') {
 
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
+    let strs = []
 
     // Сортируем конфиг по priceBuy (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
@@ -977,9 +979,11 @@ async function getBestAHSlot(bot, itemPrices) {
                 ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
                 ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
             ];
+                        // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
+            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
             new Promise(async () => {
                 const str = generateEnchantsString(allEnchants)
-                await updateJsonKeyCount(str)
+                strs.push(str)
             })
 
             const areEnchantsValid = configItem.effects?.every(required => {
@@ -1015,9 +1019,31 @@ async function getBestAHSlot(bot, itemPrices) {
                 console.log(configItem)
                 logger.error('id undefined')
             }
+             try {
+                await fetch('http://localhost:8080/update', {
+                    method: 'POST',
+                    body: JSON.stringify(strs), // Отправляем как JSON с полем type
+                    headers: {
+                        'Content-Type': 'application/json' // Указываем что отправляем JSON
+                    }
+                });
+            } catch (e) {
+                console.log('Ошибка отправки:', e.message);
+        }
             return null
         }
     }
+     try {
+                await fetch('http://localhost:8080/update', {
+                    method: 'POST',
+                    body: JSON.stringify(strs), // Отправляем как JSON с полем type
+                    headers: {
+                        'Content-Type': 'application/json' // Указываем что отправляем JSON
+                    }
+                });
+            } catch (e) {
+                console.log('Ошибка отправки:', e.message);
+        }
     return null;
 }
 
