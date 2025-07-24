@@ -41,7 +41,7 @@ let type = ""
 const itemPrices = [
     {
     "name": "netherite_sword",
-    "id": "5nomend",
+    "id": "5nomend-fire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -51,13 +51,17 @@ const itemPrices = [
             "name": "minecraft:sharpness",
             "lvl": 5
         },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
     ],
     "priceBuy": 3800000,
     "priceSell": 4500000,
     },
     {
     "name": "netherite_sword",
-    "id": "sword5",
+    "id": "sword5-fire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -71,13 +75,17 @@ const itemPrices = [
             "name": "minecraft:mending",
             "lvl": 1
         },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
     ],
     "priceBuy": 4300000, 
     "priceSell": 5000000,
     },
     {
     "name": "netherite_sword",
-    "id": "sword6",
+    "id": "sword6-fire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -86,6 +94,10 @@ const itemPrices = [
         {
             "name": "minecraft:sharpness",
             "lvl": 6
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
         },
     ],
     "priceBuy": 4400000,
@@ -166,7 +178,7 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
-    "id": "megasword",
+    "id": "megasword-fire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
