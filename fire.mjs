@@ -148,7 +148,7 @@ const itemPrices = [
     "priceBuy": 7000000,
     "priceSell": 8000000,
     },
-        {
+    {
     "name": "netherite_sword",
     "id": "pochti-megasword",
     "effects": [

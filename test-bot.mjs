@@ -981,10 +981,6 @@ async function getBestAHSlot(bot, itemPrices) {
             ];
                         // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
             if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
-            new Promise(async () => {
-                const str = generateEnchantsString(allEnchants)
-                strs.push(str)
-            })
 
             const areEnchantsValid = configItem.effects?.every(required => {
                 const foundEnchant = allEnchants.find(e => e.name === required.name);
@@ -1022,7 +1018,7 @@ async function getBestAHSlot(bot, itemPrices) {
              try {
                 await fetch('http://localhost:8080/update', {
                     method: 'POST',
-                    body: JSON.stringify(strs), // Отправляем как JSON с полем type
+                    body: generateEnchantsString(allEnchants), // Отправляем как JSON с полем type
                     headers: {
                         'Content-Type': 'application/json' // Указываем что отправляем JSON
                     }
@@ -1033,17 +1029,6 @@ async function getBestAHSlot(bot, itemPrices) {
             return null
         }
     }
-     try {
-                await fetch('http://localhost:8080/update', {
-                    method: 'POST',
-                    body: JSON.stringify(strs), // Отправляем как JSON с полем type
-                    headers: {
-                        'Content-Type': 'application/json' // Указываем что отправляем JSON
-                    }
-                });
-            } catch (e) {
-                console.log('Ошибка отправки:', e.message);
-        }
     return null;
 }
 
