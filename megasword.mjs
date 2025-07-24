@@ -136,6 +136,34 @@ const itemPrices = [
     "priceBuy": 7000000,
     "priceSell": 8000000,
     },
+        {
+    "name": "netherite_sword",
+    "id": "pochti-megasword",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "poison",
+            "lvl": 1
+        },
+        {
+            "name": "vampirism",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 7000000,
+    "priceSell": 85000000,
+    },
     {
     "name": "netherite_sword",
     "id": "megasword",
