@@ -587,7 +587,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
 async function sendSell(text) {
   try {
-    await fetch('http://31.207.74.231:8080/sell', {
+    await fetch('http://31.207.74.231:8080/sell_shue', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
@@ -601,7 +601,7 @@ async function sendSell(text) {
 
 async function sendBuy(text) {
   try {
-    await fetch('http://31.207.74.231:8080/buy', {
+    await fetch('http://31.207.74.231:8080/buy_shue', {
       method: 'POST',
       body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
       headers: {
