@@ -38,6 +38,64 @@ const ahCommand = '/ah search netherite sword';
 
 let type = ""
 
+const enchants = [
+        {
+            "name": "minecraft:mending",
+            "lvl": 1,
+            "ratio": 0.1
+        },
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 5,
+            "ratio": 0.1
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 6,
+            "ratio": 0.16
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7,
+            "ratio": 0.6
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1,
+            "ratio": 0.1
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 2,
+            "ratio": 0.2
+        },
+        {
+            "name": "poison",
+            "lvl": 1,
+            "ratio": 0.2
+        },
+        {
+            "name": "poison",
+            "lvl": 2,
+            "ratio": 0.3
+        },
+        {
+            "name": "poison",
+            "lvl": 3,
+            "ratio": 0.4
+        },
+        {
+            "name": "vampirism",
+            "lvl": 1,
+            "ratio": 0.15
+        },
+        {
+            "name": "vampirism",
+            "lvl": 2,
+            "ratio": 0.3
+        },
+]
+
 const itemPrices = [
     {
     "name": "netherite_sword",
@@ -52,8 +110,8 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 3800000,
-    "priceSell": 4500000,
+    "priceBuy": 3500000,
+    "priceSell": 4200000,
     },
     {
     "name": "netherite_sword",
@@ -72,8 +130,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 4300000, 
-    "priceSell": 5000000,
+    "priceBuy": 4000000, 
+    "priceSell": 4700000,
     },
     {
     "name": "netherite_sword",
@@ -161,8 +219,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 6400000,
-    "priceSell": 73000000,
+    "priceBuy": 7000000,
+    "priceSell": 80000000,
     },
     {
     "name": "netherite_sword",
@@ -189,8 +247,8 @@ const itemPrices = [
             "lvl": 2
         },
     ],
-    "priceBuy": 8700000,
-    "priceSell": 9700000,
+    "priceBuy": 9300000,
+    "priceSell": 10000000,
     }
 ]
 
@@ -812,6 +870,90 @@ async function safeAH(bot) {
     }
 }
 
+function generateEnchantsString(allEnchants) {
+    // 1. Получаем список всех уникальных зачарований из конфига
+    const knownEnchants = [...new Set(enchants.map(e => e.name))];
+    
+    // 2. Определяем обязательные зачарования (первые два из конфига)
+    const requiredEnchantNames = [
+        'minecraft:sharpness', 
+        'minecraft:unbreaking'
+    ];
+
+    // 3. Фильтруем только известные зачарования
+    const filteredEnchants = allEnchants.filter(enchant => 
+        knownEnchants.includes(enchant.name)
+    );
+
+    // 4. Разделяем на обязательные и дополнительные
+    const [required, additional] = filteredEnchants.reduce((acc, enchant) => {
+        requiredEnchantNames.includes(enchant.name) ? 
+            acc[0].push(enchant) : 
+            acc[1].push(enchant);
+        return acc;
+    }, [[], []]);
+
+    // 5. Сортируем:
+    // - обязательные в заданном порядке
+    // - дополнительные по алфавиту
+    const sortedRequired = requiredEnchantNames
+        .map(name => required.find(e => e.name === name))
+        .filter(Boolean)
+        // Берем максимальный уровень для каждого обязательного зачарования
+        .reduce((unique, item) => {
+            const existing = unique.find(e => e.name === item.name);
+            if (!existing || item.lvl > existing.lvl) {
+                return [...unique.filter(e => e.name !== item.name), item];
+            }
+            return unique;
+        }, []);
+
+    const sortedAdditional = additional
+        .sort((a, b) => a.name.localeCompare(b.name))
+        // Убираем дубликаты (оставляем максимальный уровень)
+        .reduce((unique, item) => {
+            const existing = unique.find(e => e.name === item.name);
+            if (!existing || item.lvl > existing.lvl) {
+                return [...unique.filter(e => e.name !== item.name), item];
+            }
+            return unique;
+        }, []);
+
+    // 6. Формируем итоговую строку
+    const result = [...sortedRequired, ...sortedAdditional]
+        .map(enchant => {
+            const shortName = enchant.name.replace('minecraft:', '');
+            return `${shortName}-${enchant.lvl}`;
+        })
+        .join('_');
+
+    return result || 'no_enchants'; // Возвращаем 'no_enchants' если нет зачарований
+}
+
+async function updateJsonKeyCount(key, filePath = 'stat.json') {
+    try {
+        let data = {};
+        
+        // Чтение и парсинг файла (с проверкой на пустоту)
+        if (fs.existsSync(filePath)) {
+            const fileContent = fs.readFileSync(filePath, 'utf-8').trim();
+            if (fileContent) {
+                data = JSON.parse(fileContent);
+            }
+        }
+
+        // Обновление данных
+        data[key] = (data[key] || 0) + 1;
+
+        // Запись в файл
+        await fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+        
+        return { success: true, newCount: data[key] };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
+}
+
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
@@ -835,6 +977,10 @@ async function getBestAHSlot(bot, itemPrices) {
                 ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
                 ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
             ];
+            new Promise(async () => {
+                const str = generateEnchantsString(allEnchants)
+                await updateJsonKeyCount(str)
+            })
 
             const areEnchantsValid = configItem.effects?.every(required => {
                 const foundEnchant = allEnchants.find(e => e.name === required.name);
@@ -869,7 +1015,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 console.log(configItem)
                 logger.error('id undefined')
             }
-            return slotData.slot
+            return null
         }
     }
     return null;
