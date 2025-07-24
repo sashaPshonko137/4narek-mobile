@@ -162,7 +162,7 @@ const itemPrices = [
         },
     ],
     "priceBuy": 7000000,
-    "priceSell": 85000000,
+    "priceSell": 80000000,
     },
     {
     "name": "netherite_sword",
