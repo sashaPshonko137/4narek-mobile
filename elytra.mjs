@@ -385,7 +385,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             await sellItems(bot)
             return
         }
-        if (messageText.includes('выставлен на продажу!')) {
+        if (messageText.startsWith('[☃]') && messageText.includes('выставлен на продажу!')) {
             await sendSell(type)
             bot.inventoryFull = false
             bot.count++
