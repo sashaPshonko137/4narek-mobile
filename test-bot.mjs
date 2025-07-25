@@ -34,16 +34,16 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search netherite sword';
+const ahCommand = '/ah search diamond sword';
 
 let type = ""
 
 const enchants = [
-        {
-            "name": "minecraft:mending",
-            "lvl": 1,
-            "ratio": 0.1
-        },
+        // {
+        //     "name": "minecraft:mending",
+        //     "lvl": 1,
+        //     "ratio": 0.1
+        // },
         {
             "name": "minecraft:unbreaking",
             "lvl": 5,
@@ -69,36 +69,36 @@ const enchants = [
             "lvl": 2,
             "ratio": 0.2
         },
-        {
-            "name": "poison",
-            "lvl": 1,
-            "ratio": 0.2
-        },
-        {
-            "name": "poison",
-            "lvl": 2,
-            "ratio": 0.3
-        },
-        {
-            "name": "poison",
-            "lvl": 3,
-            "ratio": 0.4
-        },
-        {
-            "name": "vampirism",
-            "lvl": 1,
-            "ratio": 0.15
-        },
-        {
-            "name": "vampirism",
-            "lvl": 2,
-            "ratio": 0.3
-        },
+        // {
+        //     "name": "poison",
+        //     "lvl": 1,
+        //     "ratio": 0.2
+        // },
+        // {
+        //     "name": "poison",
+        //     "lvl": 2,
+        //     "ratio": 0.3
+        // },
+        // {
+        //     "name": "poison",
+        //     "lvl": 3,
+        //     "ratio": 0.4
+        // },
+        // {
+        //     "name": "vampirism",
+        //     "lvl": 1,
+        //     "ratio": 0.15
+        // },
+        // {
+        //     "name": "vampirism",
+        //     "lvl": 2,
+        //     "ratio": 0.3
+        // },
 ]
 
 const itemPrices = [
     {
-    "name": "netherite_sword",
+    "name": "diamond_sword",
     "id": "5nomend",
     "effects": [
         {
@@ -114,7 +114,7 @@ const itemPrices = [
     "priceSell": 4200000,
     },
     {
-    "name": "netherite_sword",
+    "name": "diamond_sword",
     "id": "sword5",
     "effects": [
         {
@@ -134,7 +134,7 @@ const itemPrices = [
     "priceSell": 4700000,
     },
     {
-    "name": "netherite_sword",
+    "name": "diamond_sword",
     "id": "sword6",
     "effects": [
         {
@@ -150,7 +150,7 @@ const itemPrices = [
     "priceSell": 5200000,
     },
     {   
-    "name": "netherite_sword",
+    "name": "diamond_sword",
     "id": "7nomend",
     "effects": [
         {
@@ -170,7 +170,7 @@ const itemPrices = [
     "priceSell": 7100000
     },
     {
-    "name": "netherite_sword",
+    "name": "diamond_sword",
     "id": "sword7",
     "effects": [
         {
@@ -195,7 +195,7 @@ const itemPrices = [
     "priceSell": 8000000,
     },
         {
-    "name": "netherite_sword",
+    "name": "diamond_sword",
     "id": "pochti-megasword",
     "effects": [
         {
@@ -223,7 +223,7 @@ const itemPrices = [
     "priceSell": 80000000,
     },
     {
-    "name": "netherite_sword",
+    "name": "diamond_sword",
     "id": "megasword",
     "effects": [
         {
@@ -962,14 +962,14 @@ async function getBestAHSlot(bot, itemPrices) {
     // Сортируем конфиг по priceBuy (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
 
-    for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
+    for (let slot = firstAHSlot; slot <= 18; slot++) {
         const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
 
         // 1. Проверяем предмет слота против ВСЕХ шаблонов конфига
         for (const configItem of sortedConfig) {
             // 1.1. Проверка названия
-            if (slotData.name !== configItem.name) continue;
+            // if (slotData.name !== configItem.name) continue;
 
             // 1.2. Проверка зачарований (только >= без strictLevel)
             const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
@@ -980,19 +980,23 @@ async function getBestAHSlot(bot, itemPrices) {
                 ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
             ];
                         // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
-            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
+            // if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
+            // new Promise(async () => {
+            //     const str = generateEnchantsString(allEnchants)
+            //     strs.push(str)
+            // })
 
-            const areEnchantsValid = configItem.effects?.every(required => {
-                const foundEnchant = allEnchants.find(e => e.name === required.name);
-                if (!foundEnchant) return false;
-                return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
-            });
+            // const areEnchantsValid = configItem.effects?.every(required => {
+            //     const foundEnchant = allEnchants.find(e => e.name === required.name);
+            //     if (!foundEnchant) return false;
+            //     return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
+            // });
 
-            if (!areEnchantsValid) continue;
+            // if (!areEnchantsValid) continue;
             
             // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
             if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
-
+            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
             // 1.3. Проверка прочности (если есть durability)
             if (slotData.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
                 const damage = slotData.nbt?.value?.Damage?.value || 0;
@@ -1001,13 +1005,13 @@ async function getBestAHSlot(bot, itemPrices) {
             }
 
             // 1.4. Получаем цену предмета
-            let price;
-            try {
-                price = await getBuyPrice(slotData);
-                if (!price || price >= configItem.priceBuy) continue;
-            } catch (error) {
-                continue;
-            }
+            // let price;
+            // try {
+            //     price = await getBuyPrice(slotData);
+            //     if (!price || price >= configItem.priceBuy) continue;
+            // } catch (error) {
+            //     continue;
+            // }
 
             // 2. Нашли лучшее совпадение!
             bot.type = configItem.id
@@ -1015,10 +1019,14 @@ async function getBestAHSlot(bot, itemPrices) {
                 console.log(configItem)
                 logger.error('id undefined')
             }
-             try {
+            strs.push(generateEnchantsString(allEnchants))
+            break
+        }
+    }
+     try {
                 await fetch('http://localhost:8080/update', {
                     method: 'POST',
-                    body: generateEnchantsString(allEnchants), // Отправляем как JSON с полем type
+                    body: JSON.stringify(strs), // Отправляем как JSON с полем type
                     headers: {
                         'Content-Type': 'application/json' // Указываем что отправляем JSON
                     }
@@ -1026,9 +1034,6 @@ async function getBestAHSlot(bot, itemPrices) {
             } catch (e) {
                 console.log('Ошибка отправки:', e.message);
         }
-            return null
-        }
-    }
     return null;
 }
 
