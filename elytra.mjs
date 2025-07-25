@@ -68,8 +68,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 3000000,
-    "priceSell": 4000000,
+    "priceBuy": 3500000,
+    "priceSell": 4500000,
     },
     {
     "name": "elytra",
