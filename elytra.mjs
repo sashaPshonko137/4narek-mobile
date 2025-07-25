@@ -45,7 +45,7 @@ const itemPrices = [
     "effects": [
     ],
     "priceBuy": 1500000,
-    "priceSell": 2000000,
+    "priceSell": 2100000,
     },
     {
     "name": "elytra",
@@ -57,7 +57,7 @@ const itemPrices = [
         },
     ],
     "priceBuy": 2300000,
-    "priceSell": 2900000,
+    "priceSell": 3000000,
     },
     {
     "name": "elytra",
@@ -72,8 +72,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 4400000,
-    "priceSell": 5200000,
+    "priceBuy": 4500000,
+    "priceSell": 5400000,
     },
 ]
 
