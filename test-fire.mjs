@@ -105,7 +105,7 @@ const itemPrices = [
     },
     {   
     "name": "netherite_sword",
-    "id": "7nomend",
+    "id": "7nomend-fire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -113,7 +113,7 @@ const itemPrices = [
         },
         {
             "name": "minecraft:fire_aspect",
-            "lvl": 1
+            "lvl": 2
         },
         {
             "name": "minecraft:sharpness",
@@ -125,7 +125,7 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
-    "id": "sword7",
+    "id": "sword7-fire",
     "effects": [
         {
             "name": "minecraft:unbreaking",
@@ -133,7 +133,7 @@ const itemPrices = [
         },
         {
             "name": "minecraft:fire_aspect",
-            "lvl": 1
+            "lvl": 2
         },
         {
             "name": "minecraft:sharpness",

@@ -21,9 +21,9 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'likeBaToma', password: 'ggggg', anarchy: 604, type: 'fire', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'antonaNeEbi', password: 'ggggg', anarchy: 604, type: 'fire', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'ZhukTarakan', password: 'ggggg', anarchy: 604, type: 'fire', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
+    { username: 'likeBaToma', password: 'ggggg', anarchy: 604, type: 'test-fire', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'antonaNeEbi', password: 'ggggg', anarchy: 604, type: 'test-fire', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'ZhukTarakan', password: 'ggggg', anarchy: 604, type: 'test-fire', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
 ];
 
 // Массив для хранения ссылок на воркеров
