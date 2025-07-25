@@ -61,6 +61,18 @@ const itemPrices = [
     },
     {
     "name": "elytra",
+    "id": "elytra-onlymend",
+    "effects": [
+        {
+            "name": "minecraft:mending",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 3000000,
+    "priceSell": 4000000,
+    },
+    {
+    "name": "elytra",
     "id": "elytra-mend",
     "effects": [
         {
