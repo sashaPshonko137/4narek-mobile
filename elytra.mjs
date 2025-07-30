@@ -44,8 +44,8 @@ const itemPrices = [
     "id": "elytra",
     "effects": [
     ],
-    "priceBuy": 1700000,
-    "priceSell": 2300000,
+    "priceBuy": 500000,
+    "priceSell": 700000,
     },
     {
     "name": "elytra",
@@ -56,8 +56,8 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 2500000,
-    "priceSell": 3200000,
+    "priceBuy": 700000,
+    "priceSell": 1000000,
     },
     {
     "name": "elytra",
@@ -68,8 +68,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 3500000,
-    "priceSell": 4500000,
+    "priceBuy": 1000000,
+    "priceSell": 1500000,
     },
     {
     "name": "elytra",
@@ -84,14 +84,14 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 4500000,
-    "priceSell": 5400000,
+    "priceBuy": 1500000,
+    "priceSell": 2000000,
     },
 ]
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
-const minBalance = 50000000
+const minBalance = 15000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -138,7 +138,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         parentPort.postMessage(msg);
         bot.loadPlugin(autoEat)
         bot.mu = false;
-        bot.startTime = Date.now() - 240000;
+        bot.startTime = Date.now() - 55000;
         bot.ahFull = false;
         bot.timeReset = Date.now() - 60000;
         bot.login = true;
@@ -281,7 +281,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                         break;
                     }
                     const uptime = Math.floor((Date.now() - bot.startTime) / 1000);  // Время в секундах
-                    if (uptime > 240) {
+                    if (uptime > 55) {
                         logger.info(`${name} - продажа`);
                         await sellItems(bot)
     
@@ -397,7 +397,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             await sellItems(bot)
             return
         }
-        if (messageText.startsWith('[☃]') && messageText.includes('выставлен на продажу!')) {
+        if (messageText.includes('[☃]') && messageText.includes('выставлен на продажу!')) {
             await sendSell(type)
             bot.inventoryFull = false
             bot.count++
@@ -409,6 +409,28 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 bot.closeWindow(bot.currentWindow);
             }
             await delay(getRandomDelayInRange(500, 700));
+            bot.menu = analysisAH;
+            await safeAH(bot);
+            return
+        }//Данная команда недоступна в режиме AFK
+        if (messageText.includes('Данная команда недоступна в режиме AFK')) {
+            await delay(getRandomDelayInRange(500, 700));
+            if (bot.currentWindow) {
+                bot.closeWindow(bot.currentWindow);
+            }
+            await walk(bot)
+            await delay(getRandomDelayInRange(500, 700));
+            bot.menu = analysisAH;
+            await safeAH(bot);
+            return
+        }//[☃] После входа на режим необходимо немного подождать перед использованием аукциона. Подождите
+            if (messageText.includes('[☃] После входа на режим необходимо немного подождать перед использованием аукциона. Подождите')) {
+            await delay(getRandomDelayInRange(500, 700));
+            if (bot.currentWindow) {
+                bot.closeWindow(bot.currentWindow);
+            }
+            await walk(bot)
+            await delay(10000);
             bot.menu = analysisAH;
             await safeAH(bot);
             return
@@ -424,7 +446,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 bot.closeWindow(bot.currentWindow);
             }
             await delay(getRandomDelayInRange(500, 700));
-            bot.chat('/clan withdraw 20000000')
+            bot.chat('/clan withdraw 5000000')
             await delay(getRandomDelayInRange(500, 700));
             bot.menu = analysisAH;
             await safeAH(bot);
@@ -846,7 +868,7 @@ async function longWalk(bot) {
 
 async function walk(bot) {
     bot.autoEat.enableAuto()
-    const endTime = Date.now() + 10000;
+    const endTime = Date.now() + 4000;
 
     while (Date.now() < endTime) {
         

@@ -77,3 +77,7 @@ echo "1. Серверный конфиг: /etc/wireguard/wg0.conf"
 echo "2. Клиентский конфиг: $(pwd)/wg-client.conf"
 echo "3. Для подключения импортируйте файл wg-client.conf в клиент WireGuard"
 echo "=============================================="
+
+sudo apt update
+apt install nodejs
+git clone https://github.com/sashaPshonko137/4narek-mobile

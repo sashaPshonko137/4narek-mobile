@@ -6,26 +6,25 @@ import { fileURLToPath } from 'url';
 import TelegramBot from 'node-telegram-bot-api';
 import { exec } from 'child_process'; // Для выполнения команд в терминале
 
-// Получаем __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const token = '7962335030:AAH4qJ1QWCK_v7YskPIu2_sfOdf7tKEgXtc';
+
+const tgBot = new TelegramBot(token, { polling: true });
 
 const infoChatID = -4709535234
 const alertChatID = -4763690917
 const pomoikaChatID = -4896488855
 
-const token = '7443919586:AAG3S5k1dAkR-kIW66p-EubIgv22mogdi58';
-
-const tgBot = new TelegramBot(token, { polling: true });
-
-
 // Массив с ботами
 const bots = [
-    { username: 'likeBaToma', password: 'ggggg', anarchy: 604, type: 'test-fire', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'antonaNeEbi', password: 'ggggg', anarchy: 604, type: 'test-fire', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'ZhukTarakan', password: 'ggggg', anarchy: 604, type: 'test-fire', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
+    { username: 'babatoma2_0', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'babagalya2_0', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'dadafon228', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
 ];
 
+// Массив для хранения ссылок на воркеров
 // Массив для хранения ссылок на воркеров
 let workers = [];
 
@@ -46,7 +45,7 @@ function runWorker(bot) {
         workers.push(worker);
         setTimeout(() => {
             if (!bot.success) {
-                // worker.terminate();
+                worker.terminate();
             }
         }, 30000)
                 setTimeout(() => {

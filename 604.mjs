@@ -10,19 +10,20 @@ import { exec } from 'child_process'; // Для выполнения коман�
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const token = '7446293384:AAHdrkMzwWlvyYcaohQL7zc_Q-MLQw_F1eo';
-
 const infoChatID = -4709535234
 const alertChatID = -4763690917
 const pomoikaChatID = -4896488855
 
+const token = '7443919586:AAFR57rTaD7rvqA6I8D9Z9LCal2cb3WSsnI';
+
 const tgBot = new TelegramBot(token, { polling: true });
+
 
 // Массив с ботами
 const bots = [
-    { username: 'don_don__don', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'poedalu_hlop', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'mr_gazonuh', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
+    { username: 'likeBaToma', password: 'ggggg', anarchy: 604, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'antonaNeEbi', password: 'ggggg', anarchy: 604, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'ZhukTarakan', password: 'ggggg', anarchy: 604, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
 ];
 
 // Массив для хранения ссылок на воркеров
@@ -45,10 +46,10 @@ function runWorker(bot) {
         workers.push(worker);
         setTimeout(() => {
             if (!bot.success) {
-                worker.terminate();
+                // worker.terminate();
             }
         }, 30000)
-        setTimeout(() => {
+                setTimeout(() => {
             worker.terminate();
 
         }, 1200000)
@@ -68,7 +69,7 @@ function runWorker(bot) {
         worker.on('error', (error) => {
             bot.success = false
             console.error(`Worker error: ${error}`);
-            tgBot.sendMessage(alertChatID, `\n${bot.username} вырубился`);
+            tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
             if (!bot.isManualStop) {
                 runWorker(bot);
             }
@@ -76,7 +77,7 @@ function runWorker(bot) {
 
         worker.on('exit', (code) => {
             bot.success = false
-            tgBot.sendMessage(alertChatID, `\n${bot.username} вырубился`);
+            tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
             if (!bot.isManualStop) {
                 runWorker(bot);
             }

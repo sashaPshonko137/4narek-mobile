@@ -56,8 +56,8 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 3500000,
-    "priceSell": 4500000,
+    "priceBuy": 700000,
+    "priceSell": 1000000,
     },
     {
     "name": "netherite_sword",
@@ -80,8 +80,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 4300000, 
-    "priceSell": 5000000,
+    "priceBuy": 800000, 
+    "priceSell": 1300000,
     },
     {
     "name": "netherite_sword",
@@ -100,8 +100,8 @@ const itemPrices = [
             "lvl": 6
         },
     ],
-    "priceBuy": 4400000,
-    "priceSell": 5200000,
+    "priceBuy": 800000,
+    "priceSell": 1300000,
     },
     {   
     "name": "netherite_sword",
@@ -120,8 +120,8 @@ const itemPrices = [
             "lvl": 7
         },
     ],
-    "priceBuy": 6400000,
-    "priceSell": 7300000
+    "priceBuy": 1300000,
+    "priceSell": 1800000
     },
     {
     "name": "netherite_sword",
@@ -145,8 +145,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 7000000,
-    "priceSell": 8000000,
+    "priceBuy": 1700000,
+    "priceSell": 2300000,
     },
         {
     "name": "netherite_sword",
@@ -173,8 +173,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 7000000,
-    "priceSell": 8000000,
+    "priceBuy": 1700000,
+    "priceSell": 2300000,
     },
     {
     "name": "netherite_sword",
@@ -201,14 +201,14 @@ const itemPrices = [
             "lvl": 2
         },
     ],
-    "priceBuy": 9300000,
-    "priceSell": 10000000,
+    "priceBuy": 2500000,
+    "priceSell": 3300000,
     }
 ]
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
-const minBalance = 100000000
+const minBalance = 20000000
 
 const leftMouseButton = 0;
 const noShift = 0;
@@ -255,7 +255,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         parentPort.postMessage(msg);
         bot.loadPlugin(autoEat)
         bot.mu = false;
-        bot.startTime = Date.now() - 240000;
+        bot.startTime = Date.now() - 55000;
         bot.ahFull = false;
         bot.timeReset = Date.now() - 60000;
         bot.login = true;
@@ -398,7 +398,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                         break;
                     }
                     const uptime = Math.floor((Date.now() - bot.startTime) / 1000);  // Время в секундах
-                    if (uptime > 240) {
+                    if (uptime > 55) {
                         logger.info(`${name} - продажа`);
                         await sellItems(bot)
     
@@ -529,6 +529,28 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             bot.menu = analysisAH;
             await safeAH(bot);
             return
+        }//Данная команда недоступна в режиме AFK
+        if (messageText.includes('Данная команда недоступна в режиме AFK')) {
+            await delay(getRandomDelayInRange(500, 700));
+            if (bot.currentWindow) {
+                bot.closeWindow(bot.currentWindow);
+            }
+            await walk(bot)
+            await delay(getRandomDelayInRange(500, 700));
+            bot.menu = analysisAH;
+            await safeAH(bot);
+            return
+        }//[☃] После входа на режим необходимо немного подождать перед использованием аукциона. Подождите
+            if (messageText.includes('[☃] После входа на режим необходимо немного подождать перед использованием аукциона. Подождите')) {
+            await delay(getRandomDelayInRange(500, 700));
+            if (bot.currentWindow) {
+                bot.closeWindow(bot.currentWindow);
+            }
+            await walk(bot)
+            await delay(10000);
+            bot.menu = analysisAH;
+            await safeAH(bot);
+            return
         }
         if (messageText.includes('[☃] Освободите хранилище или уберите предметы с продажи')) {
             bot.ahFull = true;
@@ -541,7 +563,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 bot.closeWindow(bot.currentWindow);
             }
             await delay(getRandomDelayInRange(500, 700));
-            bot.chat('/clan withdraw 20000000')
+            bot.chat('/clan withdraw 5000000')
             await delay(getRandomDelayInRange(500, 700));
             bot.menu = analysisAH;
             await safeAH(bot);
@@ -963,7 +985,7 @@ async function longWalk(bot) {
 
 async function walk(bot) {
     bot.autoEat.enableAuto()
-    const endTime = Date.now() + 10000;
+    const endTime = Date.now() + 4000;
 
     while (Date.now() < endTime) {
         

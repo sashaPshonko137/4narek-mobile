@@ -10,7 +10,7 @@ import { exec } from 'child_process'; // Для выполнения коман�
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const token = '7433279544:AAHvzIEUz1AGfgWmPdHZZH1VQ0wwAdDtY5M';
+const token = '7433279544:AAEdja0YjZxwRPcw0zbf6lRh-6ouKHettAU';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
@@ -20,9 +20,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'mozgatogorbatyi', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'gorbatayaKrysa', password: 'gggggg', anarchy: 605, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'gribGorbovik', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'gorbatoSasnyi', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'krysa_s_gorbom', password: 'gggggg', anarchy: 605, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'ivan_s_gorbom', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 //potap_obsas
 //grisha_NABAYANE

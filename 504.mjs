@@ -6,26 +6,23 @@ import { fileURLToPath } from 'url';
 import TelegramBot from 'node-telegram-bot-api';
 import { exec } from 'child_process'; // Для выполнения команд в терминале
 
+// Получаем __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const token = '7962335030:AAEUDaIgCO0po9GFDlFBmwveBmTwX1Gh_sw';
+const token = '7706810780:AAF_sXYsrKJqeOuz7Wg8WSBuVrcGN52QM4I';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
 const infoChatID = -4709535234
 const alertChatID = -4763690917
-const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'babatoma2_0', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'babagalya2_0', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'dadafon228', password: 'ggggg', anarchy: 603, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
+    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'elytra', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'elytra', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'han__babay', password: 'ggggg', anarchy: 504, type: 'elytra', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
-
-// Массив для хранения ссылок на воркеров
-// Массив для хранения ссылок на воркеров
 let workers = [];
 
 function runWorker(bot) {

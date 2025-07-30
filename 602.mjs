@@ -10,19 +10,22 @@ import { exec } from 'child_process'; // Для выполнения коман�
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const token = '7706810780:AAHKwD9pVjqZVx2VIhzYmTuNeqMG_ESp24s';
-
-const tgBot = new TelegramBot(token, { polling: true });
+const token = '7446293384:AAFvc8nP2c6Q_H91cSKl1DqBrrPR4o6Z3rA';
 
 const infoChatID = -4709535234
 const alertChatID = -4763690917
+const pomoikaChatID = -4896488855
+
+const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'han__babay', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'don_don__don', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'poedalu_hlop', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'mr_gazonuh', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
 ];
+
+// Массив для хранения ссылок на воркеров
 let workers = [];
 
 function runWorker(bot) {
@@ -45,7 +48,7 @@ function runWorker(bot) {
                 worker.terminate();
             }
         }, 30000)
-                setTimeout(() => {
+        setTimeout(() => {
             worker.terminate();
 
         }, 1200000)
@@ -65,7 +68,7 @@ function runWorker(bot) {
         worker.on('error', (error) => {
             bot.success = false
             console.error(`Worker error: ${error}`);
-            tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
+            tgBot.sendMessage(alertChatID, `\n${bot.username} вырубился`);
             if (!bot.isManualStop) {
                 runWorker(bot);
             }
@@ -73,7 +76,7 @@ function runWorker(bot) {
 
         worker.on('exit', (code) => {
             bot.success = false
-            tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
+            tgBot.sendMessage(alertChatID, `\n${bot.username} вырубился`);
             if (!bot.isManualStop) {
                 runWorker(bot);
             }
