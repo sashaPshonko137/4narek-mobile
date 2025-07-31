@@ -345,7 +345,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
-                for (let i = 0; i < 3; i++) {
+                for (let i = 0; i < 8; i++) {
                     if (bot.currentWindow?.slots[i]) bot.count++
                 }
                 bot.menu = setAH;
