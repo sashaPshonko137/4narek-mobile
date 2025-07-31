@@ -148,6 +148,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.prices = []
         bot.count = 0
         bot.netakbistro = true
+        bot.ah = []
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
@@ -345,8 +346,11 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
+                bot.ah = []
                 for (let i = 0; i < 8; i++) {
-                    if (bot.currentWindow?.slots[i]) bot.count++
+                    if (bot.currentWindow?.slots[i]) {bot.count++} else break
+                    const id = getID(bot.currentWindow?.slots[i], itemPrices)
+                    bot.ah.push(id)
                 }
                 bot.menu = setAH;
                 bot.timeReset = Date.now()
@@ -484,10 +488,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-            let count = 0
-            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
-                if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_sword') count++
-            }
 
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
@@ -700,6 +700,40 @@ function getBestSellPrice(item, itemPrices) {
     return 0; // Предмет не подходит под конфиг
 }
 
+function getID(item, itemPrices) {
+    // if (!item || !itemPrices?.length) return 0;
+
+    // Сортируем конфиг по priceSell (от большего к меньшему)
+    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+
+    // 1. Проверяем предмет против ВСЕХ шаблонов конфига
+    for (const configItem of sortedConfig) {
+        // 1.1. Проверка названия
+        if (item.name !== configItem.name) continue;
+
+        // // 1.2. Проверка зачарований (гибкая)
+        const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
+        const customEnchantments = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
+        
+        const allEnchants = [
+            ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
+            ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
+        ];
+
+        const areEnchantsValid = configItem.effects?.every(required => {
+            const foundEnchant = allEnchants.find(e => e.name === required.name);
+            if (!foundEnchant) return false; // Нет такого зачарования
+            return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
+        });
+
+        if (!areEnchantsValid) continue;
+        // 2. Нашли подходящий шаблон — возвращаем его priceSell!
+        return configItem.id;
+    }
+
+    return 0; // Предмет не подходит под конфиг
+}
+
 function generateRandomKey(bot) {
     bot.key = Math.random().toString(36).substring(2, 15);
 }
@@ -781,6 +815,8 @@ async function getBestAHSlot(bot, itemPrices) {
             }
 
             // 2. Нашли лучшее совпадение!
+            const count = bot.ah.filter(name => name === configItem.id).length;
+            if (count >= 4) return null
             bot.type = configItem.id
             if (!bot.type) {
                 console.log(configItem)
