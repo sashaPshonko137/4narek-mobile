@@ -427,7 +427,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 case null:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 1500));
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(500, 1000));
     
                                     break;
                                 default:
@@ -439,7 +439,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                         await delay(getRandomDelayInRange(100, 150));
                                         await safeClickBuy(bot, slotToBuy, 0);
                                     } else {
-                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 1500));
+                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(500, 1000));
                                     }
                                     
 
