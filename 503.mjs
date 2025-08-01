@@ -9,7 +9,7 @@ import { exec } from 'child_process'; // Для выполнения коман�
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const token = 'AAGTnWNOmXSR6utk9Q7KoLJLOG55KdH2zwY';
+const token = '8321775652:AAGTnWNOmXSR6utk9Q7KoLJLOG55KdH2zwY';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
