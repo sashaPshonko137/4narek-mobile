@@ -80,7 +80,7 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 100000, 
+    "priceBuy": 1000000, 
     "priceSell": 1600000,
     },
     {
@@ -265,6 +265,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.prices = []
         bot.count = 0
         bot.netakbistro = true
+        bot.ah = []
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
@@ -422,7 +423,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                         case false:
                             logger.info(`${name} - поиск лучшего предмета`);
                             let slotToBuy = await getBestAHSlot(bot, itemPrices);
-    
+                            
                             switch (slotToBuy) {
                                 case null:
                                     logger.info('не найден')
@@ -433,11 +434,9 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 default:
                                     if (bot.netakbistro) {
                                         bot.netakbistro = false;
-                                        await delay(1100);
-                                        await safeClickBuy(bot, slotToBuy, 0);
+                                        await safeClickBuy(bot, slotToBuy, 1100);
                                     } else if (slotToBuy < 18) {
-                                        await delay(getRandomDelayInRange(100, 150));
-                                        await safeClickBuy(bot, slotToBuy, 0);
+                                        await safeClickBuy(bot, slotToBuy, getRandomDelayInRange(100, 150));
                                     } else {
                                         await safeClick(bot, slotToReloadAH, getRandomDelayInRange(300, 700));
                                     }
@@ -462,8 +461,11 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             case myItems:
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
+                bot.ah = []
                 for (let i = 0; i < 8; i++) {
-                    if (bot.currentWindow?.slots[i]) bot.count++
+                    if (bot.currentWindow?.slots[i]) {bot.count++} else break
+                    const id = getID(bot.currentWindow?.slots[i], itemPrices)
+                    bot.ah.push(id)
                 }
                 bot.menu = setAH;
                 bot.timeReset = Date.now()
@@ -535,10 +537,19 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             if (bot.currentWindow) {
                 bot.closeWindow(bot.currentWindow);
             }
-            await walk(bot)
+            await delay(getRandomDelayInRange(500, 700));
+            const currentYaw = bot.entity.yaw;
+            const currentPitch = bot.entity.pitch;
+
+            const yawStep = (Math.random() - 0.5) * 0.3;   // маленький поворот влево/вправо
+            const pitchStep = (Math.random() - 0.5) * 0.3; // небольшой наклон вверх/вниз
+
+            let updatedYaw = currentYaw + yawStep;
+            let updatedPitch = currentPitch + pitchStep;
+            await bot.look(updatedYaw, updatedPitch, true)
             await delay(getRandomDelayInRange(500, 700));
             bot.menu = analysisAH;
-            await safeAH(bot);
+            await safeAH(bot)
             return
         }//[☃] После входа на режим необходимо немного подождать перед использованием аукциона. Подождите
             if (messageText.includes('[☃] После входа на режим необходимо немного подождать перед использованием аукциона. Подождите')) {
@@ -601,10 +612,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-            let count = 0
-            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
-                if (bot.inventory.slots[i] && bot.inventory.slots[i].name === 'netherite_sword') count++
-            }
 
             if (isNaN(balance)) {
                 logger.error('баланс NAN')
@@ -774,6 +781,17 @@ async function sellItems(bot) {
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
 function getBestSellPrice(item, itemPrices) {
+    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+    for (const configItem of sortedConfig) {
+        if (itemMatchesConfig(item, configItem)) {
+            type = configItem.id;
+            return configItem.priceSell;
+        }
+    }
+    return 0;
+}
+
+function getID(item, itemPrices) {
     // if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
@@ -800,18 +818,8 @@ function getBestSellPrice(item, itemPrices) {
         });
 
         if (!areEnchantsValid) continue;
-        if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
-
-        // 1.3. Проверка прочности (если есть durability)
-        if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
-            const damage = item.nbt?.value?.Damage?.value || 0;
-            const durabilityLeft = item.maxDurability - damage;
-            if (durabilityLeft < item.maxDurability * 0.9) continue;
-        }
-
         // 2. Нашли подходящий шаблон — возвращаем его priceSell!
-        type = configItem.id
-        return configItem.priceSell;
+        return configItem.id;
     }
 
     return 0; // Предмет не подходит под конфиг
@@ -849,64 +857,63 @@ async function safeAH(bot) {
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
-    // Сортируем конфиг по priceBuy (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
-
+    
     for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
         const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
 
-        // 1. Проверяем предмет слота против ВСЕХ шаблонов конфига
         for (const configItem of sortedConfig) {
-            // 1.1. Проверка названия
-            if (slotData.name !== configItem.name) continue;
-
-            // 1.2. Проверка зачарований (только >= без strictLevel)
-            const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
-            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
+            if (!itemMatchesConfig(slotData, configItem)) continue;
             
-            const allEnchants = [
-                ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
-                ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
-            ];
-
-            const areEnchantsValid = configItem.effects?.every(required => {
-                const foundEnchant = allEnchants.find(e => e.name === required.name);
-                if (!foundEnchant) return false;
-                return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
-            });
-
-            if (!areEnchantsValid) continue;
-            
-            // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
-            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
-
-            // 1.3. Проверка прочности (если есть durability)
-            if (slotData.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
-                const damage = slotData.nbt?.value?.Damage?.value || 0;
-                const durabilityLeft = slotData.maxDurability - damage;
-                if (durabilityLeft < slotData.maxDurability * 0.9) continue;
-            }
-
-            // 1.4. Получаем цену предмета
-            let price;
             try {
-                price = await getBuyPrice(slotData);
+                const price = await getBuyPrice(slotData);
                 if (!price || price >= configItem.priceBuy) continue;
+                
+                const count = bot.ah.filter(name => name === configItem.id).length;
+                if (count >= 4) return null;
+                
+                bot.type = configItem.id;
+                if (!bot.type) logger.error('id undefined');
+                return slotData.slot;
             } catch (error) {
                 continue;
             }
-
-            // 2. Нашли лучшее совпадение!
-            bot.type = configItem.id
-            if (!bot.type) {
-                console.log(configItem)
-                logger.error('id undefined')
-            }
-            return slotData.slot
         }
     }
     return null;
+}
+
+function itemMatchesConfig(item, configItem) {
+    // Проверка имени
+    if (item.name !== configItem.name) return false;
+    
+    // Проверка зачарований
+    const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
+    const customEnchantments = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
+    
+    const allEnchants = [
+        ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
+        ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
+    ];
+
+    // Проверка требуемых зачарований
+    const areEnchantsValid = configItem.effects?.every(required => {
+        const foundEnchant = allEnchants.find(e => e.name === required.name);
+        return foundEnchant && foundEnchant.lvl >= required.lvl;
+    });
+    
+    if (!areEnchantsValid) return false;
+    if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) return false;
+
+    // Проверка прочности
+    if (item.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
+        const damage = item.nbt?.value?.Damage?.value || 0;
+        const durabilityLeft = item.maxDurability - damage;
+        if (durabilityLeft < item.maxDurability * 0.9) return false;
+    }
+
+    return true;
 }
 
 async function getBuyPrice(slotData) {
