@@ -109,7 +109,7 @@ const itemPrices = [
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 5
+            "lvl": 4
         },
         {
             "name": "minecraft:fire_aspect",
@@ -129,7 +129,7 @@ const itemPrices = [
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 5
+            "lvl": 4
         },
         {
             "name": "minecraft:fire_aspect",
@@ -154,7 +154,7 @@ const itemPrices = [
     "effects": [
         {
             "name": "minecraft:unbreaking",
-            "lvl": 5
+            "lvl": 4
         },
         {
             "name": "minecraft:sharpness",
