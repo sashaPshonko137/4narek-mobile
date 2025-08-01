@@ -783,47 +783,14 @@ async function sellItems(bot) {
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
 function getBestSellPrice(item, itemPrices) {
-    // if (!item || !itemPrices?.length) return 0;
-
-    // Сортируем конфиг по priceSell (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
-
-    // 1. Проверяем предмет против ВСЕХ шаблонов конфига
     for (const configItem of sortedConfig) {
-        // 1.1. Проверка названия
-        if (item.name !== configItem.name) continue;
-
-        // // 1.2. Проверка зачарований (гибкая)
-        const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
-        const customEnchantments = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
-        
-        const allEnchants = [
-            ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
-            ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
-        ];
-
-        const areEnchantsValid = configItem.effects?.every(required => {
-            const foundEnchant = allEnchants.find(e => e.name === required.name);
-            if (!foundEnchant) return false; // Нет такого зачарования
-            return foundEnchant.lvl >= required.lvl; // Уровень >= требуемого
-        });
-
-        if (!areEnchantsValid) continue;
-        if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue
-
-        // 1.3. Проверка прочности (если есть durability)
-        if (item.maxDurability  && !enchantments.some(en => en.name === 'minecraft:mending')) {
-            const damage = item.nbt?.value?.Damage?.value || 0;
-            const durabilityLeft = item.maxDurability - damage;
-            if (durabilityLeft < item.maxDurability * 0.9) continue;
+        if (itemMatchesConfig(item, configItem)) {
+            type = configItem.id;
+            return configItem.priceSell;
         }
-
-        // 2. Нашли подходящий шаблон — возвращаем его priceSell!
-        type = configItem.id
-        return configItem.priceSell;
     }
-
-    return 0; // Предмет не подходит под конфиг
+    return 0;
 }
 
 function getID(item, itemPrices) {
@@ -892,66 +859,63 @@ async function safeAH(bot) {
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
-    // Сортируем конфиг по priceBuy (от большего к меньшему)
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
-
+    
     for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
         const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
 
-        // 1. Проверяем предмет слота против ВСЕХ шаблонов конфига
         for (const configItem of sortedConfig) {
-            // 1.1. Проверка названия
-            if (slotData.name !== configItem.name) continue;
-
-            // 1.2. Проверка зачарований (только >= без strictLevel)
-            const enchantments = slotData.nbt?.value?.Enchantments?.value?.value || [];
-            const customEnchantments = slotData.nbt?.value?.['custom-enchantments']?.value?.value || [];
+            if (!itemMatchesConfig(slotData, configItem)) continue;
             
-            const allEnchants = [
-                ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
-                ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
-            ];
-
-            const areEnchantsValid = configItem.effects?.every(required => {
-                const foundEnchant = allEnchants.find(e => e.name === required.name);
-                if (!foundEnchant) return false;
-                return foundEnchant.lvl >= required.lvl; // Только >= без проверки strictLevel
-            });
-
-            if (!areEnchantsValid) continue;
-            
-            // ЕДИНСТВЕННОЕ отличие от getBestSellPrice:
-            if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) continue;
-
-            // 1.3. Проверка прочности (если есть durability)
-            if (slotData.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
-                const damage = slotData.nbt?.value?.Damage?.value || 0;
-                const durabilityLeft = slotData.maxDurability - damage;
-                if (durabilityLeft < slotData.maxDurability * 0.9) continue;
-            }
-
-            // 1.4. Получаем цену предмета
-            let price;
             try {
-                price = await getBuyPrice(slotData);
+                const price = await getBuyPrice(slotData);
                 if (!price || price >= configItem.priceBuy) continue;
+                
+                const count = bot.ah.filter(name => name === configItem.id).length;
+                if (count >= 4) return null;
+                
+                bot.type = configItem.id;
+                if (!bot.type) logger.error('id undefined');
+                return slot;
             } catch (error) {
                 continue;
             }
-
-            // 2. Нашли лучшее совпадение!
-            const count = bot.ah.filter(name => name === configItem.id).length;
-            if (count >= 4) return null
-            bot.type = configItem.id
-            if (!bot.type) {
-                console.log(configItem)
-                logger.error('id undefined')
-            }
-            return slotData.slot
         }
     }
     return null;
+}
+
+function itemMatchesConfig(item, configItem) {
+    // Проверка имени
+    if (item.name !== configItem.name) return false;
+    
+    // Проверка зачарований
+    const enchantments = item.nbt?.value?.Enchantments?.value?.value || [];
+    const customEnchantments = item.nbt?.value?.['custom-enchantments']?.value?.value || [];
+    
+    const allEnchants = [
+        ...enchantments.map(e => ({ name: e.id?.value, lvl: e.lvl?.value })),
+        ...customEnchantments.map(e => ({ name: e.type?.value, lvl: e.level?.value }))
+    ];
+
+    // Проверка требуемых зачарований
+    const areEnchantsValid = configItem.effects?.every(required => {
+        const foundEnchant = allEnchants.find(e => e.name === required.name);
+        return foundEnchant && foundEnchant.lvl >= required.lvl;
+    });
+    
+    if (!areEnchantsValid) return false;
+    if (allEnchants.some(en => missingEnchantsNames.includes(en.name))) return false;
+
+    // Проверка прочности
+    if (item.maxDurability && !enchantments.some(en => en.name === 'minecraft:mending')) {
+        const damage = item.nbt?.value?.Damage?.value || 0;
+        const durabilityLeft = item.maxDurability - damage;
+        if (durabilityLeft < item.maxDurability * 0.9) return false;
+    }
+
+    return true;
 }
 
 async function getBuyPrice(slotData) {
