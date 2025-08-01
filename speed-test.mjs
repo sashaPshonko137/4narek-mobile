@@ -81,7 +81,7 @@ const itemPrices = [
         },
     ],
     "priceBuy": 1400000, 
-    "priceSell": 1900000,
+    "priceSell": 2000000,
     },
     {
     "name": "netherite_sword",
@@ -100,8 +100,8 @@ const itemPrices = [
             "lvl": 6
         },
     ],
-    "priceBuy": 1300000,
-    "priceSell": 1900000,
+    "priceBuy": 1600000,
+    "priceSell": 2200000,
     },
     {   
     "name": "netherite_sword",
@@ -205,6 +205,7 @@ const itemPrices = [
     "priceSell": 4500000,
     }
 ]
+
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
