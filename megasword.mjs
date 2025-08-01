@@ -538,15 +538,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                 bot.closeWindow(bot.currentWindow);
             }
             await delay(getRandomDelayInRange(500, 700));
-            const currentYaw = bot.entity.yaw;
-            const currentPitch = bot.entity.pitch;
-
-            const yawStep = (Math.random() - 0.5) * 0.3;   // маленький поворот влево/вправо
-            const pitchStep = (Math.random() - 0.5) * 0.3; // небольшой наклон вверх/вниз
-
-            let updatedYaw = currentYaw + yawStep;
-            let updatedPitch = currentPitch + pitchStep;
-            await bot.look(updatedYaw, updatedPitch, true)
+            await walk(bot)
             await delay(getRandomDelayInRange(500, 700));
             bot.menu = analysisAH;
             await safeAH(bot)
