@@ -863,7 +863,10 @@ async function getBestAHSlot(bot, itemPrices) {
                 if (!price || price >= configItem.priceBuy) continue;
                 
                 const count = bot.ah.filter(name => name === configItem.id).length;
-                if (count >= 4) return null;
+                if (count >= 4) {
+                    logger.info(`уже есть 4 ` + configItem.id)
+                    return null;
+                }
                 
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
