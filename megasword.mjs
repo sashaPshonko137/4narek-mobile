@@ -423,7 +423,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                         case false:
                             logger.info(`${name} - поиск лучшего предмета`);
                             let slotToBuy = await getBestAHSlot(bot, itemPrices);
-    
+                            
                             switch (slotToBuy) {
                                 case null:
                                     logger.info('не найден')
@@ -434,11 +434,9 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 default:
                                     if (bot.netakbistro) {
                                         bot.netakbistro = false;
-                                        await delay(1100);
-                                        await safeClickBuy(bot, slotToBuy, 0);
+                                        await safeClickBuy(bot, slotToBuy, 1100);
                                     } else if (slotToBuy < 18) {
-                                        await delay(getRandomDelayInRange(100, 150));
-                                        await safeClickBuy(bot, slotToBuy, 0);
+                                        await safeClickBuy(bot, slotToBuy, getRandomDelayInRange(100, 150));
                                     } else {
                                         await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 1500));
                                     }
@@ -877,7 +875,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
-                return slot;
+                return slotData.slot;
             } catch (error) {
                 continue;
             }
