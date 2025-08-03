@@ -206,7 +206,6 @@ const itemPrices = [
     }
 ]
 
-
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
 const minBalance = 20000000
@@ -429,7 +428,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 case null:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(300, 700));
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(500, 1000));
     
                                     break;
                                 default:
@@ -439,7 +438,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                     } else if (slotToBuy < 18) {
                                         await safeClickBuy(bot, slotToBuy, getRandomDelayInRange(100, 150));
                                     } else {
-                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(300, 700));
+                                       await safeClick(bot, slotToReloadAH, getRandomDelayInRange(500, 1000));
                                     }
                                     
 
@@ -852,7 +851,7 @@ async function getBestAHSlot(bot, itemPrices) {
 
     const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
     
-    for (let slot = firstAHSlot; slot <= lastAHSlot; slot++) {
+    for (let slot = firstAHSlot; slot <= 17; slot++) {
         const slotData = bot.currentWindow.slots[slot];
         if (!slotData) continue;
 
@@ -864,7 +863,10 @@ async function getBestAHSlot(bot, itemPrices) {
                 if (!price || price >= configItem.priceBuy) continue;
                 
                 const count = bot.ah.filter(name => name === configItem.id).length;
-                if (count >= 4) return null;
+                if (count >= 4) {
+                    logger.info(`уже есть 4 ` + configItem.id)
+                    return null;
+                }
                 
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
