@@ -438,7 +438,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                     } else if (slotToBuy < 18) {
                                         await safeClickBuy(bot, slotToBuy, getRandomDelayInRange(100, 150));
                                     } else {
-                                        await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 1500));
+                                       await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 1500));
                                     }
                                     
 
