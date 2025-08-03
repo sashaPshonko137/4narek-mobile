@@ -20,8 +20,8 @@ const pomoikaChatID = -4896488855
 // Массив с ботами
 const bots = [
     { username: 'gorbataya_ryiba', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'yarrik__papan', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'paren_ivana', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
+    { username: 'tupen_blyad', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'kukuruzer222', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
 ];
 
 // Массив для хранения ссылок на воркеров
