@@ -19,9 +19,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'otsalyistolop', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'baba_JI', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'tvoi_sup', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
+    { username: 'gorbataya_ryiba', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'yarrik__papan', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+    { username: 'paren_ivana', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
 ];
 
 // Массив для хранения ссылок на воркеров

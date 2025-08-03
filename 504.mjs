@@ -16,12 +16,15 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 const infoChatID = -4709535234
 const alertChatID = -4763690917
-
+//  username: 'ibra_KAMURAD', password: 'ggggg', anarchy: 508, type: 'elytra', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+//     { username: 'ashot_pashot', password: 'ggggg', anarchy: 508, type: 'elytra', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
+//     { username: 'bosh__ivan', password: 'ggggg', anarchy: 508, type: 'elytra', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
+// ];
 // Массив с ботами
 const bots = [
-    { username: 'potap_obsas', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'grisha_NABAYANE', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'han__babay', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'ibra_KAMURAD', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'ashot_pashot', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'bosh__ivan', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 let workers = [];
 
