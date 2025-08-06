@@ -257,7 +257,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         bot.mu = false;
         bot.startTime = Date.now() - 55000;
         bot.ahFull = false;
-        bot.timeReset = Date.now() - 60000;
+        bot.timeReset = Date.now()
         bot.login = true;
         bot.timeActive = Date.now();
         bot.inventoryFull = false;

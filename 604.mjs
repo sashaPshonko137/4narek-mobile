@@ -20,9 +20,9 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'tarZetnik', password: 'ggggg', anarchy: 604, type: 'speed-test', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'bugulMister', password: 'ggggg', anarchy: 604, type: 'speed-test', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
-    { username: 'tdppryanik', password: 'ggggg', anarchy: 604, type: 'speed-test', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
+    { username: 'dreeew_botovod', password: 'ggggg', anarchy: 604, type: 'speed-test', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'dondondond0n', password: 'ggggg', anarchy: 604, type: 'speed-test', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false },
+    { username: 'tdppirog', password: 'ggggg', anarchy: 604, type: 'speed-test', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false }
 ];
 
 // Массив для хранения ссылок на воркеров
