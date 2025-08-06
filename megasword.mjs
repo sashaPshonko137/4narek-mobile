@@ -862,11 +862,11 @@ async function getBestAHSlot(bot, itemPrices) {
                 const price = await getBuyPrice(slotData);
                 if (!price || price >= configItem.priceBuy) continue;
                 
-                const count = bot.ah.filter(name => name === configItem.id).length;
-                if (count >= 4) {
-                    logger.info(`уже есть 4 ` + configItem.id)
-                    return null;
-                }
+                // const count = bot.ah.filter(name => name === configItem.id).length;
+                // if (count >= 4) {
+                //     logger.info(`уже есть 4 ` + configItem.id)
+                //     return null;
+                // }
                 
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
