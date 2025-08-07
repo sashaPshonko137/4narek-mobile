@@ -56,8 +56,8 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 1500000,
-    "priceSell": 2000000,
+    "priceBuy": 1600000,
+    "priceSell": 2300000,
     },
     {
     "name": "netherite_sword",
@@ -80,7 +80,7 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 1600000, 
+    "priceBuy": 1700000, 
     "priceSell": 2300000,
     },
     {
@@ -120,8 +120,8 @@ const itemPrices = [
             "lvl": 7
         },
     ],
-    "priceBuy": 2300000,
-    "priceSell": 2900000
+    "priceBuy": 2500000,
+    "priceSell": 3200000
     },
     {
     "name": "netherite_sword",
