@@ -945,12 +945,30 @@ if (workerData) {
     launchBookBuyer(workerData.username, workerData.password, workerData.anarchy, workerData.inventoryPort);
 }
 
+function getRandomElement(array) {
+  if (!Array.isArray(array) || array.length === 0) {
+    throw new Error("Input must be a non-empty array");
+  }
+  
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
 
 async function longWalk(bot) {
+    await delay(500)
+    const timeTP = Date.now()
     bot.autoEat.enableAuto()
     bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
+        if (Date.now() - timeTP > 10000) {
+            await delay(500)
+            timeTP = Date.now()
+            const warps = ['fisher', 'mine', 'casino', 'case', 'portal', 'shop']
+            const warp = getRandomElement(warps)
+            bot.chat(`/warp ${warp}`)
+            await delay(6000)
+        }
         const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
         if (resetime > 60) {
             await delay(500);
@@ -986,6 +1004,11 @@ async function longWalk(bot) {
 }
 
 async function walk(bot) {
+    await delay(500)
+    const warps = ['fisher', 'mine', 'casino', 'case', 'portal', 'shop']
+    const warp = getRandomElement(warps)
+    bot.chat(`/warp ${warp}`)
+    await delay(6000)
     bot.autoEat.enableAuto()
     const endTime = Date.now() + 4000;
 
