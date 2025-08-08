@@ -956,7 +956,7 @@ function getRandomElement(array) {
 
 async function longWalk(bot) {
     await delay(500)
-    const timeTP = Date.now()
+    let timeTP = Date.now()
     bot.autoEat.enableAuto()
     bot.timeActive = Date.now();
     logger.info(`${bot.username} - все забито. Гуляем.`);
