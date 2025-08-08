@@ -22,9 +22,9 @@ const alertChatID = -4763690917
 // ];
 // Массив с ботами
 const bots = [
-    { username: 'oi__balya', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'fuuu_ilya', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'onetonet_dada', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'ultra__gay', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
+    { username: 'hr_vladyka', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
+    { username: 'ostap_paravoz', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
 ];
 let workers = [];
 
