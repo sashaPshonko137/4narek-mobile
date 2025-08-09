@@ -85,6 +85,26 @@ const itemPrices = [
     },
     {
     "name": "netherite_sword",
+    "id": "6nomend",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 6
+        },
+    ],
+    "priceBuy": 1700000,
+    "priceSell": 2300000,
+    },
+        {
+    "name": "netherite_sword",
     "id": "sword6",
     "effects": [
         {
@@ -98,6 +118,10 @@ const itemPrices = [
         {
             "name": "minecraft:sharpness",
             "lvl": 6
+        },
+        {
+            "name": "minecraft:mending",
+            "lvl": 1
         },
     ],
     "priceBuy": 2000000,
