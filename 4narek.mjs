@@ -34,59 +34,200 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search elytra';
+const ahCommand = '/ah search netherite sword';
 
 let type = ""
 
 const itemPrices = [
     {
-    "name": "elytra",
-    "id": "elytra",
-    "effects": [
-    ],
-    "priceBuy": 900000,
-    "priceSell": 1200000,
-    },
-    {
-    "name": "elytra",
-    "id": "elytra-unbreak",
+    "name": "netherite_sword",
+    "id": "5nomend",
     "effects": [
         {
             "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:sharpness",
             "lvl": 5
         },
     ],
-    "priceBuy": 1200000,
-    "priceSell": 1700000,
+    "priceBuy": 1500000,
+    "priceSell": 2000000,
     },
-    // {
-    // "name": "elytra",
-    // "id": "elytra-onlymend",
-    // "effects": [
-    //     {
-    //         "name": "minecraft:mending",
-    //         "lvl": 1
-    //     },
-    // ],
-    // "priceBuy": 1200000,
-    // "priceSell": 1600000,
-    // },
     {
-    "name": "elytra",
-    "id": "elytra-mend",
+    "name": "netherite_sword",
+    "id": "sword5",
     "effects": [
         {
             "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:sharpness",
             "lvl": 5
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
         },
         {
             "name": "minecraft:mending",
             "lvl": 1
         },
     ],
-    "priceBuy": 3500000,
-    "priceSell": 4500000,
+    "priceBuy": 1700000, 
+    "priceSell": 2300000,
     },
+    {
+    "name": "netherite_sword",
+    "id": "6nomend",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 6
+        },
+    ],
+    "priceBuy": 1700000,
+    "priceSell": 2300000,
+    },
+        {
+    "name": "netherite_sword",
+    "id": "sword6",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 6
+        },
+        {
+            "name": "minecraft:mending",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 2000000,
+    "priceSell": 2600000,
+    },
+    {   
+    "name": "netherite_sword",
+    "id": "7nomend",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7
+        },
+    ],
+    "priceBuy": 2500000,
+    "priceSell": 3200000
+    },
+    {
+    "name": "netherite_sword",
+    "id": "sword7",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7
+        },
+        {
+
+            "name": "minecraft:mending",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 2800000,
+    "priceSell": 3400000,
+    },
+        {
+    "name": "netherite_sword",
+    "id": "pochti-megasword",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 4
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "poison",
+            "lvl": 1
+        },
+        {
+            "name": "vampirism",
+            "lvl": 1
+        },
+    ],
+    "priceBuy": 3300000,
+    "priceSell": 3900000,
+    },
+    {
+    "name": "netherite_sword",
+    "id": "megasword",
+    "effects": [
+        {
+            "name": "minecraft:unbreaking",
+            "lvl": 5
+        },
+        {
+            "name": "minecraft:sharpness",
+            "lvl": 7
+        },
+        {
+            "name": "minecraft:fire_aspect",
+            "lvl": 1
+        },
+        {
+            "name": "poison",
+            "lvl": 2
+        },
+        {
+            "name": "vampirism",
+            "lvl": 2
+        },
+    ],
+    "priceBuy": 4300000,
+    "priceSell": 5200000,
+    }
 ]
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
@@ -500,6 +641,18 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         }
     })
 }
+
+function loadSwordsDataFromFile(filePath) {
+  try {
+    const rawData = fs.readFileSync(filePath, 'utf-8');
+    const swordsData = JSON.parse(rawData);
+    return swordsData;
+  } catch (error) {
+    console.error('Ошибка загрузки файла:', error);
+    return null;
+  }
+}
+
 
 async function sendSell(text) {
   try {

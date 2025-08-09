@@ -1,0 +1,190 @@
+[
+    {
+        "name": "netherite_sword",
+        "id": "5nomend",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 5
+            }
+        ],
+        "priceBuy": 1500000,
+        "priceSell": 2000000
+    },
+    {
+        "name": "netherite_sword",
+        "id": "sword5",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 5
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:mending",
+                "lvl": 1
+            }
+        ],
+        "priceBuy": 1700000,
+        "priceSell": 2300000
+    },
+    {
+        "name": "netherite_sword",
+        "id": "6nomend",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 6
+            }
+        ],
+        "priceBuy": 1700000,
+        "priceSell": 2300000
+    },
+    {
+        "name": "netherite_sword",
+        "id": "sword6",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 6
+            },
+            {
+                "name": "minecraft:mending",
+                "lvl": 1
+            }
+        ],
+        "priceBuy": 2000000,
+        "priceSell": 2600000
+    },
+    {
+        "name": "netherite_sword",
+        "id": "7nomend",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            }
+        ],
+        "priceBuy": 2500000,
+        "priceSell": 3200000
+    },
+    {
+        "name": "netherite_sword",
+        "id": "sword7",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "minecraft:mending",
+                "lvl": 1
+            }
+        ],
+        "priceBuy": 2800000,
+        "priceSell": 3400000
+    },
+    {
+        "name": "netherite_sword",
+        "id": "pochti-megasword",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "poison",
+                "lvl": 1
+            },
+            {
+                "name": "vampirism",
+                "lvl": 1
+            }
+        ],
+        "priceBuy": 3300000,
+        "priceSell": 3900000
+    },
+    {
+        "name": "netherite_sword",
+        "id": "megasword",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 5
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "poison",
+                "lvl": 2
+            },
+            {
+                "name": "vampirism",
+                "lvl": 2
+            }
+        ],
+        "priceBuy": 4300000,
+        "priceSell": 5200000
+    }
+]
