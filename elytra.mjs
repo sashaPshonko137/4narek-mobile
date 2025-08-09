@@ -44,8 +44,8 @@ const itemPrices = [
     "id": "elytra",
     "effects": [
     ],
-    "priceBuy": 700000,
-    "priceSell": 1000000,
+    "priceBuy": 1000000,
+    "priceSell": 1400000,
     },
     {
     "name": "elytra",
@@ -56,21 +56,21 @@ const itemPrices = [
             "lvl": 5
         },
     ],
-    "priceBuy": 1100000,
-    "priceSell": 1500000,
+    "priceBuy": 1500000,
+    "priceSell": 2000000,
     },
-    {
-    "name": "elytra",
-    "id": "elytra-onlymend",
-    "effects": [
-        {
-            "name": "minecraft:mending",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 1200000,
-    "priceSell": 1600000,
-    },
+    // {
+    // "name": "elytra",
+    // "id": "elytra-onlymend",
+    // "effects": [
+    //     {
+    //         "name": "minecraft:mending",
+    //         "lvl": 1
+    //     },
+    // ],
+    // "priceBuy": 1200000,
+    // "priceSell": 1600000,
+    // },
     {
     "name": "elytra",
     "id": "elytra-mend",
@@ -84,8 +84,8 @@ const itemPrices = [
             "lvl": 1
         },
     ],
-    "priceBuy": 1300000,
-    "priceSell": 1800000,
+    "priceBuy": 3000000,
+    "priceSell": 4000000,
     },
 ]
 
