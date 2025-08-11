@@ -114,11 +114,15 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.chat(shopCommand);
     });
 
+bot.on('kicked', (reason, loggedIn) => {
+  console.log('Kicked:', reason, 'Logged in:', loggedIn);
+});
+
     bot.on('end', (r) => {
         console.log('бот выруился - '+r)
     })
     bot.on('error', (r) => {
-        console.log('бот выруился - '+r)
+        console.log('error - '+r)
     })
 
     bot.on('physicsTick', async () => {
