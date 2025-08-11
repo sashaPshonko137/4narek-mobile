@@ -486,7 +486,6 @@ function getIdBySellPrice(itemPrices, val) {
 }
 
 async function sellItems(bot, itemPrices) {
-    console.log(itemPrices)
     const sellLimit = 8 - bot.count; // Максимальное количество предметов для продажи
     let itemsSold = 0; // Счетчик проданных предметов
 
