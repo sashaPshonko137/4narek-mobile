@@ -9,7 +9,7 @@ import { exec } from 'child_process'; // Для выполнения коман�
 
 const itemsJson = await readFile('items.json')
 let items = JSON.parse(itemsJson)
-
+let firstStart = true
 const socket = new WebSocket('ws://109.172.46.120:8080/ws'); 
 
 socket.on('open', () => {
@@ -29,6 +29,10 @@ socket.on('message', (data) => {
     priceSell: prices[item.id] || 0 // Если цены нет, ставим 0
     };
     });
+    if (firstStart) {
+        firstStart = false
+        return
+    }
     workers.forEach(w => w.postMessage({
     type: 'price',
     data: items
@@ -50,6 +54,13 @@ const __dirname = dirname(__filename);
 const token = '7433279544:AAEdja0YjZxwRPcw0zbf6lRh-6ouKHettAU';
 
 const tgBot = new TelegramBot(token, { polling: true });
+
+async function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+while (!items.every(i => i.priceSell)) {
+    await delay(500)
+}
 
 const infoChatID = -4709535234
 const alertChatID = -4763690917

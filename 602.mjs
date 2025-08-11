@@ -9,15 +9,14 @@ import { exec } from 'child_process'; // Для выполнения коман�
 
 const itemsJson = await readFile('items.json')
 let items = JSON.parse(itemsJson)
-
-
-const socket = new WebSocket('ws://109.172.46.120:8080/ws'); 
+let firstStart = true
+const socket = new WebSocket('ws://109.172.46.120:8080/ws');
 
 socket.on('open', () => {
   console.log('✅ Подключено к серверу WebSocket');
   
   // Отправляем сообщение на сервер
-  setTimeout(() => socket.send(JSON.stringify({action: "info"})), 2000)
+  socket.send(JSON.stringify({action: "info"}))
 
 });
 
@@ -30,6 +29,10 @@ socket.on('message', (data) => {
     priceSell: prices[item.id] || 0 // Если цены нет, ставим 0
     };
     });
+    if (firstStart) {
+        firstStart = false
+        return
+    }
     workers.forEach(w => w.postMessage({
     type: 'price',
     data: items
@@ -56,6 +59,13 @@ const alertChatID = -4763690917
 const pomoikaChatID = -4896488855
 
 const tgBot = new TelegramBot(token, { polling: true });
+
+async function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+while (!items.every(i => i.priceSell)) {
+    await delay(500)
+}
 
 // Массив с ботами
 const bots = [

@@ -9,6 +9,7 @@ let itemPrices = workerData.itemPrices
 
 parentPort.on('price', (data) => {
   itemPrices = data
+  console.log(data)
 });
 
 
@@ -223,6 +224,7 @@ async function launchBookBuyer(name, password, anarchy) {
                 break;
 
                 case analysisAH:
+                    logger.info(`${name} - ${bot.menu}`);
                     bot.timeActive = Date.now();
                     generateRandomKey(bot);
                     const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
@@ -237,7 +239,6 @@ async function launchBookBuyer(name, password, anarchy) {
                     const uptime = Math.floor((Date.now() - bot.startTime) / 1000);  // Время в секундах
                     if (uptime > 55) {
                         logger.info(`${name} - продажа`);
-                        console.log(itemPrices)
                         await sellItems(bot, itemPrices)
     
                         break;
@@ -309,7 +310,7 @@ async function launchBookBuyer(name, password, anarchy) {
                      await safeClick(bot, slot, getRandomDelayInRange(700, 1300))
                      break
                 }
-                    bot.menu = setAH;
+                bot.menu = setAH;
                 bot.timeReset = Date.now()
                 await safeClick(bot, 52, getRandomDelayInRange(700, 1300))
 
@@ -739,6 +740,7 @@ async function getBestAHSlot(bot, itemPrices) {
             try {
                 const price = await getBuyPrice(slotData);
                 if (!price || price >= configItem.priceSell*0.85) continue;
+                if (!configItem.priceSell) console.error(configItem.priceSell)
                 
                 // const count = bot.ah.filter(name => name === configItem.id).length;
                 // if (count >= 4) {
@@ -748,7 +750,8 @@ async function getBestAHSlot(bot, itemPrices) {
                 
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
-                return slotData.slot;
+                return null
+                // return slotData.slot;
             } catch (error) {
                 continue;
             }
@@ -864,7 +867,7 @@ async function longWalk(bot) {
             const warps = ['fisher', 'mine', 'casino', 'case', 'portal', 'shop']
             const warp = getRandomElement(warps)
             bot.chat(`/warp ${warp}`)
-            await delay(6000)
+            await delay(8000)
         }
         
         await delay(500);
@@ -906,7 +909,7 @@ async function walk(bot) {
     const warps = ['fisher', 'mine', 'casino', 'case', 'portal', 'shop']
     const warp = getRandomElement(warps)
     bot.chat(`/warp ${warp}`)
-    await delay(6000)
+    await delay(8000)
 
     bot.autoEat.disableAuto()
 
