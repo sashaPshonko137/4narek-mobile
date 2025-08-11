@@ -115,7 +115,7 @@ async function launchBookBuyer(name, password, anarchy) {
     });
 
     bot.on('end', (r) => {
-        console.log(r)
+        console.log('бот выруился - '+r)
     })
 
     bot.on('physicsTick', async () => {
