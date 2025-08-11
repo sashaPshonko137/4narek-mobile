@@ -101,16 +101,16 @@ function runWorker(bot) {
             worker.terminate();
 
         }, 1200000)
-        worker.on('message', async (message) => {
+         worker.on('message', async (message) => {
             if (message.name === 'success') {
                 const botToUpdate = bots.find(bot => bot.username === message.username);
                 if (botToUpdate) {
                     botToUpdate.success = true;
                 }
             } else if (message.name === "buy") {
-                socket.send(JSON.stringify(JSON.stringify({action: 'buy', type: message.id})));
+                socket.send(JSON.stringify({action: 'buy', type: message.id}));
             } else if (message.name === "sell") {
-                socket.send(JSON.stringify(JSON.stringify({action: 'sell', type: message.id})));
+                socket.send(JSON.stringify({action: 'sell', type: message.id}));
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }

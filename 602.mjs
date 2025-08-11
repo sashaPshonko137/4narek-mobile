@@ -109,9 +109,9 @@ function runWorker(bot) {
                     botToUpdate.success = true;
                 }
             } else if (message.name === "buy") {
-                socket.send(JSON.stringify(JSON.stringify({action: 'buy', type: message.id})));
+                socket.send(JSON.stringify({action: 'buy', type: message.id}));
             } else if (message.name === "sell") {
-                socket.send(JSON.stringify(JSON.stringify({action: 'sell', type: message.id})));
+                socket.send(JSON.stringify({action: 'sell', type: message.id}));
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }

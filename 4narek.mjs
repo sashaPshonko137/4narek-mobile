@@ -9,7 +9,6 @@ let itemPrices = workerData.itemPrices
 
 parentPort.on('price', (data) => {
   itemPrices = data
-  console.log(data)
 });
 
 

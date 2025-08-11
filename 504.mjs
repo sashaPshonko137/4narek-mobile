@@ -108,12 +108,13 @@ function runWorker(bot) {
                     botToUpdate.success = true;
                 }
             } else if (message.name === "buy") {
-                tgBot.sendMessage(pomoikaChatID, message.text);
+                socket.send(JSON.stringify({action: 'buy', type: message.id}));
+            } else if (message.name === "sell") {
+                socket.send(JSON.stringify({action: 'sell', type: message.id}));
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }
         });
-
         worker.on('error', (error) => {
             bot.success = false
             console.error(`Worker error: ${error}`);

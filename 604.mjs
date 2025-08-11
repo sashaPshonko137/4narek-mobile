@@ -108,9 +108,9 @@ function runWorker(bot) {
                     botToUpdate.success = true;
                 }
             } else if (message.name === "buy") {
-                socket.send(JSON.stringify(JSON.stringify({action: 'buy', type: message.id})));
+                socket.send(JSON.stringify({action: 'buy', type: message.id}));
             } else if (message.name === "sell") {
-                socket.send(JSON.stringify(JSON.stringify({action: 'sell', type: message.id})));
+                socket.send(JSON.stringify({action: 'sell', type: message.id}));
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }
@@ -241,77 +241,3 @@ tgBot.onText(/\/stop/, async (msg) => {
 });
 
 startBots();
-
-const dataPath = join(__dirname, 'data.json');
-
-async function updateBotStats(username, incomingBalance, incomingCount) {
-    const MSK_OFFSET = -3;
-    const nowUTC = new Date();
-    const nowMSK = new Date(nowUTC.getTime() + MSK_OFFSET * 60 * 60 * 1000);
-    const currentDateStr = nowMSK.toISOString().split('T')[0];
-    const currentHour = nowMSK.getHours();
-
-    let data = [];
-
-    try {
-        if (existsSync(dataPath)) {
-            const content = await readFile(dataPath, 'utf8');
-            data = JSON.parse(content || '[]');
-        }
-    } catch (error) {
-        console.error('Ошибка при чтении или парсинге data.json:', error.message);
-        data = [];
-    }
-
-    let user = data.find(u => u.username === username);
-
-    // Логируем текущие данные
-    console.log(`currentDateStr: ${currentDateStr}, user.time: ${user ? user.time : 'none'}`);
-
-    // Измененная логика сброса
-    const shouldReset = currentHour >= 20 || (user && user.time !== currentDateStr);
-
-    if (!user) {
-        // Если пользователь не найден, создаем его с текущими данными
-        user = {
-            username,
-            balance: incomingBalance, // Устанавливаем начальный баланс
-            count: incomingCount,     // Устанавливаем количество
-            time: currentDateStr      // Устанавливаем актуальное время
-        };
-        data.push(user);
-    } else {
-        if (shouldReset) {
-            // Если нужно сбросить данные, обновляем только баланс и дату
-            user.balance = incomingBalance;  // Сбрасываем баланс на новое значение
-            user.count = incomingCount;      // Перезаписываем количество
-            user.time = currentDateStr;      // Обновляем дату
-        } else {
-            // Если сброс не нужен, добавляем баланс, а количество перезаписываем
-            user.balance += incomingBalance;  // Добавляем новый баланс к старому
-            user.count = incomingCount;       // Перезаписываем количество
-        }
-    }
-
-    try {
-        await writeFile(dataPath, JSON.stringify(data, null, 2), 'utf8');
-    } catch (error) {
-        console.error('Ошибка при записи data.json:', error.message);
-    }
-}
-
-async function getUserData(username) {
-    let data = [];
-
-    try {
-        if (existsSync(dataPath)) {
-            const content = await readFile(dataPath, 'utf8');
-            data = JSON.parse(content || '[]');
-        }
-    } catch (error) {
-        console.error('Ошибка при чтении или парсинге data.json:', error.message);
-        data = [];
-    }
-
-    return data.find(u => u.username === username);
-}
