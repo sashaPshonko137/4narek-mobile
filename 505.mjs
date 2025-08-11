@@ -34,6 +34,7 @@ let isSocketOpen = false;
 
 function runWorker(bot) {
   workers = workers.filter(w => w.workerData?.username !== bot.username);
+
   return new Promise((resolve, reject) => {
     const workerScriptPath = join(__dirname, `${bot.type}.mjs`);
     const worker = new Worker(workerScriptPath, {
@@ -44,21 +45,20 @@ function runWorker(bot) {
     });
 
     bot.isManualStop = false;
+    bot.lastRestartTime = Date.now();
     workers.push(worker);
 
+    // Убить если неуспешный запуск за 30 сек
     setTimeout(() => {
-      if (!bot.success) {
-        worker.terminate();
-      }
+      if (!bot.success) worker.terminate();
     }, 30000);
 
-    setTimeout(() => {
-      worker.terminate();
-    }, 1200000);
+    // Ограничить время работы
+    setTimeout(() => worker.terminate(), 1200000);
 
     worker.on('message', async (message) => {
       if (message.name === 'success') {
-        const botToUpdate = bots.find(bot => bot.username === message.username);
+        const botToUpdate = bots.find(b => b.username === message.username);
         if (botToUpdate) botToUpdate.success = true;
       } else if (message.name === "buy") {
         socket?.send(JSON.stringify({ action: 'buy', type: message.id }));
@@ -69,17 +69,29 @@ function runWorker(bot) {
       }
     });
 
+    const handleRestart = () => {
+      const now = Date.now();
+      const timeSinceLast = now - (bot.lastRestartTime || 0);
+
+      // Минимум 15 секунд между перезапусками
+      const restartDelay = Math.max(15000 - timeSinceLast, 0);
+
+      if (!bot.isManualStop) {
+        setTimeout(() => runWorker(bot), restartDelay);
+      }
+    };
+
     worker.on('error', (error) => {
       bot.success = false;
       console.error(`Worker error: ${error}`);
       tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
-      if (!bot.isManualStop) runWorker(bot);
+      handleRestart();
     });
 
     worker.on('exit', () => {
       bot.success = false;
       tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
-      if (!bot.isManualStop) runWorker(bot);
+      handleRestart();
     });
   });
 }
