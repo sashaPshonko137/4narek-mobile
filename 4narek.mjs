@@ -304,8 +304,9 @@ async function launchBookBuyer(name, password, anarchy) {
                     const id = getID(bot.currentWindow?.slots[i], itemPrices)
                     bot.ah.push(id)
                 }
-                const slot = checkStorage(bot, itemPrices)
+                const slot = await checkStorage(bot, itemPrices)
                 if (slot) {
+                    bot.menu = myItems
                      await safeClick(bot, slot, getRandomDelayInRange(700, 1300))
                      break
                 }
@@ -752,7 +753,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
-                return null
+                // return null
                 return slotData.slot;
             } catch (error) {
                 continue;
