@@ -237,7 +237,8 @@ async function launchBookBuyer(name, password, anarchy) {
                     const uptime = Math.floor((Date.now() - bot.startTime) / 1000);  // Время в секундах
                     if (uptime > 55) {
                         logger.info(`${name} - продажа`);
-                        await sellItems(bot)
+                        console.log(itemPrices)
+                        await sellItems(bot, itemPrices)
     
                         break;
                     }
@@ -248,11 +249,11 @@ async function launchBookBuyer(name, password, anarchy) {
                     switch (bot.inventoryFull) {
                         case true:
                             if (bot.ahFull) {
-                                await longWalk(bot);
+                                await longWalk(bot, itemPrices);
                                 return
                             }
                             logger.error('Инвентарь заполнен')
-                            await sellItems(bot)
+                            await sellItems(bot, itemPrices)
                         
                             break;
     
@@ -331,7 +332,7 @@ async function launchBookBuyer(name, password, anarchy) {
         if (messageText.includes('[☃] Вы успешно купили') && !bot.ahFull) {
             const msg = {name: 'sell', id: bot.type}
             parentPort.postMessage(msg);
-            await sellItems(bot)
+            await sellItems(bot, itemPrices)
             return
         }
 
@@ -363,7 +364,7 @@ async function launchBookBuyer(name, password, anarchy) {
             const id = getIdBySellPrice(balance)
             const msg = {name: 'sell', id: id}
             parentPort.postMessage(msg);
-            await sellItems(bot)
+            await sellItems(bot, itemPrices)
             return
         }
 
@@ -500,7 +501,7 @@ function getIdBySellPrice(itemPrices, val) {
     return foundItem ? foundItem.id : null;
 }
 
-async function sellItems(bot) {
+async function sellItems(bot, itemPrices) {
     const sellLimit = 8 - bot.count; // Максимальное количество предметов для продажи
     let itemsSold = 0; // Счетчик проданных предметов
 

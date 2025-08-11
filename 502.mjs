@@ -7,7 +7,8 @@ import TelegramBot from 'node-telegram-bot-api';
 import WebSocket from 'ws';
 import { exec } from 'child_process'; // Для выполнения команд в терминале
 
-let items = await readFile('items.json')
+const itemsJson = await readFile('items.json')
+let items = JSON.parse(itemsJson)
 
 const socket = new WebSocket('ws://109.172.46.120:8080/ws'); 
 
@@ -15,13 +16,14 @@ socket.on('open', () => {
   console.log('✅ Подключено к серверу WebSocket');
   
   // Отправляем сообщение на сервер
-  setTimeout(() => socket.send(JSON.stringify({action: "info"})), 2000)
+  socket.send(JSON.stringify({action: "info"}))
 
 });
 
 // Событие при получении сообщения от сервера
 socket.on('message', (data) => {
     const prices = JSON.parse(data);
+    console.log(items)
     items = items.map(item => {
      return {
     ...item,
@@ -58,7 +60,7 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'oikakploho', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'elytra'},
+    { username: 'oikakploho', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices:items, item: 'elytra'},
     { username: 'fuuubalya', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices:items, item: 'elytra'},
     { username: 'oinenado', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false , itemPrices:items, item: 'elytra'},
 ];

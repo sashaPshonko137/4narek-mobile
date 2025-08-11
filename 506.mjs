@@ -7,7 +7,8 @@ import TelegramBot from 'node-telegram-bot-api';
 import WebSocket from 'ws';
 import { exec } from 'child_process'; // Для выполнения команд в терминале
 
-let items = await readFile('items.json')
+const itemsJson = await readFile('items.json')
+let items = JSON.parse(itemsJson)
 
 const socket = new WebSocket('ws://localhost:8080'); 
 
