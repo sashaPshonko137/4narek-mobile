@@ -46,9 +46,15 @@ socket.on('error', (err) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const token = '7443919586:AAFR57rTaD7rvqA6I8D9Z9LCal2cb3WSsnI';
+const token = '8053905786:AAEyt46jMPX-Ky_NixayLqquvZZmlP8vlS0';
 
 const tgBot = new TelegramBot(token, { polling: true });
+
+
+
+const infoChatID = -4709535234
+const alertChatID = -4763690917
+const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
