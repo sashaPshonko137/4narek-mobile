@@ -750,8 +750,8 @@ async function getBestAHSlot(bot, itemPrices) {
                 
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
-                return null
-                // return slotData.slot;
+                // return null
+                return slotData.slot;
             } catch (error) {
                 continue;
             }
