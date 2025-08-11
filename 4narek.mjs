@@ -466,34 +466,6 @@ async function launchBookBuyer(name, password, anarchy) {
     })
 }
 
-async function sendSell(text) {
-  try {
-    await fetch('http://31.207.74.231:8080/sell_shue', {
-      method: 'POST',
-      body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
-      headers: {
-        'Content-Type': 'application/json' // Указываем что отправляем JSON
-      }
-    });
-  } catch (e) {
-    console.log('Ошибка отправки:', e.message);
-  }
-}
-
-async function sendBuy(text) {
-  try {
-    await fetch('http://31.207.74.231:8080/buy_shue', {
-      method: 'POST',
-      body: JSON.stringify({ type: text }), // Отправляем как JSON с полем type
-      headers: {
-        'Content-Type': 'application/json' // Указываем что отправляем JSON
-      }
-    });
-  } catch (e) {
-    console.log('Ошибка отправки:', e.message);
-  }
-}
-
 function getIdBySellPrice(itemPrices, val) {
     // Ищем предмет с точным совпадением цены
     const foundItem = itemPrices.find(item => item.priceSell % 100 === val);
@@ -718,6 +690,7 @@ async function checkStorage(bot, itemPrices) {
                 
                 return slotData.slot;
             } catch (error) {
+                console.error(error)
                 continue;
             }
         }
@@ -756,6 +729,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 // return null
                 return slotData.slot;
             } catch (error) {
+                console.error(error)
                 continue;
             }
         }
