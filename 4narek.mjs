@@ -739,7 +739,10 @@ async function getBestAHSlot(bot, itemPrices) {
             try {
                 const price = await getBuyPrice(slotData);
                 if (!price || price >= configItem.priceSell*0.85) continue;
-                if (!configItem.priceSell) console.error(configItem.priceSell)
+                if (!configItem.priceSell) {
+                    console.log(itemPrices)
+                    continue
+                }
                 
                 // const count = bot.ah.filter(name => name === configItem.id).length;
                 // if (count >= 4) {
@@ -749,7 +752,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
-                // return null
+                return null
                 return slotData.slot;
             } catch (error) {
                 continue;
