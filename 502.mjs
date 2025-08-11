@@ -46,7 +46,7 @@ socket.on('error', (err) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const token = '8053905786:AAEyt46jMPX-Ky_NixayLqquvZZmlP8vlS0';
+const token = '8053905786:AAFHZ91Df2hex-zVteBmBPK2m4tk9iI7gAs';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
