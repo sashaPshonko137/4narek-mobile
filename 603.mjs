@@ -9,7 +9,7 @@ import { exec } from 'child_process'; // Для выполнения коман�
 
 let items = await readFile('items.json')
 
-const socket = new WebSocket('ws://localhost:8080'); 
+const socket = new WebSocket('ws://109.172.46.120:8080/ws'); 
 
 socket.on('open', () => {
   console.log('✅ Подключено к серверу WebSocket');
