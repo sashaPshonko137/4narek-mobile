@@ -59,9 +59,12 @@ function runWorker(bot) {
 
     worker.on('message', async (message) => {
       if (message.name === 'success') {
-        const botToUpdate = bots.find(b => b.username === message.username);
-        if (botToUpdate) botToUpdate.success = true;
-      } else if (message.name === "buy") {
+  const botToUpdate = bots.find(b => b.username === message.username);
+  if (botToUpdate) {
+    botToUpdate.success = true;
+    console.log(`✅ ${message.username} успешно запущен`);
+  }
+} else if (message.name === "buy") {
         socket?.send(JSON.stringify({ action: 'buy', type: message.id }));
       } else if (message.name === "sell") {
         socket?.send(JSON.stringify({ action: 'sell', type: message.id }));
@@ -70,30 +73,29 @@ function runWorker(bot) {
       }
     });
 
-    const handleRestart = () => {
-      const now = Date.now();
-      const timeSinceLast = now - (bot.lastRestartTime || 0);
+const handleRestart = () => {
+  if (!bot.isManualStop) {
+    setTimeout(() => {
+      console.log(`🔁 Перезапуск бота ${bot.username} через 20 секунд`);
+      runWorker(bot);
+    }, 20000); // 20 секунд
+  }
+};
 
-      // Минимум 15 секунд между перезапусками
-      const restartDelay = Math.max(15000 - timeSinceLast, 0);
+worker.on('error', (error) => {
+  bot.success = false;
+  console.error(`❌ Worker error (${bot.username}): ${error}`);
+  tgBot.sendMessage(alertChatID, `${bot.username} вырубился с ошибкой`);
+  handleRestart();
+});
 
-      if (!bot.isManualStop) {
-        setTimeout(() => runWorker(bot), restartDelay);
-      }
-    };
+worker.on('exit', () => {
+  bot.success = false;
+  console.warn(`⚠️ Worker ${bot.username} завершился`);
+  tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
+  handleRestart();
+});
 
-    worker.on('error', (error) => {
-      bot.success = false;
-      console.error(`Worker error: ${error}`);
-      tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
-      handleRestart();
-    });
-
-    worker.on('exit', () => {
-      bot.success = false;
-      tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
-      handleRestart();
-    });
   });
 }
 
