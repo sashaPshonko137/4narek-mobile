@@ -373,7 +373,7 @@ bot.on('kicked', (reason, loggedIn) => {
             }
             balanceStr = balanceStr.replace(/\D/g, '')
             const balance = parseInt(balanceStr);
-            const id = getIdBySellPrice(balance)
+            const id = getIdBySellPrice(itemPrices, balance)
             const msg = {name: 'sell', id: id}
             parentPort.postMessage(msg);
             await sellItems(bot, itemPrices)
@@ -486,6 +486,7 @@ function getIdBySellPrice(itemPrices, val) {
 }
 
 async function sellItems(bot, itemPrices) {
+    console.log(itemPrices)
     const sellLimit = 8 - bot.count; // Максимальное количество предметов для продажи
     let itemsSold = 0; // Счетчик проданных предметов
 
