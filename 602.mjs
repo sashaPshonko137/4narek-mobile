@@ -60,13 +60,6 @@ const pomoikaChatID = -4896488855
 
 const tgBot = new TelegramBot(token, { polling: true });
 
-async function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
-}
-while (!items.every(i => i.priceSell)) {
-    await delay(500)
-}
-
 // Массив с ботами
 const bots = [
     { username: 'murad_golyi', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite sword", itemPrices:items, },
@@ -77,6 +70,13 @@ const bots = [
 // Массив для хранения ссылок на воркеров
 // Массив для хранения ссылок на воркеров
 let workers = [];
+
+async function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+while (!items.every(i => i.priceSell)) {
+    await delay(500)
+}
 
 function runWorker(bot) {
     workers = workers.filter(w => w.workerData?.username !== bot.username);

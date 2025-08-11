@@ -55,13 +55,6 @@ const token = '8053905786:AAFHZ91Df2hex-zVteBmBPK2m4tk9iI7gAs';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
-async function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
-}
-while (!items.every(i => i.priceSell)) {
-    await delay(500)
-}
-
 const infoChatID = -4709535234
 const alertChatID = -4763690917
 const pomoikaChatID = -4896488855
@@ -76,6 +69,13 @@ const bots = [
 // Массив для хранения ссылок на воркеров
 // Массив для хранения ссылок на воркеров
 let workers = [];
+
+async function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+while (!items.every(i => i.priceSell)) {
+    await delay(500)
+}
 
 function runWorker(bot) {
     workers = workers.filter(w => w.workerData?.username !== bot.username);

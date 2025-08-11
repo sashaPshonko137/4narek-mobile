@@ -56,13 +56,6 @@ const token = '7706810780:AAF_sXYsrKJqeOuz7Wg8WSBuVrcGN52QM4I';
 
 const tgBot = new TelegramBot(token, { polling: true });
 
-async function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
-}
-while (!items.every(i => i.priceSell)) {
-    await delay(500)
-}
-
 const infoChatID = -4709535234
 const alertChatID = -4763690917
 //  username: 'ibra_KAMURAD', password: 'ggggg', anarchy: 508, type: 'elytra', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
@@ -76,6 +69,13 @@ const bots = [
     { username: 'ostap_paravoz', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword' }
 ];
 let workers = [];
+
+async function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+while (!items.every(i => i.priceSell)) {
+    await delay(500)
+}
 
 function runWorker(bot) {
     workers = workers.filter(w => w.workerData?.username !== bot.username);
