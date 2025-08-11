@@ -114,6 +114,10 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.chat(shopCommand);
     });
 
+    bot.on('end', (r) => {
+        console.log(r)
+    })
+
     bot.on('physicsTick', async () => {
         if (Date.now() - bot.timeActive > 90000) {
             bot.timeActive = Date.now();
