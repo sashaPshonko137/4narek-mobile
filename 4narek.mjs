@@ -117,6 +117,9 @@ async function launchBookBuyer(name, password, anarchy) {
     bot.on('end', (r) => {
         console.log('бот выруился - '+r)
     })
+    bot.on('error', (r) => {
+        console.log('бот выруился - '+r)
+    })
 
     bot.on('physicsTick', async () => {
         if (Date.now() - bot.timeActive > 90000) {
