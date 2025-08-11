@@ -4,7 +4,45 @@ import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import TelegramBot from 'node-telegram-bot-api';
+import WebSocket from 'ws';
 import { exec } from 'child_process'; // Для выполнения команд в терминале
+
+let items = await readFile('items.json')
+
+const socket = new WebSocket('ws://localhost:8080'); 
+
+socket.on('open', () => {
+  console.log('✅ Подключено к серверу WebSocket');
+  
+  // Отправляем сообщение на сервер
+  setTimeout(() => socket.send(JSON.stringify({action: "info"})), 2000)
+
+});
+
+// Событие при получении сообщения от сервера
+socket.on('message', (data) => {
+    const prices = JSON.parse(data);
+    items = items.map(item => {
+     return {
+    ...item,
+    priceSell: prices[item.id] || 0 // Если цены нет, ставим 0
+    };
+    });
+    workers.forEach(w => w.postMessage({
+    type: 'price',
+    data: items
+  }))
+});
+
+// Событие при закрытии соединения
+socket.on('close', () => {
+  console.log('❌ Соединение закрыто');
+});
+
+// Событие при ошибке
+socket.on('error', (err) => {
+  console.error('⚠️ Ошибка WebSocket:', err);
+});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -19,9 +57,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'pups__noir', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'hahah_ivan', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false  },
-    { username: 'oipipuler', password: 'ggggg', anarchy: 503, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false   },
+    { username: 'pups__noir', password: 'ggggg', anarchy: 503, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword'  },
+    { username: 'hahah_ivan', password: 'ggggg', anarchy: 503, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword'  },
+    { username: 'oipipuler', password: 'ggggg', anarchy: 503, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword'   },
 ];
 
 // Массив для хранения ссылок на воркеров

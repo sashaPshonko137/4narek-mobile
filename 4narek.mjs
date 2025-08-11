@@ -5,6 +5,12 @@ import { createLogger, transports, format } from 'winston';
 import { workerData, parentPort } from 'worker_threads';
 import { loader as autoEat } from 'mineflayer-auto-eat'
 
+let itemPrices = workerData.itemPrices
+
+parentPort.on('price', (data) => {
+  itemPrices = data
+});
+
 
 const minDelay = 500;
 const AHDelay = 2000;
@@ -34,201 +40,9 @@ const slotToTuneAH = 52;
 const slotToReloadAH = 49;
 const slotToTryBuying = 0;
 
-const ahCommand = '/ah search netherite sword';
+const ahCommand = `/ah search ${workerData.item}`
 
 let type = ""
-
-const itemPrices = [
-    {
-    "name": "netherite_sword",
-    "id": "5nomend",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
-        },
-    ],
-    "priceBuy": 1500000,
-    "priceSell": 2000000,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sword5",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 5
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-            "name": "minecraft:mending",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 1700000, 
-    "priceSell": 2300000,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "6nomend",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 6
-        },
-    ],
-    "priceBuy": 1700000,
-    "priceSell": 2300000,
-    },
-        {
-    "name": "netherite_sword",
-    "id": "sword6",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 6
-        },
-        {
-            "name": "minecraft:mending",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 2000000,
-    "priceSell": 2600000,
-    },
-    {   
-    "name": "netherite_sword",
-    "id": "7nomend",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 7
-        },
-    ],
-    "priceBuy": 2500000,
-    "priceSell": 3200000
-    },
-    {
-    "name": "netherite_sword",
-    "id": "sword7",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 7
-        },
-        {
-
-            "name": "minecraft:mending",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 2800000,
-    "priceSell": 3400000,
-    },
-        {
-    "name": "netherite_sword",
-    "id": "pochti-megasword",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 4
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 7
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-            "name": "poison",
-            "lvl": 1
-        },
-        {
-            "name": "vampirism",
-            "lvl": 1
-        },
-    ],
-    "priceBuy": 3300000,
-    "priceSell": 3900000,
-    },
-    {
-    "name": "netherite_sword",
-    "id": "megasword",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 5
-        },
-        {
-            "name": "minecraft:sharpness",
-            "lvl": 7
-        },
-        {
-            "name": "minecraft:fire_aspect",
-            "lvl": 1
-        },
-        {
-            "name": "poison",
-            "lvl": 2
-        },
-        {
-            "name": "vampirism",
-            "lvl": 2
-        },
-    ],
-    "priceBuy": 4300000,
-    "priceSell": 5200000,
-    }
-]
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
@@ -257,7 +71,7 @@ const logger = createLogger({
 });
 
 
-async function launchBookBuyer(name, password, anarchy, inventoryPort) {
+async function launchBookBuyer(name, password, anarchy) {
     const bot = mineflayer.createBot({
         host: 'mc.funtime.su',
         port: 25565,
@@ -265,8 +79,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         password: password,
         version: '1.16.5',
     });
-
-
 
     const loginCommand = `/l ${name}`;
     const anarchyCommand = `/an${anarchy}`;
@@ -452,7 +264,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                 case null:
                                     logger.info('не найден')
                                     bot.menu = analysisAH;
-                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 1500));
+                                    await safeClick(bot, slotToReloadAH, getRandomDelayInRange(500, 1000));
     
                                     break;
                                 default:
@@ -462,7 +274,7 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                                     } else if (slotToBuy < 18) {
                                         await safeClickBuy(bot, slotToBuy, getRandomDelayInRange(100, 150));
                                     } else {
-                                       await safeClick(bot, slotToReloadAH, getRandomDelayInRange(1000, 1500));
+                                       await safeClick(bot, slotToReloadAH, getRandomDelayInRange(500, 1000));
                                     }
                                     
 
@@ -491,9 +303,13 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
                     const id = getID(bot.currentWindow?.slots[i], itemPrices)
                     bot.ah.push(id)
                 }
-                bot.menu = setAH;
+                const slot = checkStorage(bot, itemPrices)
+                if (slot) {
+                     await safeClick(bot, slot, getRandomDelayInRange(700, 1300))
+                     break
+                }
+                    bot.menu = setAH;
                 bot.timeReset = Date.now()
-
                 await safeClick(bot, 52, getRandomDelayInRange(700, 1300))
 
                 break;
@@ -513,7 +329,8 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         console.log(messageText)
 
         if (messageText.includes('[☃] Вы успешно купили') && !bot.ahFull) {
-            await sendBuy(bot.type)
+            const msg = {name: 'sell', id: bot.type}
+            parentPort.postMessage(msg);
             await sellItems(bot)
             return
         }
@@ -537,11 +354,21 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
 
         if (messageText.includes('[☃] У Вас купили')) {
             bot.ahFull = false;
+             let balanceStr = messageText
+            if (messageText.includes('.')) {
+                balanceStr = balanceStr.slice(0, -3)
+            }
+            balanceStr = balanceStr.replace(/\D/g, '')
+            const balance = parseInt(balanceStr);
+            const id = getIdBySellPrice(balance)
+            const msg = {name: 'sell', id: id}
+            parentPort.postMessage(msg);
             await sellItems(bot)
             return
         }
+
+
         if (messageText.includes('[☃]') && messageText.includes('выставлен на продажу!')) {
-            await sendSell(type)
             bot.inventoryFull = false
             bot.count++
             return
@@ -616,11 +443,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
             return
         }
 
-        if (messageText.includes('выставлен на продажу!')) {
-            bot.inventoryFull = false
-            return
-        }
-
         if (messageText.includes('[$] Ваш баланс:')) {
             let balanceStr = messageText
             if (messageText.includes('.')) {
@@ -641,18 +463,6 @@ async function launchBookBuyer(name, password, anarchy, inventoryPort) {
         }
     })
 }
-
-function loadSwordsDataFromFile(filePath) {
-  try {
-    const rawData = fs.readFileSync(filePath, 'utf-8');
-    const swordsData = JSON.parse(rawData);
-    return swordsData;
-  } catch (error) {
-    console.error('Ошибка загрузки файла:', error);
-    return null;
-  }
-}
-
 
 async function sendSell(text) {
   try {
@@ -682,9 +492,9 @@ async function sendBuy(text) {
   }
 }
 
-function getIdBySellPrice(itemPrices, targetPrice) {
+function getIdBySellPrice(itemPrices, val) {
     // Ищем предмет с точным совпадением цены
-    const foundItem = itemPrices.find(item => item.priceSell === targetPrice);
+    const foundItem = itemPrices.find(item => item.priceSell % 100 === val);
     
     // Если нашли - возвращаем id, иначе null
     return foundItem ? foundItem.id : null;
@@ -882,10 +692,41 @@ async function safeAH(bot) {
     }
 }
 
+async function checkStorage(bot, itemPrices) {
+    if (!bot.currentWindow?.slots) return null;
+
+    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+    
+    for (let slot = firstAHSlot; slot <= 7; slot++) {
+        const slotData = bot.currentWindow.slots[slot];
+        if (!slotData) continue;
+
+        for (const configItem of sortedConfig) {
+            if (!itemMatchesConfig(slotData, configItem)) continue;
+            
+            try {
+                const price = await getBuyPrice(slotData);
+                if (!price || price === configItem.priceSell) continue;
+                
+                // const count = bot.ah.filter(name => name === configItem.id).length;
+                // if (count >= 4) {
+                //     logger.info(`уже есть 4 ` + configItem.id)
+                //     return null;
+                // }
+                
+                return slotData.slot;
+            } catch (error) {
+                continue;
+            }
+        }
+    }
+    return null;
+}
+
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
-    const sortedConfig = [...itemPrices].sort((a, b) => b.priceBuy - a.priceBuy);
+    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
     
     for (let slot = firstAHSlot; slot <= 17; slot++) {
         const slotData = bot.currentWindow.slots[slot];
@@ -896,7 +737,7 @@ async function getBestAHSlot(bot, itemPrices) {
             
             try {
                 const price = await getBuyPrice(slotData);
-                if (!price || price >= configItem.priceBuy) continue;
+                if (!price || price >= configItem.priceSell*0.85) continue;
                 
                 // const count = bot.ah.filter(name => name === configItem.id).length;
                 // if (count >= 4) {
@@ -978,7 +819,7 @@ function getRandomDelayInRange(min, max) {
 }
 
 if (workerData) {
-    launchBookBuyer(workerData.username, workerData.password, workerData.anarchy, workerData.inventoryPort);
+    launchBookBuyer(workerData.username, workerData.password, workerData.anarchy);
 }
 
 function getRandomElement(array) {

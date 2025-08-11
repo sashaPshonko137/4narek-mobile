@@ -4,9 +4,46 @@ import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import TelegramBot from 'node-telegram-bot-api';
+import WebSocket from 'ws';
 import { exec } from 'child_process'; // Для выполнения команд в терминале
 
-// Получаем __dirname
+let items = await readFile('items.json')
+
+const socket = new WebSocket('ws://109.172.46.120:8080/ws'); 
+
+socket.on('open', () => {
+  console.log('✅ Подключено к серверу WebSocket');
+  
+  // Отправляем сообщение на сервер
+  setTimeout(() => socket.send(JSON.stringify({action: "info"})), 2000)
+
+});
+
+// Событие при получении сообщения от сервера
+socket.on('message', (data) => {
+    const prices = JSON.parse(data);
+    items = items.map(item => {
+     return {
+    ...item,
+    priceSell: prices[item.id] || 0 // Если цены нет, ставим 0
+    };
+    });
+    workers.forEach(w => w.postMessage({
+    type: 'price',
+    data: items
+  }))
+});
+
+// Событие при закрытии соединения
+socket.on('close', () => {
+  console.log('❌ Соединение закрыто');
+});
+
+// Событие при ошибке
+socket.on('error', (err) => {
+  console.error('⚠️ Ошибка WebSocket:', err);
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -20,11 +57,12 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'murad_golyi', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false },
-    { username: 'ivan__ogryz', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false },
-    { username: 'potap_kozel', password: 'ggggg', anarchy: 602, type: 'megasword', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false },
+    { username: 'murad_golyi', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite_sword" },
+    { username: 'ivan__ogryz', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite_sword" },
+    { username: 'potap_kozel', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite_sword" },
 ];
 
+// Массив для хранения ссылок на воркеров
 // Массив для хранения ссылок на воркеров
 let workers = [];
 
@@ -48,7 +86,7 @@ function runWorker(bot) {
                 worker.terminate();
             }
         }, 30000)
-        setTimeout(() => {
+            setTimeout(() => {
             worker.terminate();
 
         }, 1200000)
@@ -59,7 +97,9 @@ function runWorker(bot) {
                     botToUpdate.success = true;
                 }
             } else if (message.name === "buy") {
-                tgBot.sendMessage(pomoikaChatID, message.text);
+                socket.send(JSON.stringify(JSON.stringify({action: 'buy', type: message.id})));
+            } else if (message.name === "sell") {
+                socket.send(JSON.stringify(JSON.stringify({action: 'sell', type: message.id})));
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }
@@ -68,7 +108,7 @@ function runWorker(bot) {
         worker.on('error', (error) => {
             bot.success = false
             console.error(`Worker error: ${error}`);
-            tgBot.sendMessage(alertChatID, `\n${bot.username} вырубился`);
+            tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
             if (!bot.isManualStop) {
                 runWorker(bot);
             }
@@ -76,7 +116,7 @@ function runWorker(bot) {
 
         worker.on('exit', (code) => {
             bot.success = false
-            tgBot.sendMessage(alertChatID, `\n${bot.username} вырубился`);
+            tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
             if (!bot.isManualStop) {
                 runWorker(bot);
             }
@@ -115,6 +155,8 @@ async function restartBots() {
     const botPromises = bots.map((bot) => runWorker(bot));
 
     try {
+
+        setTimeout(() => socket.send(JSON.stringify({action: "info"})), 3000)    
         const results = await Promise.all(botPromises);
         console.log('All bots finished:', results);
     } catch (error) {
@@ -126,6 +168,7 @@ async function startBots() {
     const botPromises = bots.map((bot) => runWorker(bot));
 
     try {
+        setTimeout(() => socket.send(JSON.stringify({action: "info"})), 1000)
         const results = await Promise.all(botPromises);
         console.log('All bots finished:', results);
     } catch (error) {

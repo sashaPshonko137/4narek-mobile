@@ -4,9 +4,45 @@ import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import TelegramBot from 'node-telegram-bot-api';
+import WebSocket from 'ws';
 import { exec } from 'child_process'; // Для выполнения команд в терминале
 
-// Получаем __dirname
+let items = await readFile('items.json')
+
+const socket = new WebSocket('ws://localhost:8080'); 
+
+socket.on('open', () => {
+  console.log('✅ Подключено к серверу WebSocket');
+  
+  // Отправляем сообщение на сервер
+  setTimeout(() => socket.send(JSON.stringify({action: "info"})), 2000)
+
+});
+
+// Событие при получении сообщения от сервера
+socket.on('message', (data) => {
+    const prices = JSON.parse(data);
+    items = items.map(item => {
+     return {
+    ...item,
+    priceSell: prices[item.id] || 0 // Если цены нет, ставим 0
+    };
+    });
+    workers.forEach(w => w.postMessage({
+    type: 'price',
+    data: items
+  }))
+});
+
+// Событие при закрытии соединения
+socket.on('close', () => {
+});
+
+// Событие при ошибке
+socket.on('error', (err) => {
+  console.error('⚠️ Ошибка WebSocket:', err);
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -20,13 +56,15 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'oi_turnir', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'blablaster', password: 'gggggg', anarchy: 605, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'potap_simple', password: 'ggggg', anarchy: 605, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'oioioi__gnida', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, item: 'netherite sword' },
+    { username: 'baron_ashot', password: 'gggggg', anarchy: 605, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, item: 'netherite sword' },
+    { username: 'igor_shaitan', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword' }
 ];
 //potap_obsas
 //grisha_NABAYANE
 
+/// Массив для хранения ссылок на воркеров
+// Массив для хранения ссылок на воркеров
 let workers = [];
 
 function runWorker(bot) {
@@ -49,7 +87,7 @@ function runWorker(bot) {
                 worker.terminate();
             }
         }, 30000)
-                setTimeout(() => {
+            setTimeout(() => {
             worker.terminate();
 
         }, 1200000)
@@ -60,7 +98,9 @@ function runWorker(bot) {
                     botToUpdate.success = true;
                 }
             } else if (message.name === "buy") {
-                tgBot.sendMessage(pomoikaChatID, message.text);
+                socket.send(JSON.stringify(JSON.stringify({action: 'buy', type: message.id})));
+            } else if (message.name === "sell") {
+                socket.send(JSON.stringify(JSON.stringify({action: 'sell', type: message.id})));
             } else {
                 tgBot.sendMessage(alertChatID, message);
             }
@@ -116,6 +156,8 @@ async function restartBots() {
     const botPromises = bots.map((bot) => runWorker(bot));
 
     try {
+
+        setTimeout(() => socket.send(JSON.stringify({action: "info"})), 3000)    
         const results = await Promise.all(botPromises);
         console.log('All bots finished:', results);
     } catch (error) {
@@ -127,6 +169,7 @@ async function startBots() {
     const botPromises = bots.map((bot) => runWorker(bot));
 
     try {
+        setTimeout(() => socket.send(JSON.stringify({action: "info"})), 1000)
         const results = await Promise.all(botPromises);
         console.log('All bots finished:', results);
     } catch (error) {

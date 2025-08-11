@@ -1,0 +1,108 @@
+[
+    {
+        "name": "netherite_sword",
+        "id": "sword5",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 5
+            }
+        ]
+    },
+    {
+        "name": "netherite_sword",
+        "id": "sword6",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 6
+            }
+        ]
+    },
+    {
+        "name": "netherite_sword",
+        "id": "sword7",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            }
+        ]
+    },
+    {
+        "name": "netherite_sword",
+        "id": "pochti-megasword",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "poison",
+                "lvl": 1
+            },
+            {
+                "name": "vampirism",
+                "lvl": 1
+            }
+        ]
+    },
+    {
+        "name": "netherite_sword",
+        "id": "megasword",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 5
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "poison",
+                "lvl": 2
+            },
+            {
+                "name": "vampirism",
+                "lvl": 2
+            }
+        ]
+    }
+]

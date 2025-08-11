@@ -7,6 +7,7 @@
     "node-telegram-bot-api": "^0.66.0",
     "proxy-agent": "^6.5.0",
     "socks": "^2.8.4",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "ws": "^8.18.3"
   }
 }

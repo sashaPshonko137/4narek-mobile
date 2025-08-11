@@ -119,7 +119,7 @@ const itemPrices = [
             "name": "minecraft:sharpness",
             "lvl": 6
         },
-        {
+                {
             "name": "minecraft:mending",
             "lvl": 1
         },

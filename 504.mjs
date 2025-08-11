@@ -4,9 +4,46 @@ import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import TelegramBot from 'node-telegram-bot-api';
+import WebSocket from 'ws';
 import { exec } from 'child_process'; // Для выполнения команд в терминале
 
-// Получаем __dirname
+let items = await readFile('items.json')
+
+const socket = new WebSocket('ws://localhost:8080'); 
+
+socket.on('open', () => {
+  console.log('✅ Подключено к серверу WebSocket');
+  
+  // Отправляем сообщение на сервер
+  setTimeout(() => socket.send(JSON.stringify({action: "info"})), 2000)
+
+});
+
+// Событие при получении сообщения от сервера
+socket.on('message', (data) => {
+    const prices = JSON.parse(data);
+    items = items.map(item => {
+     return {
+    ...item,
+    priceSell: prices[item.id] || 0 // Если цены нет, ставим 0
+    };
+    });
+    workers.forEach(w => w.postMessage({
+    type: 'price',
+    data: items
+  }))
+});
+
+// Событие при закрытии соединения
+socket.on('close', () => {
+  console.log('❌ Соединение закрыто');
+});
+
+// Событие при ошибке
+socket.on('error', (err) => {
+  console.error('⚠️ Ошибка WebSocket:', err);
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -22,9 +59,9 @@ const alertChatID = -4763690917
 // ];
 // Массив с ботами
 const bots = [
-    { username: 'ultra__gay', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3000, balance: 0, msgID: 0 },
-    { username: 'hr_vladyka', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3001, balance: 0, msgID: 0 },
-    { username: 'ostap_paravoz', password: 'ggggg', anarchy: 504, type: 'megasword', inventoryPort: 3002, balance: 0, msgID: 0 }
+    { username: 'ultra__gay', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, item: 'netherite sword' },
+    { username: 'hr_vladyka', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, item: 'netherite sword' },
+    { username: 'ostap_paravoz', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword' }
 ];
 let workers = [];
 
