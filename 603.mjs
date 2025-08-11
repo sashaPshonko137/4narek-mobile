@@ -57,9 +57,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'ahmat_ogryz', password: 'ggggg', anarchy: 603, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword'  },
-    { username: 'otsostostlop', password: 'ggggg', anarchy: 603, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword'  },
-    { username: 'uebashniy', password: 'ggggg', anarchy: 603, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword'   },
+    { username: 'ahmat_ogryz', password: 'ggggg', anarchy: 603, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword', itemPrices:items,  },
+    { username: 'otsostostlop', password: 'ggggg', anarchy: 603, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword', itemPrices:items,  },
+    { username: 'uebashniy', password: 'ggggg', anarchy: 603, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: 'netherite sword', itemPrices:items,   },
 ];
 
 // Массив для хранения ссылок на воркеров

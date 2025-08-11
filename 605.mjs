@@ -57,9 +57,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'oioioi__gnida', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, item: 'netherite sword' },
-    { username: 'baron_ashot', password: 'gggggg', anarchy: 605, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, item: 'netherite sword' },
-    { username: 'igor_shaitan', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword' }
+    { username: 'oioioi__gnida', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, },
+    { username: 'baron_ashot', password: 'gggggg', anarchy: 605, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, },
+    { username: 'igor_shaitan', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, }
 ];
 //potap_obsas
 //grisha_NABAYANE

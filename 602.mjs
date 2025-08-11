@@ -59,9 +59,9 @@ const tgBot = new TelegramBot(token, { polling: true });
 
 // Массив с ботами
 const bots = [
-    { username: 'murad_golyi', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite sword" },
-    { username: 'ivan__ogryz', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite sword" },
-    { username: 'potap_kozel', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite sword" },
+    { username: 'murad_golyi', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite sword", itemPrices:items, },
+    { username: 'ivan__ogryz', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite sword", itemPrices:items, },
+    { username: 'potap_kozel', password: 'ggggg', anarchy: 602, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, item: "netherite sword", itemPrices:items, },
 ];
 
 // Массив для хранения ссылок на воркеров

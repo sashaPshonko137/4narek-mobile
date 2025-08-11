@@ -59,9 +59,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'alexeyer_doter', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'netherite sword' },
-    { username: 'puanyi_doter', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'netherite sword' },
-    { username: 'beawl__ahmat', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'netherite sword' }
+    { username: 'alexeyer_doter', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'netherite sword', itemPrices:items, },
+    { username: 'puanyi_doter', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'netherite sword', itemPrices:items, },
+    { username: 'beawl__ahmat', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'netherite sword', itemPrices:items, }
 ];
 
 // Массив для хранения ссылок на воркеров
