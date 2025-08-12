@@ -66,8 +66,8 @@ let socket;
 let isSocketOpen = false;
 
 function runWorker(bot) {
-  // Если уже есть активный воркер для этого бота — не запускаем повторно
-  if (workers.some(w => w.workerData?.username === bot.username)) {
+  // Уже есть воркер для этого юзера?
+  if (workers.some(w => w.username === bot.username)) {
     console.warn(`⏩ Воркер для ${bot.username} уже запущен. Пропуск.`);
     return;
   }
@@ -83,17 +83,19 @@ function runWorker(bot) {
 
     bot.isManualStop = false;
     bot.lastRestartTime = Date.now();
-    workers.push(worker);
 
-    // Убить если неуспешный запуск за 30 сек
-    setTimeout(() => {
+    // Добавляем с явной привязкой к username
+    workers.push({ username: bot.username, worker });
+
+    const workerRecord = { username: bot.username, worker };
+
+    const successTimeout = setTimeout(() => {
       if (!bot.success) {
-        console.warn(`⏱ ${bot.username} не ответил успехом за 30 секунд. Убиваем.`);
+        console.warn(`⏱️ ${bot.username} не ответил успехом за 30 секунд. Убиваем.`);
         worker.terminate();
       }
     }, 30000);
 
-    // Ограничить время жизни воркера (1 час)
     setTimeout(() => {
       console.log(`⏲️ Воркер ${bot.username} отработал 1 час. Завершаем.`);
       worker.terminate();
@@ -106,6 +108,7 @@ function runWorker(bot) {
           botToUpdate.success = true;
           console.log(`✅ ${message.username} успешно запущен`);
         }
+        clearTimeout(successTimeout); // отменяем таймер
       } else if (message.name === "buy") {
         socket?.send(JSON.stringify({ action: 'buy', type: message.id }));
       } else if (message.name === "sell") {
@@ -117,7 +120,7 @@ function runWorker(bot) {
 
     const handleRestart = () => {
       // Удалить воркер из списка
-      workers = workers.filter(w => w !== worker);
+      workers = workers.filter(w => w.username !== bot.username);
 
       if (!bot.isManualStop) {
         setTimeout(() => {
@@ -144,13 +147,14 @@ function runWorker(bot) {
 }
 
 
+
 function stopWorkers() {
   bots.forEach(bot => {
     bot.isManualStop = true;
   });
   return new Promise((resolve, reject) => {
     try {
-      workers.forEach(worker => worker.terminate());
+      workers.forEach(w => w.worker.terminate());
       workers = [];
       resolve('All workers stopped');
     } catch (error) {
@@ -172,7 +176,6 @@ async function startBots() {
   bots.forEach(bot => bot.itemPrices = items);
   const botPromises = bots.map(bot => runWorker(bot));
   try {
-    setTimeout(() => socket?.send(JSON.stringify({ action: "info" })), 1000);
     const results = await Promise.all(botPromises);
     console.log('All bots finished:', results);
   } catch (error) {
@@ -184,7 +187,6 @@ async function restartBots() {
   bots.forEach(bot => bot.itemPrices = items);
   const botPromises = bots.map(bot => runWorker(bot));
   try {
-    setTimeout(() => socket?.send(JSON.stringify({ action: "info" })), 3000);
     const results = await Promise.all(botPromises);
     console.log('All bots finished:', results);
   } catch (error) {
@@ -219,10 +221,15 @@ tgBot.onText(/\/stop/, async (msg) => {
 function connectWebSocket() {
   socket = new WebSocket('ws://109.172.46.120:8080/ws');
 
-  socket.on('open', () => {
+  socket.on('open', async () => {
     console.log('✅ Подключено к серверу WebSocket');
     isSocketOpen = true;
-    socket.send(JSON.stringify({ action: "info" }));
+
+    // ⬇️ Запускаем ботов сразу после подключения
+    if (!botsStarted) {
+      botsStarted = true;
+      await startBots();
+    }
   });
 
   socket.on('message', (data) => {
@@ -236,14 +243,8 @@ function connectWebSocket() {
 
       console.log('📦 Обновлены цены:', items.map(i => `${i.id}: ${i.priceSell}`));
 
-      workers.forEach(w => w.postMessage({ type: 'price', data: items }));
-
-      // Если первый раз получили цены — запускаем ботов
-      if (!botsStarted && items.every(i => i.priceSell)) {
-        botsStarted = true;
-        startBots();
-      }
-
+      // ⬇️ Отправляем воркерам обновлённые цены
+      workers.forEach(w => w.worker.postMessage({ type: 'price', data: items }));
     } catch (e) {
       console.error('Ошибка обработки сообщения от сервера:', e.message);
     }
@@ -259,6 +260,7 @@ function connectWebSocket() {
     console.error('⚠️ Ошибка WebSocket:', err.message);
   });
 }
+
 
 let botsStarted = false;
 connectWebSocket();
