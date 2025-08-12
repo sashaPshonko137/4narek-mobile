@@ -15,7 +15,8 @@
                 "name": "minecraft:sharpness",
                 "lvl": 5
             }
-        ]
+        ],
+        "num": 0
     },
     {
         "name": "netherite_sword",
@@ -33,7 +34,8 @@
                 "name": "minecraft:sharpness",
                 "lvl": 6
             }
-        ]
+        ],
+        "num": 1
     },
     {
         "name": "netherite_sword",
@@ -51,7 +53,8 @@
                 "name": "minecraft:sharpness",
                 "lvl": 7
             }
-        ]
+        ],
+        "num": 2
     },
     {
         "name": "netherite_sword",
@@ -77,7 +80,8 @@
                 "name": "vampirism",
                 "lvl": 1
             }
-        ]
+        ],
+        "num": 3
     },
     {
         "name": "netherite_sword",
@@ -103,13 +107,15 @@
                 "name": "vampirism",
                 "lvl": 2
             }
-        ]
+        ],
+        "num": 4
     },
-        {
+    {
     "name": "elytra",
     "id": "elytra",
     "effects": [
-    ]
+    ],
+    "num": 1
     },
     {
     "name": "elytra",
@@ -119,7 +125,8 @@
             "name": "minecraft:unbreaking",
             "lvl": 5
         }
-    ]
+    ],
+    "num": 2
     },
     {
     "name": "elytra",
@@ -133,6 +140,7 @@
             "name": "minecraft:mending",
             "lvl": 1
         }
-    ]
+    ],
+    "num": 3
     }
 ]

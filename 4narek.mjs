@@ -634,7 +634,7 @@ async function sellItems(bot, itemPrices) {
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
 function getBestSellPrice(item, itemPrices) {
-    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+    const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
     for (const configItem of sortedConfig) {
         if (itemMatchesConfig(item, configItem)) {
             type = configItem.id;
@@ -648,7 +648,7 @@ function getID(item, itemPrices) {
     // if (!item || !itemPrices?.length) return 0;
 
     // Сортируем конфиг по priceSell (от большего к меньшему)
-    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+    const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
 
     // 1. Проверяем предмет против ВСЕХ шаблонов конфига
     for (const configItem of sortedConfig) {
@@ -710,7 +710,7 @@ async function safeAH(bot) {
 async function checkStorage(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
-    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+    const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
     
     for (let slot = firstAHSlot; slot <= 7; slot++) {
         const slotData = bot.currentWindow.slots[slot];
@@ -742,7 +742,7 @@ async function checkStorage(bot, itemPrices) {
 async function getBestAHSlot(bot, itemPrices) {
     if (!bot.currentWindow?.slots) return null;
 
-    const sortedConfig = [...itemPrices].sort((a, b) => b.priceSell - a.priceSell);
+    const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
     
     for (let slot = firstAHSlot; slot <= 17; slot++) {
         const slotData = bot.currentWindow.slots[slot];
