@@ -479,7 +479,9 @@ bot.on('kicked', (reason, loggedIn) => {
 
 function getIdBySellPrice(itemPrices, val) {
     // Ищем предмет с точным совпадением цены
+    console.log(val)
     const foundItem = itemPrices.find(item => item.priceSell % 100 === val);
+    console.log(foundItem)
     
     // Если нашли - возвращаем id, иначе null
     return foundItem ? foundItem.id : null;
