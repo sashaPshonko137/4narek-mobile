@@ -8,6 +8,7 @@ import { loader as autoEat } from 'mineflayer-auto-eat'
 let itemPrices = workerData.itemPrices
 
 parentPort.on('price', (data) => {
+    bot.needReset = true
   itemPrices = data
 });
 
@@ -103,6 +104,7 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.netakbistro = true
         bot.ah = []
         bot.needSell = false
+        bot.needReset = false
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
@@ -239,7 +241,7 @@ bot.on('kicked', (reason, loggedIn) => {
                     bot.timeActive = Date.now();
                     generateRandomKey(bot);
                     const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
-                    if (resetime > 60) {
+                    if (resetime > 60 || bot.needReset) {
                         logger.info(`${name} - ресет`);
                         await delay(500);
                         bot.menu = myItems;
@@ -321,6 +323,7 @@ bot.on('kicked', (reason, loggedIn) => {
                         break;
 
             case myItems:
+                bot.needReset = false
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
                 bot.ah = []
@@ -336,9 +339,15 @@ bot.on('kicked', (reason, loggedIn) => {
                      await safeClick(bot, slot, getRandomDelayInRange(700, 1300))
                      break
                 }
-                bot.menu = setAH;
-                bot.timeReset = Date.now()
-                await safeClick(bot, 52, getRandomDelayInRange(700, 1300))
+                if (Math.floor((Date.now() - bot.timeReset) / 1000) > 60) {
+                    bot.menu = setAH;
+                    bot.timeReset = Date.now()
+                    await safeClick(bot, 52, getRandomDelayInRange(700, 1300))
+                } else {
+                    bot.menu = analysisAH;
+                    await safeClick(bot, 46, getRandomDelayInRange(700, 1300))
+                }
+
 
                 break;
 
