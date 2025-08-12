@@ -276,6 +276,7 @@ bot.on('kicked', (reason, loggedIn) => {
     
                         case false:
                             if (count >= 23) {
+                                bot.inventoryFull = true
                                 if (bot.ahFull) {
                                     await longWalk(bot, itemPrices);
                                     break
