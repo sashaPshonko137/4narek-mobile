@@ -33,7 +33,11 @@ let socket;
 let isSocketOpen = false;
 
 function runWorker(bot) {
-  workers = workers.filter(w => w.workerData?.username !== bot.username);
+  // Если уже есть активный воркер для этого бота — не запускаем повторно
+  if (workers.some(w => w.workerData?.username === bot.username)) {
+    console.warn(`⏩ Воркер для ${bot.username} уже запущен. Пропуск.`);
+    return;
+  }
 
   return new Promise((resolve, reject) => {
     const workerScriptPath = join(__dirname, `${bot.type}.mjs`);
@@ -50,20 +54,26 @@ function runWorker(bot) {
 
     // Убить если неуспешный запуск за 30 сек
     setTimeout(() => {
-      if (!bot.success) worker.terminate();
+      if (!bot.success) {
+        console.warn(`⏱ ${bot.username} не ответил успехом за 30 секунд. Убиваем.`);
+        worker.terminate();
+      }
     }, 30000);
 
-    // Ограничить время работы
-    setTimeout(() => worker.terminate(), 1200000);
+    // Ограничить время жизни воркера (1 час)
+    setTimeout(() => {
+      console.log(`⏲️ Воркер ${bot.username} отработал 1 час. Завершаем.`);
+      worker.terminate();
+    }, 3600000);
 
     worker.on('message', async (message) => {
       if (message.name === 'success') {
-  const botToUpdate = bots.find(b => b.username === message.username);
-  if (botToUpdate) {
-    botToUpdate.success = true;
-    console.log(`✅ ${message.username} успешно запущен`);
-  }
-} else if (message.name === "buy") {
+        const botToUpdate = bots.find(b => b.username === message.username);
+        if (botToUpdate) {
+          botToUpdate.success = true;
+          console.log(`✅ ${message.username} успешно запущен`);
+        }
+      } else if (message.name === "buy") {
         socket?.send(JSON.stringify({ action: 'buy', type: message.id }));
       } else if (message.name === "sell") {
         socket?.send(JSON.stringify({ action: 'sell', type: message.id }));
@@ -72,31 +82,34 @@ function runWorker(bot) {
       }
     });
 
-const handleRestart = () => {
-  if (!bot.isManualStop) {
-    setTimeout(() => {
-      console.log(`🔁 Перезапуск бота ${bot.username} через 20 секунд`);
-      runWorker(bot);
-    }, 20000); // 20 секунд
-  }
-};
+    const handleRestart = () => {
+      // Удалить воркер из списка
+      workers = workers.filter(w => w !== worker);
 
-worker.on('error', (error) => {
-  bot.success = false;
-  console.error(`❌ Worker error (${bot.username}): ${error}`);
-  tgBot.sendMessage(alertChatID, `${bot.username} вырубился с ошибкой`);
-  handleRestart();
-});
+      if (!bot.isManualStop) {
+        setTimeout(() => {
+          console.log(`🔁 Перезапуск бота ${bot.username} через 20 секунд`);
+          runWorker(bot);
+        }, 20000);
+      }
+    };
 
-worker.on('exit', () => {
-  bot.success = false;
-  console.warn(`⚠️ Worker ${bot.username} завершился`);
-  tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
-  handleRestart();
-});
+    worker.on('error', (error) => {
+      bot.success = false;
+      console.error(`❌ Worker error (${bot.username}): ${error}`);
+      tgBot.sendMessage(alertChatID, `${bot.username} вырубился с ошибкой`);
+      handleRestart();
+    });
 
+    worker.on('exit', () => {
+      bot.success = false;
+      console.warn(`⚠️ Worker ${bot.username} завершился`);
+      tgBot.sendMessage(alertChatID, `${bot.username} вырубился`);
+      handleRestart();
+    });
   });
 }
+
 
 function stopWorkers() {
   bots.forEach(bot => {
