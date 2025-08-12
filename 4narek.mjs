@@ -337,6 +337,7 @@ bot.on('kicked', (reason, loggedIn) => {
                 if (bot.count < 8) bot.ahFull = false
                 const slot = await checkStorage(bot, itemPrices)
                 if (slot) {
+                    bot.ahFull = false
                     bot.needSell = true
                     bot.menu = myItems
                      await safeClick(bot, slot, getRandomDelayInRange(700, 1300))
