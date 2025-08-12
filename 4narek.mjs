@@ -104,7 +104,7 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.netakbistro = true
         bot.ah = []
         bot.needSell = false
-        bot.needReset = false
+        bot.needReset = true
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
@@ -404,7 +404,7 @@ bot.on('kicked', (reason, loggedIn) => {
             const id = getIdBySellPrice(itemPrices, balance)
             const msg = {name: 'sell', id: id}
             parentPort.postMessage(msg);
-            await sellItems(bot, itemPrices)
+            bot.needSell = true
             return
         }
 
