@@ -329,10 +329,12 @@ bot.on('kicked', (reason, loggedIn) => {
                 bot.count = 0
                 bot.ah = []
                 for (let i = 0; i < 8; i++) {
+                    bot.count++
                     if (bot.currentWindow?.slots[i]) {bot.count++} else break
                     const id = getID(bot.currentWindow?.slots[i], itemPrices)
                     bot.ah.push(id)
                 }
+                if (bot.count < 8) bot.ahFull = false
                 const slot = await checkStorage(bot, itemPrices)
                 if (slot) {
                     bot.needSell = true
