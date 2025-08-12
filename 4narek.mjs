@@ -257,12 +257,15 @@ bot.on('kicked', (reason, loggedIn) => {
     
                     logger.info(`${name} - ${bot.menu}`);
                     await delay(1000);
-    
+                    let count = 0
+                    for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
+                        if (bot.inventory.slots[i]) count++
+                    }
                     switch (bot.inventoryFull) {
                         case true:
                             if (bot.ahFull) {
                                 await longWalk(bot, itemPrices);
-                                return
+                                break
                             }
                             logger.error('Инвентарь заполнен')
                             await sellItems(bot, itemPrices)
@@ -270,6 +273,16 @@ bot.on('kicked', (reason, loggedIn) => {
                             break;
     
                         case false:
+                            if (count >= 23) {
+                                if (bot.ahFull) {
+                                    await longWalk(bot, itemPrices);
+                                    break
+                                }
+                                logger.error('Инвентарь заполнен')
+                                await sellItems(bot, itemPrices)
+                        
+                                break;
+                            }
                             logger.info(`${name} - поиск лучшего предмета`);
                             let slotToBuy = await getBestAHSlot(bot, itemPrices);
                             
