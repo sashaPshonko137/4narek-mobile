@@ -102,6 +102,7 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.count = 0
         bot.netakbistro = true
         bot.ah = []
+        bot.needSell = false
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
@@ -247,7 +248,7 @@ bot.on('kicked', (reason, loggedIn) => {
                         break;
                     }
                     const uptime = Math.floor((Date.now() - bot.startTime) / 1000);  // Время в секундах
-                    if (uptime > 55) {
+                    if (uptime > 55 || bot.needSell) {
                         logger.info(`${name} - продажа`);
                         await sellItems(bot, itemPrices)
     
@@ -317,6 +318,7 @@ bot.on('kicked', (reason, loggedIn) => {
                 }
                 const slot = await checkStorage(bot, itemPrices)
                 if (slot) {
+                    bot.needSell = true
                     bot.menu = myItems
                      await safeClick(bot, slot, getRandomDelayInRange(700, 1300))
                      break
@@ -487,6 +489,7 @@ function getIdBySellPrice(itemPrices, val) {
 }
 
 async function sellItems(bot, itemPrices) {
+    bot.needSell = false
     const sellLimit = 8 - bot.count; // Максимальное количество предметов для продажи
     let itemsSold = 0; // Счетчик проданных предметов
 
