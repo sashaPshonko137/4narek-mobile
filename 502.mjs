@@ -53,7 +53,7 @@ function runWorker(bot) {
     }, 30000);
 
     // Ограничить время работы
-    setTimeout(() => worker.terminate(), 1200000);
+    setTimeout(() => worker.terminate(), 3600000);
 
     worker.on('message', async (message) => {
       if (message.name === 'success') {
@@ -74,9 +74,9 @@ function runWorker(bot) {
 const handleRestart = () => {
   if (!bot.isManualStop) {
     setTimeout(() => {
-      console.log(`🔁 Перезапуск бота ${bot.username} через 20 секунд`);
+      console.log(`🔁 Перезапуск бота ${bot.username} через 60 секунд`);
       runWorker(bot);
-    }, 20000); // 20 секунд
+    }, 60000); // 20 секунд
   }
 };
 
