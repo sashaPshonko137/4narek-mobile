@@ -338,12 +338,6 @@ bot.on('kicked', (reason, loggedIn) => {
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
                 bot.ah = []
-                for (let i = 0; i < 8; i++) {
-                    bot.count++
-                    if (bot.currentWindow?.slots[i]) {bot.count++} else break
-                    const id = getID(bot.currentWindow?.slots[i], itemPrices)
-                    bot.ah.push(id)
-                }
                 if (bot.count < 8) bot.ahFull = false
                 const slot = await checkStorage(bot, itemPrices)
                 if (slot) {
@@ -352,6 +346,12 @@ bot.on('kicked', (reason, loggedIn) => {
                     bot.menu = myItems
                      await safeClick(bot, slot, getRandomDelayInRange(700, 1300))
                      break
+                }
+                for (let i = 0; i < 8; i++) {
+                    bot.count++
+                    if (bot.currentWindow?.slots[i]) {bot.count++} else break
+                    const id = getID(bot.currentWindow?.slots[i], itemPrices)
+                    bot.ah.push(id)
                 }
                 if (Math.floor((Date.now() - bot.timeReset) / 1000) > 60) {
                     bot.menu = setAH;
