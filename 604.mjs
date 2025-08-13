@@ -204,7 +204,7 @@ function connectWebSocket() {
         if (socket.readyState === WebSocket.OPEN) {
           let count = 0
           let type = ""
-          for (name, data of botItems) {
+          for (data of botItems.values) {
             count += data.count
             type = data.type
           }
