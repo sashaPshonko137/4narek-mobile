@@ -110,14 +110,14 @@ async function launchBookBuyer(name, password, anarchy) {
             const type = workerData.item.split(" ").join("_")
             let count = 0
             for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
-                if (bot.inventory.slots[i]) count++
+                if (bot.inventory.slots[i]?.name === type) count++
             }
             const msg = {name: 'count', username: bot.username, type: type, count: count};
             parentPort.postMessage(msg);
         }, 20000)
         
         logger.info(`${name} успешно проник на сервер.`);
-        await delay(minDelay);
+        await delay(3000);
         bot.chat(loginCommand);
 
         await delay(minDelay);

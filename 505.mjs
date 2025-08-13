@@ -80,6 +80,7 @@ function runWorker(bot) {
       } else if (message.name === "sell") {
         socket?.send(JSON.stringify({ action: 'sell', type: message.id }));
       } else if (message.name === "count") {
+        console.log(message)
         botItems.set(message.username, { count: message.count, type: message.type })
       } else {
         tgBot.sendMessage(alertChatID, message);
@@ -197,17 +198,6 @@ function connectWebSocket() {
       socket.send(JSON.stringify({ action: "info" }));
 
       // Запускаем периодическую отправку
-      intervalId = setInterval(() => {
-        if (socket.readyState === WebSocket.OPEN) {
-          let count = 0
-          let type = ""
-          for (data of botItems.values) {
-            count += data.count
-            type = data.type
-          }
-          socket.send(JSON.stringify({ action: "presence", count: count, type: type }));
-        }
-      }, 30000); 
     };
 
     socket.onclose = () => {
@@ -253,6 +243,20 @@ function connectWebSocket() {
     console.error('⚠️ Ошибка WebSocket:', err.message);
   });
 }
+
+          setInterval(() => {
+        if (isSocketOpen) {
+          let count = 0
+          let type = ""
+
+          for (let data of Array.from(botItems.values())) {
+            count += data.count
+            type = data.type
+          }
+          console.log({ action: "presence", count: count, type: type })
+          socket.send(JSON.stringify({ action: "presence", count: count, type: type }));
+        }
+      }, 30000); 
 
 let botsStarted = false;
 connectWebSocket();
