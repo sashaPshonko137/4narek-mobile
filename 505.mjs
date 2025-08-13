@@ -205,7 +205,7 @@ function connectWebSocket() {
             count += data.count
             type = data.type
           }
-          socket.send(JSON.stringify({ action: "presence", count: 3, type: type }));
+          socket.send(JSON.stringify({ action: "presence", count: count, type: type }));
         }
       }, 30000); 
     };
