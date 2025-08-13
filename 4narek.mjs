@@ -325,6 +325,7 @@ bot.on('kicked', (reason, loggedIn) => {
                         break;
 
             case myItems:
+                await delay(1000)
                 needReset = false
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
@@ -332,12 +333,12 @@ bot.on('kicked', (reason, loggedIn) => {
                 if (bot.count < 8) bot.ahFull = false
                 let slot = null
                 for (let i = 0; i < 8; i++) {
+                    if (!bot.currentWindow?.slots[i]) break
                     const price = await getBuyPriceInStorage(bot.currentWindow?.slots[i])
                     const id = getIdBySellPrice(itemPrices, price)
                     const item = itemPrices.find(data => data.id === id)
                     if (!item || item.priceSell !== price) {
                         slot = i
-                        break
                     }
                 }
                 if (slot) {
@@ -521,7 +522,7 @@ bot.on('kicked', (reason, loggedIn) => {
 function getIdBySellPrice(itemPrices, val) {
     // Ищем предмет с точным совпадением цены
     const foundItem = itemPrices.find(item => item.priceSell % 100 === val % 100);
-    console.log(foundItem)
+    console.log("item by id: ", foundItem, val)
     
     // Если нашли - возвращаем id, иначе null
     return foundItem ? foundItem.id : null;
