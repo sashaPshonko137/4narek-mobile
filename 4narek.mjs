@@ -8,6 +8,7 @@ import { loader as autoEat } from 'mineflayer-auto-eat'
 let itemPrices = workerData.itemPrices
 let needReset = false
 parentPort.on('message', (data) => {
+    console.log(data)
     if (data.type = 'price') {
         needReset = true
         itemPrices = data.data
@@ -330,7 +331,16 @@ bot.on('kicked', (reason, loggedIn) => {
                 bot.count = 0
                 bot.ah = []
                 if (bot.count < 8) bot.ahFull = false
-                const slot = await checkStorage(bot, itemPrices)
+                let slot = null
+                for (let i = 0; i < 8; i++) {
+                    const price = await getBuyPrice(bot.currentWindow?.slots[i])
+                    const id = getIdBySellPrice(itemPrices, price)
+                    const item = itemPrices.find(data => data.id === id)
+                    if (item.priceSell !== price) {
+                        slot = i
+                        break
+                    }
+                }
                 if (slot) {
                     bot.ahFull = false
                     bot.needSell = true
@@ -340,7 +350,8 @@ bot.on('kicked', (reason, loggedIn) => {
                 }
                 for (let i = 0; i < 8; i++) {
                     if (bot.currentWindow?.slots[i]) {bot.count++} else break
-                    const id = getID(bot.currentWindow?.slots[i], itemPrices)
+                    const price = await getBuyPrice(bot.currentWindow?.slots[i])
+                    const id = getIdBySellPrice(itemPrices, price)
                     bot.ah.push(id)
                 }
                 const msgAH = {name: 'items', username: bot.username, items: bot.ah}
