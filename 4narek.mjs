@@ -336,9 +336,14 @@ bot.on('kicked', (reason, loggedIn) => {
                     if (!bot.currentWindow?.slots[i]) break
                     const price = await getBuyPriceInStorage(bot.currentWindow?.slots[i])
                     const id = getIdBySellPrice(itemPrices, price)
+                    if (!id) {
+                        slot = i
+                        break
+                    }
                     const item = itemPrices.find(data => data.id === id)
                     if (!item || item.priceSell !== price) {
                         slot = i
+                        break
                     }
                 }
                 if (slot) {
