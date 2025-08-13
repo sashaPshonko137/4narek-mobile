@@ -106,15 +106,6 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.netakbistro = true
         bot.ah = []
         bot.needSell = false
-        setInterval(()=> {
-            const type = workerData.item.split(" ").join("_")
-            let count = 0
-            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
-                if (bot.inventory.slots[i]?.name === type) count++
-            }
-            const msg = {name: 'count', username: bot.username, type: type, count: count};
-            parentPort.postMessage(msg);
-        }, 20000)
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(3000);
@@ -352,6 +343,8 @@ bot.on('kicked', (reason, loggedIn) => {
                     const id = getID(bot.currentWindow?.slots[i], itemPrices)
                     bot.ah.push(id)
                 }
+                const msgAH = {name: 'items', username: bot.username, items: bot.ah}
+                parentPort.postMessage(msgAH)
                 if (Math.floor((Date.now() - bot.timeReset) / 1000) > 60) {
                     bot.menu = setAH;
                     bot.timeReset = Date.now()
@@ -746,6 +739,17 @@ async function checkStorage(bot, itemPrices) {
         }
     }
     return null;
+}
+
+async function getAHSlotsIDs(bot, itemPrices) {
+    if (!bot.currentWindow?.slots) return [];
+    const ids = []
+    for (let i = 0; i < 8; i++) {
+        if (bot.currentWindow?.slots[i]) {
+            ids.push(getID(bot.currentWindow?.slots[i]), itemPrices)
+        }
+    }
+    return ids
 }
 
 async function getBestAHSlot(bot, itemPrices) {

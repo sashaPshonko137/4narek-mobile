@@ -82,9 +82,8 @@ function runWorker(bot) {
         socket?.send(JSON.stringify({ action: 'buy', type: message.id }));
       } else if (message.name === "sell") {
         socket?.send(JSON.stringify({ action: 'sell', type: message.id }));
-      } else if (message.name === "count") {
-        console.log(message)
-        botItems.set(message.username, { count: message.count, type: message.type })
+      } else if (message.name === "items") {
+        botItems.set(message.username, message.items)
       } else {
         tgBot.sendMessage(alertChatID, message);
       }
@@ -247,19 +246,19 @@ function connectWebSocket() {
   });
 }
 
-          setInterval(() => {
-        if (isSocketOpen) {
-          let count = 0
-          let type = ""
-
-          for (let data of Array.from(botItems.values())) {
-            count += data.count
-            type = data.type
-          }
-          console.log({ action: "presence", count: count, type: type })
-          socket.send(JSON.stringify({ action: "presence", count: count, type: type }));
-        }
-      }, 30000); 
+setInterval(() => {
+  if (isSocketOpen) {
+    const itemsCount = new Map
+    for (let items of Array.from(botItems.values())) {
+      for (let item of items) {
+        const count = itemsCount.get(item)
+        if (count) {itemsCount.set(item, count+1)} else itemsCount.set(item, 1)
+      }
+    }
+  console.log(Object.fromEntries(itemsCount))
+    socket.send(JSON.stringify({ action: "presence", items:Object.fromEntries(itemsCount)}));
+  }
+}, 30000);
 
 let botsStarted = false;
 connectWebSocket();
