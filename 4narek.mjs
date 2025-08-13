@@ -348,7 +348,6 @@ bot.on('kicked', (reason, loggedIn) => {
                      break
                 }
                 for (let i = 0; i < 8; i++) {
-                    bot.count++
                     if (bot.currentWindow?.slots[i]) {bot.count++} else break
                     const id = getID(bot.currentWindow?.slots[i], itemPrices)
                     bot.ah.push(id)
