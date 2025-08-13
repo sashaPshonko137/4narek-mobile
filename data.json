@@ -1,0 +1,65 @@
+{
+  "type": 898,
+  "count": 1,
+  "metadata": 0,
+  "nbt": {
+    "type": "compound",
+    "name": "",
+    "value": {
+      "Damage": {
+        "type": "int",
+        "value": 11
+      },
+      "PublicBukkitValues": {
+        "type": "compound",
+        "value": {
+          "auctions:if-uuid": {
+            "type": "byteArray",
+            "value": [
+              -61,
+              -38,
+              -124,
+              49,
+              23,
+              88,
+              70,
+              78,
+              -97,
+              -90,
+              104,
+              -70,
+              -81,
+              -84,
+              119,
+              -110
+            ]
+          }
+        }
+      },
+      "display": {
+        "type": "compound",
+        "value": {
+          "Lore": {
+            "type": "list",
+            "value": {
+              "type": "string",
+              "value": [
+                "{\"italic\":false,\"color\":\"green\",\"text\":\"Предмет продается!\"}",
+                "{\"italic\":false,\"extra\":[{\"color\":\"green\",\"text\":\"$\"},{\"color\":\"white\",\"text\":\" Ценa\"},{\"color\":\"green\",\"text\":\" $2,400,006\"}],\"text\":\"\"}",
+                "{\"italic\":false,\"extra\":[{\"color\":\"gold\",\"text\":\"➥ Нажми\"},{\"color\":\"white\",\"text\":\", чтобы забрать\"}],\"text\":\"\"}",
+                "{\"italic\":false,\"text\":\"\"}",
+                "{\"italic\":false,\"extra\":[{\"color\":\"gold\",\"text\":\"⟲\"},{\"color\":\"white\",\"text\":\" Истекает:\"},{\"color\":\"gold\",\"text\":\" 8 ч. 56 мин. 13 сек. \"}],\"text\":\"\"}"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "stackId": null,
+  "name": "elytra",
+  "displayName": "Elytra",
+  "stackSize": 1,
+  "maxDurability": 432,
+  "slot": 7
+}

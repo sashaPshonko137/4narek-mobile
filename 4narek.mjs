@@ -8,7 +8,6 @@ import { loader as autoEat } from 'mineflayer-auto-eat'
 let itemPrices = workerData.itemPrices
 let needReset = false
 parentPort.on('message', (data) => {
-    console.log(data)
     if (data.type = 'price') {
         needReset = true
         itemPrices = data.data
@@ -333,7 +332,7 @@ bot.on('kicked', (reason, loggedIn) => {
                 if (bot.count < 8) bot.ahFull = false
                 let slot = null
                 for (let i = 0; i < 8; i++) {
-                    const price = await getBuyPrice(bot.currentWindow?.slots[i])
+                    const price = await getBuyPriceInStorage(bot.currentWindow?.slots[i])
                     const id = getIdBySellPrice(itemPrices, price)
                     const item = itemPrices.find(data => data.id === id)
                     if (item.priceSell !== price) {
@@ -350,7 +349,8 @@ bot.on('kicked', (reason, loggedIn) => {
                 }
                 for (let i = 0; i < 8; i++) {
                     if (bot.currentWindow?.slots[i]) {bot.count++} else break
-                    const price = await getBuyPrice(bot.currentWindow?.slots[i])
+
+                    const price = await getBuyPriceInStorage(bot.currentWindow?.slots[i])
                     const id = getIdBySellPrice(itemPrices, price)
                     bot.ah.push(id)
                 }
@@ -856,6 +856,36 @@ async function getBuyPrice(slotData) {
     
     logger.error('Цена не найдена')
     fs.writeFileSync('error.json', JSON.stringify(slotData, null, 2));
+
+    return undefined;
+}
+
+async function getBuyPriceInStorage(slotData) {
+    const loreArray = slotData?.nbt?.value?.display?.value?.Lore?.value?.value;
+    if (!Array.isArray(loreArray)) return undefined;
+
+    for (const jsonString of loreArray) {
+        try {
+            const parsed = JSON.parse(jsonString);
+
+            // Если это просто строка без extra — пропускаем
+            if (!parsed.extra) continue;
+
+            for (const el of parsed.extra) {
+                if (typeof el.text === 'string' && el.text.trim().startsWith('$')) {
+                    const priceString = el.text.replace(/[^\d]/g, '');
+                    const price = parseInt(priceString);
+                    if (!isNaN(price)) return price;
+                }
+            }
+        } catch (e) {
+            // Игнорируем строки, которые не парсятся
+            continue;
+        }
+    }
+
+    // Если цена не найдена — логируем и сохраняем
+    console.error('Цена не найдена');
 
     return undefined;
 }
