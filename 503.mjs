@@ -219,7 +219,6 @@ function connectWebSocket() {
     console.log('✅ Подключено к серверу WebSocket');
     isSocketOpen = true;
     socket.send(JSON.stringify({ action: "info" }));
-    setInterval()
   });
 
   socket.on('message', (data) => {

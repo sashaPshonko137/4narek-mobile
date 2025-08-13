@@ -203,7 +203,7 @@ function connectWebSocket() {
         if (socket.readyState === WebSocket.OPEN) {
           let count = 0
           let type = ""
-          for (name, data of botItems.entries) {
+          for (data of botItems.values) {
             count += data.count
             type = data.type
           }
@@ -219,7 +219,6 @@ function connectWebSocket() {
     console.log('✅ Подключено к серверу WebSocket');
     isSocketOpen = true;
     socket.send(JSON.stringify({ action: "info" }));
-    setInterval()
   });
 
   socket.on('message', (data) => {
