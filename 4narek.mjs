@@ -6,10 +6,10 @@ import { workerData, parentPort } from 'worker_threads';
 import { loader as autoEat } from 'mineflayer-auto-eat'
 
 let itemPrices = workerData.itemPrices
-
+let needReset = false
 parentPort.on('message', (data) => {
     if (data.type = 'price') {
-        bot.needReset = true
+        needReset = true
         itemPrices = data.data
     }
 });
@@ -106,7 +106,6 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.netakbistro = true
         bot.ah = []
         bot.needSell = false
-        bot.needReset = true
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);
@@ -243,7 +242,7 @@ bot.on('kicked', (reason, loggedIn) => {
                     bot.timeActive = Date.now();
                     generateRandomKey(bot);
                     const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
-                    if (resetime > 60 || bot.needReset) {
+                    if (resetime > 60 || needReset) {
                         logger.info(`${name} - ресет`);
                         await delay(500);
                         bot.menu = myItems;
@@ -326,7 +325,7 @@ bot.on('kicked', (reason, loggedIn) => {
                         break;
 
             case myItems:
-                bot.needReset = false
+                needReset = false
                 logger.info(`${name} - ${bot.menu}`);
                 bot.count = 0
                 bot.ah = []
@@ -863,7 +862,7 @@ async function longWalk(bot) {
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
         const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
-        if (resetime > 60 || bot.needReset) {
+        if (resetime > 60 || needReset) {
             await delay(500);
             ['forward', 'back', 'left', 'right'].forEach(move => 
                 bot.setControlState(move, false)
