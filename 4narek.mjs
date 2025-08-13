@@ -861,7 +861,7 @@ async function longWalk(bot) {
     logger.info(`${bot.username} - все забито. Гуляем.`);
     while (bot.ahFull) {  // Гуляем пока ahFull === true
         const resetime = Math.floor((Date.now() - bot.timeReset) / 1000)
-        if (resetime > 60) {
+        if (resetime > 60 || bot.needReset) {
             await delay(500);
             ['forward', 'back', 'left', 'right'].forEach(move => 
                 bot.setControlState(move, false)
