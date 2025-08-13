@@ -7,9 +7,11 @@ import { loader as autoEat } from 'mineflayer-auto-eat'
 
 let itemPrices = workerData.itemPrices
 
-parentPort.on('price', (data) => {
-    bot.needReset = true
-  itemPrices = data
+parentPort.on('message', (data) => {
+    if (data.type = 'price') {
+        bot.needReset = true
+        itemPrices = data.data
+    }
 });
 
 
