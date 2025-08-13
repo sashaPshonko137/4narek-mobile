@@ -106,6 +106,15 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.netakbistro = true
         bot.ah = []
         bot.needSell = false
+        setInterval(()=> {
+            const type = workerData.item.split(" ").join("_")
+            let count = 0
+            for (let i = firstInventorySlot; i <= lastInventorySlot; i++) {
+                if (bot.inventory.slots[i]) count++
+            }
+            const msg = {name: 'count', username: bot.username, type: type, count: count};
+            parentPort.postMessage(msg);
+        }, 20000)
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(minDelay);

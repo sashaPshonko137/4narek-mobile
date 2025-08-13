@@ -30,6 +30,8 @@ const bots = [
 ];
 
 let workers = [];
+let botItems = new Map
+
 let socket;
 let isSocketOpen = false;
 
@@ -78,6 +80,8 @@ function runWorker(bot) {
         socket?.send(JSON.stringify({ action: 'buy', type: message.id }));
       } else if (message.name === "sell") {
         socket?.send(JSON.stringify({ action: 'sell', type: message.id }));
+      } else if (message.name === "count") {
+        botItems.set(message.username, { count: message.count, type: message.type })
       } else {
         tgBot.sendMessage(alertChatID, message);
       }
@@ -110,7 +114,6 @@ function runWorker(bot) {
     });
   });
 }
-
 
 function stopWorkers() {
   bots.forEach(bot => {
@@ -188,9 +191,34 @@ function connectWebSocket() {
   socket = new WebSocket('ws://109.172.46.120:8080/ws');
 
   socket.on('open', () => {
+    let intervalId;
+
+    socket.onopen = () => {
+      console.log('✅ Подключено к серверу WebSocket');
+      socket.send(JSON.stringify({ action: "info" }));
+
+      // Запускаем периодическую отправку
+      intervalId = setInterval(() => {
+        if (socket.readyState === WebSocket.OPEN) {
+          let count = 0
+          let type = ""
+          for (name, data of botItems) {
+            count += data.count
+            type = data.type
+          }
+          socket.send(JSON.stringify({ action: "presence", count: 3, type: type }));
+        }
+      }, 30000); 
+    };
+
+    socket.onclose = () => {
+      console.warn('❌ Соединение закрыто');
+      if (intervalId) clearInterval(intervalId);
+    };
     console.log('✅ Подключено к серверу WebSocket');
     isSocketOpen = true;
     socket.send(JSON.stringify({ action: "info" }));
+    setInterval()
   });
 
   socket.on('message', (data) => {
