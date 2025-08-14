@@ -388,10 +388,10 @@ bot.on('kicked', (reason, loggedIn) => {
         const messageText = message.toString();
         console.log(messageText)
 
-        if (messageText.includes('[☃] Вы успешно купили') && !bot.ahFull) {
+        if (messageText.includes('[☃] Вы успешно купили')) {
+            bot.needSell = true
             const msg = {name: 'buy', id: bot.type}
             parentPort.postMessage(msg);
-            await sellItems(bot, itemPrices)
             return
         }
 
