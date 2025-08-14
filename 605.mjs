@@ -215,11 +215,12 @@ function connectWebSocket() {
   socket.on('message', (data) => {
     try {
       const dataObj = JSON.parse(data);
-      const prices = data.prices
+      // console.log(data.prices)
+      const prices = dataObj.prices
       items = items.map(item => ({
         ...item,
         priceSell: prices[item.id],
-        ratio: data.ratios[item.id]
+        ratio: dataObj.ratios[item.id]
       }));
       bots.forEach(bot => bot.itemPrices = items);
 
