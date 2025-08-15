@@ -429,6 +429,8 @@ bot.on('kicked', (reason, loggedIn) => {
 
 
         if (messageText.includes('[☃]') && messageText.includes('выставлен на продажу!')) {
+            const msg = {name: 'try-sell', id: bot.typeSell}
+            parentPort.postMessage(msg);
             bot.inventoryFull = false
             bot.count++
             return
@@ -656,7 +658,7 @@ function getBestSellPrice(item, itemPrices) {
     const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
     for (const configItem of sortedConfig) {
         if (itemMatchesConfig(item, configItem)) {
-            type = configItem.id;
+            bot.typeSell = configItem.id;
             return configItem.priceSell;
         }
     }

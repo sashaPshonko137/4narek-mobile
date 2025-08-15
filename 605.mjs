@@ -85,6 +85,8 @@ function runWorker(bot) {
         socket?.send(JSON.stringify({ action: 'sell', type: message.id }));
       } else if (message.name === "items") {
         botItems.set(message.username, message.items)
+      } else if (message.name === "try-sell") {
+        socket?.send(JSON.stringify({ action: "try-sell", type: message.id }));
       } else {
         tgBot.sendMessage(alertChatID, message);
       }
