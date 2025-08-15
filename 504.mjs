@@ -266,7 +266,7 @@ setInterval(() => {
     for (let items of Array.from(botInventory.values())) {
       for (let item of items) {
         const count = itemsCountInventory.get(item)
-        if (count) {itemsCountInventory.set(item, count+1)} else itemsCount.set(item, 1)
+        if (count) {itemsCountInventory.set(item, count+1)} else itemsCountInventory.set(item, 1)
       }
     }
     const ah = Object.fromEntries(itemsCount)
@@ -274,6 +274,5 @@ setInterval(() => {
     socket.send(JSON.stringify({ action: "presence", items:ah, inventory: inv}));
   }
 }, 30000);
-
 let botsStarted = false;
 connectWebSocket();
