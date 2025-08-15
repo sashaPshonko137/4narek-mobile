@@ -56,25 +56,113 @@
         ],
         "num": 2
     },
-    {
+        {
         "name": "netherite_sword",
-        "id": "pochti-megasword",
+        "id": "mend",
         "effects": [
             {
                 "name": "minecraft:unbreaking",
                 "lvl": 4
             },
             {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
                 "name": "minecraft:sharpness",
                 "lvl": 7
+            },
+            {
+                "name": "minecraft:mending",
+                "lvl": 1
+            }
+        ],
+        "num": 3
+    },
+        {
+        "name": "netherite_sword",
+        "id": "poison1",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
             },
             {
                 "name": "minecraft:fire_aspect",
                 "lvl": 1
             },
             {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
                 "name": "poison",
                 "lvl": 1
+            }
+        ],
+        "num": 3
+    },
+            {
+        "name": "netherite_sword",
+        "id": "poison2",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "poison",
+                "lvl": 2
+            }
+        ],
+        "num": 4
+    },
+            {
+        "name": "netherite_sword",
+        "id": "poison3",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "poison",
+                "lvl": 3
+            }
+        ],
+        "num": 5
+    },
+    {
+        "name": "netherite_sword",
+        "id": "vampiryzm1",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
             },
             {
                 "name": "vampirism",
@@ -82,6 +170,29 @@
             }
         ],
         "num": 3
+    },
+        {
+        "name": "netherite_sword",
+        "id": "vampiryzm2",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 4
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "vampirism",
+                "lvl": 2
+            }
+        ],
+        "num": 4
     },
     {
         "name": "netherite_sword",
@@ -108,7 +219,7 @@
                 "lvl": 2
             }
         ],
-        "num": 4
+        "num": 15
     },
     {
     "name": "elytra",
