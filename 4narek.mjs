@@ -578,7 +578,7 @@ async function sellItems(bot, itemPrices) {
                 
                 if (!item) continue;
                 
-                const price = getBestSellPrice(item, itemPrices);
+                const price = getBestSellPrice(bot, item, itemPrices);
                 if (price > 0) {
                     // Подготовка и продажа
                     if (bot.quickBarSlot !== quickSlot) {
@@ -660,7 +660,7 @@ async function sellItems(bot, itemPrices) {
  * @param {Array} itemPrices - Конфиг с шаблонами цен.
  * @returns {number} Цена продажи (или 0, если предмет не подходит под конфиг).
  */
-function getBestSellPrice(item, itemPrices) {
+function getBestSellPrice(bot, item, itemPrices) {
     const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
     for (const configItem of sortedConfig) {
         if (itemMatchesConfig(item, configItem)) {
