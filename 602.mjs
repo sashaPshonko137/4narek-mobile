@@ -31,6 +31,7 @@ const bots = [
 
 let workers = [];
 let botItems = new Map
+let botInventory = new Map
 
 let socket;
 let isSocketOpen = false;
@@ -84,7 +85,9 @@ function runWorker(bot) {
         botItems.set(message.username, message.items)
       } else if (message.name === "try-sell") {
         socket?.send(JSON.stringify({ action: "try-sell", type: message.id }));
-      } else {
+      } else if (message.name === "inventory") {
+        botItems.set(message.username, message.data)
+      }  else {
         tgBot.sendMessage(alertChatID, message);
       }
     });
@@ -252,14 +255,22 @@ function connectWebSocket() {
 setInterval(() => {
   if (isSocketOpen) {
     const itemsCount = new Map
+    const itemsCountInventory = new Map
     for (let items of Array.from(botItems.values())) {
       for (let item of items) {
         const count = itemsCount.get(item)
         if (count) {itemsCount.set(item, count+1)} else itemsCount.set(item, 1)
       }
+    }  
+    for (let items of Array.from(botInventory.values())) {
+      for (let item of items) {
+        const count = itemsCountInventory.get(item)
+        if (count) {itemsCountInventory.set(item, count+1)} else itemsCount.set(item, 1)
+      }
     }
-  console.log(Object.fromEntries(itemsCount))
-    socket.send(JSON.stringify({ action: "presence", items:Object.fromEntries(itemsCount)}));
+    const ah = Object.fromEntries(itemsCount)
+    const inv = Object.fromEntries(itemsCountInventory)
+    socket.send(JSON.stringify({ action: "presence", items:ah, inventory: inv}));
   }
 }, 30000);
 
