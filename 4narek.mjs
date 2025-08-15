@@ -112,7 +112,7 @@ async function launchBookBuyer(name, password, anarchy) {
             const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
             for (let i = 0; i <= lastInventorySlot; i++) {
                 if (!bot.inventory.slots[i]) continue
-                const slotData = bot.currentWindow.slots[i];
+                const slotData = bot.inventory.slots[i];
                 if (!slotData) continue;
 
                 for (const configItem of sortedConfig) {
