@@ -611,7 +611,7 @@ async function sellItems(bot, itemPrices) {
                         const item = bot.inventory.slots[inventorySlot];
                         if (!item) continue;
                     
-                        const price = getBestSellPrice(item, itemPrices);
+                        const price = getBestSellPrice(bot, item, itemPrices);
                         if (price > 0) {
                             // Переносим в первый слот быстрой панели и продаем
                             await bot.setQuickBarSlot(sellSlot);
