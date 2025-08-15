@@ -111,7 +111,7 @@ async function launchBookBuyer(name, password, anarchy) {
             const inv = []
             for (let i = 0; i <= lastInventorySlot; i++) {
                 if (!bot.inventory.slots[i]) continue
-                const slotData = bot.currentWindow.slots[slot];
+                const slotData = bot.currentWindow.slots[i];
                 if (!slotData) continue;
 
                 for (const configItem of sortedConfig) {
