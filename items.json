@@ -194,6 +194,33 @@
         ],
         "num": 3
     },
+        {
+        "name": "netherite_sword",
+        "id": "pochti-megasword",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 5
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "poison",
+                "lvl": 1
+            },
+            {
+                "name": "vampirism",
+                "lvl": 1
+            }
+        ],
+        "num": 14
+    },
     {
         "name": "netherite_sword",
         "id": "megasword",
