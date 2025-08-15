@@ -106,6 +106,7 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.netakbistro = true
         bot.ah = []
         bot.needSell = false
+        bot.itemsToReset = []
         
         logger.info(`${name} успешно проник на сервер.`);
         await delay(3000);
@@ -337,16 +338,19 @@ bot.on('kicked', (reason, loggedIn) => {
                     const price = await getBuyPriceInStorage(bot.currentWindow?.slots[i])
                     const id = getIdBySellPrice(itemPrices, price)
                     if (!id) {
+                        bot.itemsToReset.push(id)
                         slot = i
                         break
                     }
                     const item = itemPrices.find(data => data.id === id)
                     if (!item || item.priceSell !== price) {
+                        bot.itemsToReset.push()
                         slot = i
                         break
                     }
                 }
                 if (slot) {
+                    
                     bot.ahFull = false
                     bot.needSell = true
                     bot.menu = myItems
@@ -429,8 +433,10 @@ bot.on('kicked', (reason, loggedIn) => {
 
 
         if (messageText.includes('[☃]') && messageText.includes('выставлен на продажу!')) {
-            const msg = {name: 'try-sell', id: bot.typeSell}
-            parentPort.postMessage(msg);
+            if (bot.typeSell) {
+                const msg = {name: 'try-sell', id: bot.typeSell}
+                parentPort.postMessage(msg);
+            }
             bot.inventoryFull = false
             bot.count++
             return
@@ -658,7 +664,15 @@ function getBestSellPrice(item, itemPrices) {
     const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
     for (const configItem of sortedConfig) {
         if (itemMatchesConfig(item, configItem)) {
-            bot.typeSell = configItem.id;
+            if (bot.itemsToReset.some((i => i === configItem.id))) {
+                const index = array.findIndex((j => j === configItem.id));
+                if (index !== -1) {
+                    bot.itemsToReset.splice(index, 1); // Удаляем один элемент по найденному индексу
+                }
+                bot.typeSell = null
+            } else {
+                bot.typeSell = configItem.id;
+            }
             return configItem.priceSell;
         }
     }
