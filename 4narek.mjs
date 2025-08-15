@@ -109,6 +109,7 @@ async function launchBookBuyer(name, password, anarchy) {
         bot.itemsToReset = []
         setInterval(() => {
             const inv = []
+            const sortedConfig = [...itemPrices].sort((a, b) => b.num - a.num);
             for (let i = 0; i <= lastInventorySlot; i++) {
                 if (!bot.inventory.slots[i]) continue
                 const slotData = bot.currentWindow.slots[i];
