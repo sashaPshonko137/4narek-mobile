@@ -35,7 +35,7 @@
                 "lvl": 6
             }
         ],
-        "num": 1
+        "num": 2
     },
     {
         "name": "netherite_sword",
@@ -54,7 +54,64 @@
                 "lvl": 7
             }
         ],
-        "num": 2
+        "num": 4
+    },
+    {
+        "name": "netherite_sword",
+        "id": "sword5-unbreak",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 5
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 5
+            }
+        ],
+        "num": 1
+    },
+    {
+        "name": "netherite_sword",
+        "id": "sword6-unbreak",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 5
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 6
+            }
+        ],
+        "num": 3
+    },
+    {
+        "name": "netherite_sword",
+        "id": "sword7-unbreak",
+        "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 5
+            },
+            {
+                "name": "minecraft:fire_aspect",
+                "lvl": 1
+            },
+            {
+                "name": "minecraft:sharpness",
+                "lvl": 7
+            }
+        ],
+        "num": 4
     },
 {
         "name": "netherite_sword",
@@ -62,7 +119,7 @@
         "effects": [
             {
                 "name": "minecraft:unbreaking",
-                "lvl": 5
+                "lvl": 4
             },
             {
                 "name": "minecraft:sharpness",
@@ -89,7 +146,7 @@
         "effects": [
             {
                 "name": "minecraft:unbreaking",
-                "lvl": 5
+                "lvl": 4
             },
             {
                 "name": "minecraft:sharpness",
