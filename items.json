@@ -56,29 +56,7 @@
         ],
         "num": 2
     },
-        {
-        "name": "netherite_sword",
-        "id": "mend",
-        "effects": [
-            {
-                "name": "minecraft:unbreaking",
-                "lvl": 4
-            },
-            {
-                "name": "minecraft:fire_aspect",
-                "lvl": 1
-            },
-            {
-                "name": "minecraft:sharpness",
-                "lvl": 7
-            },
-            {
-                "name": "minecraft:mending",
-                "lvl": 1
-            }
-        ],
-        "num": 3
-    },{
+{
         "name": "netherite_sword",
         "id": "pochti-megasword",
         "effects": [
