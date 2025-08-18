@@ -1,25 +1,6 @@
 [
     {
         "name": "netherite_sword",
-        "id": "sword5",
-        "effects": [
-            {
-                "name": "minecraft:unbreaking",
-                "lvl": 4
-            },
-            {
-                "name": "minecraft:fire_aspect",
-                "lvl": 1
-            },
-            {
-                "name": "minecraft:sharpness",
-                "lvl": 5
-            }
-        ],
-        "num": 0
-    },
-    {
-        "name": "netherite_sword",
         "id": "sword6",
         "effects": [
             {
