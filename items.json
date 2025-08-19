@@ -1,4 +1,11 @@
 [
+        {
+        "name": "gunpowder",
+        "id": "порох",
+        "effects": [
+        ],
+        "num": 0
+    },
     {
         "name": "netherite_sword",
         "id": "sword6",
