@@ -4,7 +4,8 @@
         "id": "порох",
         "effects": [
         ],
-        "num": 0
+        "num": 0,
+        "count": 64
     },
     {
         "name": "netherite_sword",

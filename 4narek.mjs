@@ -869,6 +869,7 @@ function itemMatchesConfig(item, configItem) {
         const durabilityLeft = item.maxDurability - damage;
         if (durabilityLeft < item.maxDurability * 0.9) return false;
     }
+    if (configItem.count && configItem.count != item.count) return
 
     return true;
 }
