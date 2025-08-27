@@ -22,9 +22,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-  { username: 'oikakploho', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'elytra' },
-  { username: 'fuuubalya', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'elytra' },
-  { username: 'oinenado', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'elytra' },
+  { username: 'trah_makak', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'elytra' },
+  { username: 'polbu_swist', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'elytra' },
+  { username: 'slay__lord', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'elytra' },
 ];
 
 let workers = [];
