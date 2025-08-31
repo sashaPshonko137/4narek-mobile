@@ -64,25 +64,6 @@
         ],
         "num": 1
     },
-    {
-        "name": "netherite_sword",
-        "id": "sword6-unbreak",
-        "effects": [
-            {
-                "name": "minecraft:unbreaking",
-                "lvl": 5
-            },
-            {
-                "name": "minecraft:fire_aspect",
-                "lvl": 1
-            },
-            {
-                "name": "minecraft:sharpness",
-                "lvl": 6
-            }
-        ],
-        "num": 3
-    },
 {
         "name": "netherite_sword",
         "id": "pochti-megasword",
