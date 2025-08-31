@@ -1,12 +1,4 @@
 [
-        {
-        "name": "gunpowder",
-        "id": "порох",
-        "effects": [
-        ],
-        "num": 0,
-        "count": 64
-    },
     {
         "name": "netherite_sword",
         "id": "sword6",
@@ -117,23 +109,5 @@
             }
         ],
         "num": 15
-    },
-    {
-    "name": "elytra",
-    "id": "elytra",
-    "effects": [
-    ],
-    "num": 1
-    },
-    {
-    "name": "elytra",
-    "id": "elytra-unbreak",
-    "effects": [
-        {
-            "name": "minecraft:unbreaking",
-            "lvl": 5
-        }
-    ],
-    "num": 2
     }
 ]
