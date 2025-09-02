@@ -815,7 +815,7 @@ async function getBestAHSlot(bot, itemPrices) {
         const slotData = bot.currentWindow.slots[slot];
         if (itemsBuying.some(it => JSON.stringify(removeSlotAndTime(JSON.parse(it))) === JSON.stringify(removeSlotAndTime(slotData)) &&
         extractTimeToSeconds(JSON.parse(it)) - extractTimeToSeconds(slotData) >= 0 &&
-        extractTimeToSeconds(JSON.parse(it)) - extractTimeToSeconds(slotData) =< 2
+        extractTimeToSeconds(JSON.parse(it)) - extractTimeToSeconds(slotData) <= 2
     )) continue
         
         if (!slotData) continue;
