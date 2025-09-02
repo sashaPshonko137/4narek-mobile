@@ -255,20 +255,16 @@ socket.on('message', (data) => {
   try {
     const dataObj = JSON.parse(data);
     
-    // Обработка JSON-обновлений
-    if (dataObj.action === "json_update" && dataObj.data) {
-      console.log(`🔄 Получено ${dataObj.data.length} JSON-объектов`);
-      // Удаляем дубликаты
-      const uniqueData = [...new Set(dataObj.data)];
+    // Проверяем тип сообщения по наличию action
+    if (dataObj.action === "json_update" && Array.isArray(dataObj.data)) {
+      // Обрабатываем JSON-обновления
       workers.forEach(w => w.postMessage({ 
         type: 'items_buying', 
-        data: uniqueData 
+        data: dataObj.data 
       }));
-      return;
-    }
-    
-    // Обработка обновления цен
-    if (dataObj.prices) {
+    } 
+    // Обрабатываем обновление цен
+    else if (dataObj.prices) {
       items = items.map(item => ({
         ...item,
         priceSell: dataObj.prices[item.id],
@@ -285,13 +281,9 @@ socket.on('message', (data) => {
         botsStarted = true;
         startBots();
       }
-      return;
     }
-    
-    console.log('ℹ️ Получено неизвестное сообщение:', dataObj);
   } catch (e) {
-    console.error('❌ Ошибка обработки сообщения от сервера:', e.message);
-    console.error('Полученные данные:', data.toString());
+    console.error('Ошибка обработки сообщения от сервера:', e.message);
   }
 });
 
