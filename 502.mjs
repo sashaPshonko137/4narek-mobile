@@ -20,6 +20,8 @@ const infoChatID = -4709535234
 const alertChatID = -4763690917
 const pomoikaChatID = -4896488855
 
+
+
 // Массив с ботами
 const bots = [
   { username: 'trah_makak', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'netherite sword' },
