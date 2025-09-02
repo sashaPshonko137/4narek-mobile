@@ -839,7 +839,7 @@ async function getBestAHSlot(bot, itemPrices) {
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
                 // return null
-                const message = {name: 'buying', data: JSON.stringify(newData)}
+                const message = {name: 'buying', data: JSON.stringify(slotData)}
                 parentPort.postMessage(message)
                 return slotData.slot;
             } catch (error) {
