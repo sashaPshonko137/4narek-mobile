@@ -6,11 +6,15 @@ import { workerData, parentPort } from 'worker_threads';
 import { loader as autoEat } from 'mineflayer-auto-eat'
 
 let itemPrices = workerData.itemPrices
+let itemsBuying = []
 let needReset = false
 parentPort.on('message', (data) => {
-    if (data.type = 'price') {
+    if (data.type === 'price') {
         needReset = true
         itemPrices = data.data
+    }
+    if (data.type === 'items_buying') {
+        itemsBuying = data.data
     }
 });
 
@@ -809,6 +813,10 @@ async function getBestAHSlot(bot, itemPrices) {
 
     for (let slot = firstAHSlot; slot <= 17; slot++) {
         const slotData = bot.currentWindow.slots[slot];
+        if (itemsBuying.some(it => JSON.stringify(removeSlotAndTime(JSON.parse(it))) === JSON.stringify(removeSlotAndTime(slotData)) &&
+        extractTimeToSeconds(slotData) < extractTimeToSeconds(JSON.parse(it)) + 1
+    )) continue
+        
         if (!slotData) continue;
 
         for (const configItem of sortedConfig) {
@@ -831,6 +839,8 @@ async function getBestAHSlot(bot, itemPrices) {
                 bot.type = configItem.id;
                 if (!bot.type) logger.error('id undefined');
                 // return null
+                const message = {name: 'buying', data: JSON.stringify(newData)}
+                parentPort.postMessage(message)
                 return slotData.slot;
             } catch (error) {
                 console.error(error)
@@ -840,6 +850,76 @@ async function getBestAHSlot(bot, itemPrices) {
     }
     return null;
 }
+
+function removeSlotAndTime(obj) {
+  // Создаем глубокую копию объекта, чтобы не мутировать оригинал
+  const result = JSON.parse(JSON.stringify(obj));
+  
+  // Удаляем поле slot
+  delete result.slot;
+  
+  try {
+    // Получаем массив строк Lore
+    const loreEntries = result.nbt.value.display.value.Lore.value.value;
+    
+    // Находим индекс строки со временем
+    const timeIndex = loreEntries.findIndex(entry => 
+      entry.includes('Истeкaeт:') || 
+      entry.includes('Истекает:') ||
+      entry.includes('expires:') ||
+      entry.includes('⟲')
+    );
+    
+    // Удаляем строку со временем, если найдена
+    if (timeIndex !== -1) {
+      loreEntries.splice(timeIndex, 1);
+    }
+    
+  } catch (error) {
+    console.warn('Не удалось удалить строку со временем:', error.message);
+  }
+  
+  return result;
+}
+
+
+function extractTimeToSeconds(nbtData) {
+  try {
+    // Извлекаем массив строк Lore
+    const loreEntries = nbtData.nbt.value.display.value.Lore.value.value;
+    
+    // Ищем строку с временем (содержит "Истeкaeт:")
+    const timeLine = loreEntries.find(entry => 
+      entry.includes('Истeкaeт:') || entry.includes('Истекает:')
+    );
+    
+    if (!timeLine) {
+      throw new Error('Строка с временем не найдена');
+    }
+    
+    // Извлекаем временную строку с помощью регулярного выражения
+    const timeMatch = timeLine.match(/(\d+)\s*ч\.\s*(\d+)\s*мин\.\s*(\d+)\s*сек\./);
+    
+    if (!timeMatch) {
+      throw new Error('Не удалось распарсить время');
+    }
+    
+    // Извлекаем часы, минуты, секунды
+    const hours = parseInt(timeMatch[1]);
+    const minutes = parseInt(timeMatch[2]);
+    const seconds = parseInt(timeMatch[3]);
+    
+    // Преобразуем в общее количество секунд
+    const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+    
+    return totalSeconds;
+    
+  } catch (error) {
+    console.error('Ошибка при извлечении времени:', error.message);
+    return null;
+  }
+}
+
 
 function itemMatchesConfig(item, configItem) {
     // Проверка имени

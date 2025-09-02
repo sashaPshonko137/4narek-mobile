@@ -85,6 +85,8 @@ function runWorker(bot) {
         socket?.send(JSON.stringify({ action: "try-sell", type: message.id }));
       } else if (message.name === "inventory") {
         botInventory.set(message.username, message.data)
+      } else if (message.name === "buying") {
+        socket?.send(JSON.stringify({ action: "add", json_data: message.id }));
       }  else {
         tgBot.sendMessage(alertChatID, message);
       }
@@ -212,14 +214,27 @@ function connectWebSocket() {
     socket.send(JSON.stringify({ action: "info" }));
   });
 
-  socket.on('message', (data) => {
-    try {
-      const dataObj = JSON.parse(data);
-      // console.log(data.prices)
-      const prices = dataObj.prices
+socket.on('message', (data) => {
+  try {
+    const dataObj = JSON.parse(data);
+    
+    // Обработка JSON-обновлений
+    if (dataObj.action === "json_update" && dataObj.data) {
+      console.log(`🔄 Получено ${dataObj.data.length} JSON-объектов`);
+      // Удаляем дубликаты
+      const uniqueData = [...new Set(dataObj.data)];
+      workers.forEach(w => w.postMessage({ 
+        type: 'items_buying', 
+        data: uniqueData 
+      }));
+      return;
+    }
+    
+    // Обработка обновления цен
+    if (dataObj.prices) {
       items = items.map(item => ({
         ...item,
-        priceSell: prices[item.id],
+        priceSell: dataObj.prices[item.id],
         ratio: dataObj.ratios[item.id]
       }));
       bots.forEach(bot => bot.itemPrices = items);
@@ -233,11 +248,15 @@ function connectWebSocket() {
         botsStarted = true;
         startBots();
       }
-
-    } catch (e) {
-      console.error('Ошибка обработки сообщения от сервера:', e.message);
+      return;
     }
-  });
+    
+    console.log('ℹ️ Получено неизвестное сообщение:', dataObj);
+  } catch (e) {
+    console.error('❌ Ошибка обработки сообщения от сервера:', e.message);
+    console.error('Полученные данные:', data.toString());
+  }
+});
 
   socket.on('close', () => {
     console.log('❌ WebSocket отключён. Реконнект через 5 секунд...');
