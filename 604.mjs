@@ -90,7 +90,7 @@ function runWorker(bot) {
       } else if (message.name === "inventory") {
         botInventory.set(message.username, message.data)
       } else if (message.name === "buying") {
-        socket?.send(JSON.stringify({ action: "add", json_data: message.id }));
+        socket?.send(JSON.stringify({ action: "add", json_data: message.data }));
       }  else {
         tgBot.sendMessage(alertChatID, message);
       }
