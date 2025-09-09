@@ -26,9 +26,9 @@ const alertChatID = -4763690917
 // ];
 // Массив с ботами
 const bots = [
-    { username: 'gg1337SUPER', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, item: 'netherite sword' },
-    { username: 'bigEGESTY', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, item: 'netherite sword' },
-    { username: 'huegarden777', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword' }
+    { username: 'chisloIvana', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, item: 'netherite sword' },
+    { username: 'han_zagrime', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, item: 'netherite sword' },
+    { username: 'prostostloppp', password: 'ggggg', anarchy: 504, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword' }
 ];
 let workers = [];
 let botItems = new Map

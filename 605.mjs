@@ -25,9 +25,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'zxcHanUgai', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, },
-    { username: 'utkogubiy', password: 'gggggg', anarchy: 605, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, },
-    { username: 'dreeeeewSTYLE', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, }
+    { username: 'ggRazDolBuy', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, },
+    { username: 'pupanuh1144', password: 'gggggg', anarchy: 605, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, },
+    { username: 'ulyaphone666', password: 'ggggg', anarchy: 605, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, item: 'netherite sword', itemPrices:items, }
 ];
 let workers = [];
 let botItems = new Map
