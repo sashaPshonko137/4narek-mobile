@@ -24,9 +24,9 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-  { username: 'toxic_obossaka', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'netherite sword' },
-  { username: 'gelya_perdelya', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'netherite sword' },
-  { username: 'baba_rita0', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'netherite sword' },
+  { username: 'dr_aibalyat', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3000, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'netherite sword' },
+  { username: 'losiniy_navoz', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3001, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'netherite sword' },
+  { username: 'zubnoy_kamenn', password: 'ggggg', anarchy: 502, type: '4narek', inventoryPort: 3002, balance: undefined, msgID: 0, msgTime: null, isManualStop: false, itemPrices: items, item: 'netherite sword' },
 ];
 
 let workers = [];
