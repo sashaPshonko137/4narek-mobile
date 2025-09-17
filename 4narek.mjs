@@ -53,7 +53,7 @@ let type = ""
 
 const missingEnchantsNames = ["minecraft:knockback", "heavy", "unstable"]
 
-const minBalance = 20000000
+const minBalance = 30000000
 
 const leftMouseButton = 0;
 const noShift = 0;
