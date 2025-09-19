@@ -16,7 +16,8 @@
                 "lvl": 6
             }
         ],
-        "num": 2
+        "num": 2,
+        "nacenka": 400000
     },
     {
         "name": "netherite_sword",
@@ -35,7 +36,8 @@
                 "lvl": 7
             }
         ],
-        "num": 4
+        "num": 4,
+        "nacenka": 400000
     },
     {
         "name": "netherite_sword",
@@ -54,7 +56,8 @@
                 "lvl": 5
             }
         ],
-        "num": 1
+        "num": 1,
+        "nacenka": 400000
     },
     {
         "name": "netherite_sword",
@@ -81,7 +84,8 @@
                 "lvl": 2
             }
         ],
-        "num": 15
+        "num": 15,
+        "nacenka": 400000
     },
     {
         "name": "elytra",
@@ -92,21 +96,15 @@
                 "lvl": 5
             }
         ],
-        "num": 0       
+        "num": 1,
+        "nacenka": 400000       
     },
         {
         "name": "elytra",
-        "id": "элитры крутые",
+        "id": "элитры",
         "effects": [
-            {
-                "name": "minecraft:unbreaking",
-                "lvl": 5
-            },
-            {
-                "name": "minecraft:mending",
-                "lvl": 1
-            }
         ],
-        "num": 1      
+        "num": 0,
+        "nacenka": 200000      
     }
 ]
