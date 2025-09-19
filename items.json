@@ -85,18 +85,26 @@
     },
     {
         "name": "elytra",
-        "id": "элитры",
+        "id": "элитры5",
         "effects": [
+            {
+                "name": "minecraft:unbreaking",
+                "lvl": 5
+            }
         ],
         "num": 0       
     },
         {
         "name": "elytra",
-        "id": "элитры 5",
+        "id": "элитры крутые",
         "effects": [
             {
                 "name": "minecraft:unbreaking",
                 "lvl": 5
+            },
+            {
+                "name": "minecraft:mending",
+                "lvl": 1
             }
         ],
         "num": 0       
