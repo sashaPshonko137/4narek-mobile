@@ -828,7 +828,7 @@ async function getBestAHSlot(bot, itemPrices) {
 
             try {
                 const price = await getBuyPrice(slotData);
-                if (!price || price >= configItem.priceSell - 300000) continue;
+                if (!price || price >= configItem.priceSell - 400000) continue;
                 if (!configItem.priceSell) {
                     console.log(itemPrices)
                     continue
