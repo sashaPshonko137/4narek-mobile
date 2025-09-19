@@ -84,57 +84,21 @@
         "num": 15
     },
     {
-        "name": "netherite_leggings",
-        "id": "штаны-непроперженные",
+        "name": "elytra",
+        "id": "элитры",
         "effects": [
-            {
-                "name": "minecraft:unbreaking",
-                "lvl": 5
-            },
-            {
-                "name": "minecraft:mending",
-                "lvl": 1
-            },
-            {
-                "name": "minecraft:protection",
-                "lvl": 5
-            },
-            {
-                "name": "fire_protection",
-                "lvl": 4
-            }
         ],
-        "num": 0
+        "num": 0       
     },
         {
-        "name": "netherite_leggings",
-        "id": "штаны-парадные",
+        "name": "elytra",
+        "id": "элитры 5",
         "effects": [
             {
                 "name": "minecraft:unbreaking",
                 "lvl": 5
-            },
-            {
-                "name": "minecraft:mending",
-                "lvl": 1
-            },
-            {
-                "name": "minecraft:protection",
-                "lvl": 5
-            },
-            {
-                "name": "minecraft:fire_protection",
-                "lvl": 5
-            },
-            {
-                "name": "minecraft:projectile_protection",
-                "lvl": 5
-            },
-            {
-                "name": "minecraft:blast_protection",
-                "lvl": 5
             }
         ],
-        "num": 1
+        "num": 0       
     }
 ]
