@@ -26,7 +26,7 @@ const pomoikaChatID = -4896488855
 
 // Массив с ботами
 const bots = [
-    { username: 'omnipuhsus', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'elytra', itemPrices:items, },
+    { username: 'buryi_bura', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3000, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'elytra', itemPrices:items, },
     { username: 'karabul_susu', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3001, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'elytra', itemPrices:items, },
     { username: 'KAK_GNOST1K', password: 'ggggg', anarchy: 604, type: '4narek', inventoryPort: 3002, balance: 0, msgID: 0, msgTime: null, isRunning: false, isManualStop: false, item: 'elytra', itemPrices:items, }
 ];
